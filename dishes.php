@@ -441,6 +441,7 @@ $item_total += ($item["price"]*$item["quantity"]);
     <script src="js/jquery.isotope.min.js"></script>
     <script src="js/headroom.js"></script>
     <script src="js/foodpicky.min.js"></script>
+	<script src="js/REPLACEDOLLAR.js"></script>
 </body>
 
 </html>
