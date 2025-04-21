@@ -111,7 +111,10 @@ if (empty($_SESSION["adm_id"])) {
                 <div class="container-fluid">
                     <div class="col-lg-12">
                         <div class="card card-outline-primary">
-                            <div class="card-header" style="background: #424549;">
+                            <div class="card-header" <div class="col-sm-12 col-md-12 col-lg-8 text-xs-center text-sm-left"
+		style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); transition: transform 0.3s, box-shadow 0.3s;"
+		onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0px 6px 12px rgba(0, 0, 0, 0.2)\';"
+		onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'0px 4px 8px rgba(0, 0, 0, 0.1)\';">>
                                 <h4 class="m-b-0 text-white">Admin Dashboard</h4>
                             </div>
                             <div class="row">
