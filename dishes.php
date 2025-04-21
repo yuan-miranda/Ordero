@@ -30,7 +30,7 @@ include_once 'product-action.php';
             <nav class="navbar navbar-dark">
                 <div class="container">
                     <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#mainNavbarCollapse">&#9776;</button>
-                    <a class="navbar-brand" href="index.php"> <img class="img-rounded" src="images/ordero_icon.svg" alt=""> </a>
+                    <!-- <a class="navbar-brand" href="index.php"> <img class="img-rounded" src="images/ordero_icon.svg" alt=""> </a> -->
                     <div class="collapse navbar-toggleable-md  float-lg-right" id="mainNavbarCollapse">
                        <ul class="nav navbar-nav">
                             <li class="nav-item"> <a class="nav-link active" href="index.php">Home <span class="sr-only">(current)</span></a> </li>
@@ -73,7 +73,7 @@ include_once 'product-action.php';
 									     $rows=mysqli_fetch_array($ress);
 										  
 										  ?>
-            <section class="inner-page-hero bg-image" data-image-src="images/img/restrrr.png">
+            <!-- <section class="inner-page-hero bg-image" data-image-src="images/img/restrrr.png">
                 <div class="profile">
                     <div class="container">
                         <div class="row">
@@ -94,7 +94,7 @@ include_once 'product-action.php';
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> -->
             <div class="breadcrumb">
                 <div class="container">
                    
@@ -253,7 +253,7 @@ $item_total += ($item["price"]*$item["quantity"]);
      
             </div>
         
-            <footer class="footer">
+            <!-- <footer class="footer">
                 <div class="container">
            
                     <div class="row bottom-footer">
@@ -292,7 +292,7 @@ $item_total += ($item["price"]*$item["quantity"]);
                     </div>
        
                 </div>
-            </footer>
+            </footer> -->
       
         </div>
   

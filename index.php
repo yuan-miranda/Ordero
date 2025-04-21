@@ -26,7 +26,7 @@ session_start();
             <nav class="navbar navbar-dark">
                 <div class="container">
                     <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#mainNavbarCollapse">&#9776;</button>
-                    <a class="navbar-brand" href="index.php"> <img class="img-rounded" src="images/ordero_icon.svg" alt=""> </a>
+                    <!-- <a class="navbar-brand" href="index.php"> <img class="img-rounded" src="images/ordero_icon.svg" alt=""> </a> -->
                     <div class="collapse navbar-toggleable-md  float-lg-right" id="mainNavbarCollapse">
                         <ul class="nav navbar-nav">
                             <li class="nav-item"> <a class="nav-link active" href="index.php">Home <span class="sr-only">(current)</span></a> </li>
@@ -57,7 +57,7 @@ session_start();
 
         </header>
 
-        <section class="hero bg-image" data-image-src="images/img/pimg.jpg">
+        <!-- <section class="hero bg-image" data-image-src="images/img/pimg.jpg">
             <div class="hero-inner">
                 <div class="container text-center hero-text font-white">
                     <h1>Order Delivery & Take-Out </h1>
@@ -94,18 +94,18 @@ session_start();
                 </div>
             </div>
       
-        </section>
+        </section> -->
       
       
 	  
 	
      
         <section class="popular">
-            <div class="container">
-                <div class="title text-xs-center m-b-30">
+            <div class="container" style="padding-top: 20px;">
+                <!-- <div class="title text-xs-center m-b-30">
                     <h2>Popular Dishes of the Month</h2>
                     <p class="lead">Easiest way to order your favourite food among these top 6 dishes</p>
-                </div>
+                </div> -->
                 <div class="row">
 						<?php 					
 						$query_res= mysqli_query($db,"select * from dishes LIMIT 6"); 
@@ -129,7 +129,7 @@ session_start();
             </div>
         </section>
  
-        <section class="how-it-works">
+        <!-- <section class="how-it-works">
             <div class="container">
                 <div class="text-xs-center">
                     <h2>Easy to Order</h2>
@@ -179,8 +179,8 @@ session_start();
                     </div>
                 </div>
             </div>
-        </section>
-        <section class="featured-restaurants">
+        </section> -->
+        <section class="featured-restaurants" style="padding: 0px 0px 20px;">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-4">
@@ -251,7 +251,7 @@ session_start();
         </section>
         
       
-        <footer class="footer">
+        <!-- <footer class="footer">
             <div class="container">
                 
           
@@ -289,7 +289,7 @@ session_start();
                 </div>
           
             </div>
-        </footer>
+        </footer> -->
     
     
 
