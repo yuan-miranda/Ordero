@@ -145,9 +145,9 @@ if (empty($_SESSION["adm_id"])) {
 
                                 <div class="col-md-3">
                                     <div class="card p-30"
-                                        style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); transition: transform 0.3s, box-shadow 0.3s;"
-                                        onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0px 6px 12px rgba(0, 0, 0, 0.2)';"
-                                        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0px 4px 8px rgba(0, 0, 0, 0.1)';">
+                                            style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); transition: transform 0.3s, box-shadow 0.3s;"
+                                            onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0px 6px 12px rgba(0, 0, 0, 0.2)';"
+                                            onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0px 4px 8px rgba(0, 0, 0, 0.1)';">
                                         <div class="media">
                                             <div class="media-left meida media-middle">
                                                 <span><i class="fa fa-cutlery f-s-40" aria-hidden="true"></i></span>
