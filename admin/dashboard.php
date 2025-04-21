@@ -232,7 +232,6 @@ if (empty($_SESSION["adm_id"])) {
                                                         onmouseover="this.style.textDecoration='underline';"
                                                         onmouseout="this.style.textDecoration='none';"
                                                         onclick="window.location.href='all_restaurant.php';">
-                                                        Restro
                                                         Categories</p>
                                                 </strong>
                                             </div>
