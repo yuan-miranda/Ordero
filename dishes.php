@@ -27,7 +27,7 @@ include_once 'product-action.php';
 <body>
     
         <header id="header" class="header-scroll top-header headrom">
-            <nav class="navbar navbar-dark">
+        <nav class="navbar navbar-dark" style="background-image: none; background-color: black;">
                 <div class="container">
                     <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#mainNavbarCollapse">&#9776;</button>
                     <!-- <a class="navbar-brand" href="index.php"> <img class="img-rounded" src="images/ordero_icon.svg" alt=""> </a> -->
@@ -58,7 +58,7 @@ include_once 'product-action.php';
             </nav>
         </header>
         <div class="page-wrapper">
-            <div class="top-links">
+            <!-- <div class="top-links">
                 <div class="container">
                     <ul class="row links">
                       
@@ -68,7 +68,7 @@ include_once 'product-action.php';
                         
                     </ul>
                 </div>
-            </div>
+            </div> -->
 			<?php $ress= mysqli_query($db,"select * from restaurant where rs_id='$_GET[res_id]'");
 									     $rows=mysqli_fetch_array($ress);
 										  

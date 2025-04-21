@@ -70,7 +70,7 @@ if (isset($_POST['submit'])) {
 <body>
    <!-- <div style=" background-image: url('images/img/pimg.jpg');"> -->
    <header id="header" class="header-scroll top-header headrom">
-      <nav class="navbar navbar-dark">
+      <nav class="navbar navbar-dark" style="background-image: none; background-color: black;">
          <div class="container">
             <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse"
                data-target="#mainNavbarCollapse">&#9776;</button>

@@ -29,21 +29,21 @@ if (empty($_SESSION["user_id"])) {
             $title = mysqli_real_escape_string($db, $item["title"]);
             $quantity = mysqli_real_escape_string($db, $item["quantity"]);
             $price = mysqli_real_escape_string($db, $item["price"]);
-        
+
             // Insert query
             $SQL = "INSERT INTO users_orders(u_id, title, quantity, price) 
                     VALUES('$user_id', '$title', '$quantity', '$price')";
-        
+
             mysqli_query($db, $SQL);
-        
+
             // Cleanup
             unset($_SESSION["cart_item"]);
             unset($item["title"]);
             unset($item["quantity"]);
             unset($item["price"]);
-        
+
             $success = "Thank you. Your order has been placed!";
-        
+
             function_alert();
         }
     }
@@ -69,7 +69,7 @@ if (empty($_SESSION["user_id"])) {
 
         <div class="site-wrapper">
             <header id="header" class="header-scroll top-header headrom">
-                <nav class="navbar navbar-dark">
+                <nav class="navbar navbar-dark" style="background-image: none; background-color: black;">
                     <div class="container">
                         <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse"
                             data-target="#mainNavbarCollapse">&#9776;</button>
@@ -100,7 +100,7 @@ if (empty($_SESSION["user_id"])) {
                 </nav>
             </header>
             <div class="page-wrapper">
-                <div class="top-links">
+                <!-- <div class="top-links">
                     <div class="container">
                         <ul class="row links">
 
@@ -112,7 +112,7 @@ if (empty($_SESSION["user_id"])) {
                                     Pay</a></li>
                         </ul>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="container">
 

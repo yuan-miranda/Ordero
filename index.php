@@ -25,7 +25,7 @@ session_start();
 <body class="home">
 
     <header id="header" class="header-scroll top-header headrom">
-        <nav class="navbar navbar-dark">
+        <nav class="navbar navbar-dark" style="background-image: none; background-color: black;">
             <div class="container">
                 <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse"
                     data-target="#mainNavbarCollapse">&#9776;</button>

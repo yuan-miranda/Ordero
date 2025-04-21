@@ -24,7 +24,7 @@ session_start();
 <body>
 
     <header id="header" class="header-scroll top-header headrom">
-        <nav class="navbar navbar-dark">
+        <nav class="navbar navbar-dark" style="background-image: none; background-color: black;">
             <div class="container">
                 <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse"
                     data-target="#mainNavbarCollapse">&#9776;</button>
@@ -55,7 +55,7 @@ session_start();
         </nav>
     </header>
     <div class="page-wrapper">
-        <div class="top-links">
+        <!-- <div class="top-links">
             <div class="container">
                 <ul class="row links">
 
@@ -64,7 +64,7 @@ session_start();
                     <li class="col-xs-12 col-sm-4 link-item"><span>3</span><a href="#">Order and Pay</a></li>
                 </ul>
             </div>
-        </div>
+        </div> -->
         <!-- <div class="inner-page-hero bg-image" data-image-src="images/img/pimg.jpg">
                 <div class="container"> </div>
             </div> -->

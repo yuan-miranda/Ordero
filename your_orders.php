@@ -65,76 +65,76 @@ if (empty($_SESSION['user_id'])) {
 			}
 
 			/* 
-	table { 
-		width: 750px; 
-		border-collapse: collapse; 
-		margin: auto;
+			table { 
+				width: 750px; 
+				border-collapse: collapse; 
+				margin: auto;
 	
-		}
+				}
 
-	/* Zebra striping */
+			/* Zebra striping */
 			/* tr:nth-of-type(odd) { 
-		background: #eee; 
-		}
+				background: #eee; 
+				}
 
-	th { 
-		background: #404040; 
-		color: white; 
-		font-weight: bold; 
+			th { 
+				background: #404040; 
+				color: white; 
+				font-weight: bold; 
 	
-		}
+				}
 
-	td, th { 
-		padding: 10px; 
-		border: 1px solid #ccc; 
-		text-align: left; 
-		font-size: 14px;
+			td, th { 
+				padding: 10px; 
+				border: 1px solid #ccc; 
+				text-align: left; 
+				font-size: 14px;
 	
-		} */
+				} */
 			*/ @media only screen and (max-width: 760px),
 			(min-device-width: 768px) and (max-device-width: 1024px) {
 
 				/* table { 
-			  width: 100%; 
-		}
+					  width: 100%; 
+				}
 
 	
-		table, thead, tbody, th, td, tr { 
-			display: block; 
-		} */
+				table, thead, tbody, th, td, tr { 
+					display: block; 
+				} */
 
 
 				/* thead tr { 
-			position: absolute;
-			top: -9999px;
-			left: -9999px;
-		}
+					position: absolute;
+					top: -9999px;
+					left: -9999px;
+				}
 	
-		tr { border: 1px solid #ccc; } */
+				tr { border: 1px solid #ccc; } */
 
 				/* td { 
 		
-			border: none;
-			border-bottom: 1px solid #eee; 
-			position: relative;
-			padding-left: 50%; 
-		}
+					border: none;
+					border-bottom: 1px solid #eee; 
+					position: relative;
+					padding-left: 50%; 
+				}
 
-		td:before { 
+				td:before { 
 		
-			position: absolute;
+					position: absolute;
 	
-			top: 6px;
-			left: 6px;
-			width: 45%; 
-			padding-right: 10px; 
-			white-space: nowrap;
+					top: 6px;
+					left: 6px;
+					width: 45%; 
+					padding-right: 10px; 
+					white-space: nowrap;
 		
-			content: attr(data-column);
+					content: attr(data-column);
 
-			color: #000;
-			font-weight: bold;
-		} */
+					color: #000;
+					font-weight: bold;
+				} */
 
 			}
 		</style>
@@ -146,7 +146,7 @@ if (empty($_SESSION['user_id'])) {
 
 		<header id="header" class="header-scroll top-header headrom">
 
-			<nav class="navbar navbar-dark">
+			<nav class="navbar navbar-dark" style="background-image: none; background-color: black;">
 				<div class="container">
 					<button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse"
 						data-target="#mainNavbarCollapse">&#9776;</button>
@@ -240,7 +240,7 @@ if (empty($_SESSION['user_id'])) {
 																?>
 																<button type="button" class="btn btn-info"><span class="fa fa-bars"
 																		aria-hidden="true"></span> Dispatch</button>
-															<?php
+																<?php
 															}
 															if ($status == "in process") { ?>
 																<button type="button" class="btn btn-warning"><span
@@ -253,7 +253,7 @@ if (empty($_SESSION['user_id'])) {
 																<button type="button" class="btn btn-success"><span
 																		class="fa fa-check-circle" aria-hidden="true"></span>
 																	Delivered</button>
-															<?php
+																<?php
 															}
 															?>
 															<?php
@@ -261,7 +261,7 @@ if (empty($_SESSION['user_id'])) {
 																?>
 																<button type="button" class="btn btn-danger"> <i
 																		class="fa fa-close"></i> Cancelled</button>
-															<?php
+																<?php
 															}
 															?>
 
