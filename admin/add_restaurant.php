@@ -228,7 +228,7 @@ if (isset($_POST['submit'])) {
 
                 <div class="col-lg-12">
                     <div class="card card-outline-primary">
-                        <div class="card-header">
+                        <div class="card-header" style="background: #424549;">
                             <h4 class="m-b-0 text-white">Add Restaurant</h4>
                         </div>
                         <div class="card-body">

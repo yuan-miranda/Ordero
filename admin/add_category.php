@@ -144,7 +144,7 @@ if (isset($_POST['submit'])) {
 
 
 
-                    <div class="container-fluid">
+                    <div class="container-fluid" style="padding: 0 15px 5px;">
 
 
 
@@ -156,9 +156,9 @@ if (isset($_POST['submit'])) {
 
 
 
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" style="padding: 0px;">
                             <div class="card card-outline-primary">
-                                <div class="card-header">
+                            <div class="card-header" style="background: #424549;">
                                     <h4 class="m-b-0 text-white">Add Restaurant Category</h4>
                                 </div>
                                 <form action='' method='post'>

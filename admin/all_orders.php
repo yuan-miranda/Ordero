@@ -136,7 +136,7 @@ session_start();
 
                         <div class="col-lg-12">
                             <div class="card card-outline-primary">
-                                <div class="card-header">
+                                <div class="card-header" style="background: #424549;">
                                     <h4 class="m-b-0 text-white">All Orders</h4>
                                 </div>
 
@@ -182,7 +182,7 @@ session_start();
                                                         ?>
                                                         <td> <button type="button" class="btn btn-info"><span class="fa fa-bars"
                                                                     aria-hidden="true"></span> Dispatch</button></td>
-                                                    <?php
+                                                        <?php
                                                     }
                                                     if ($status == "in process") { ?>
                                                         <td> <button type="button" class="btn btn-warning"><span
@@ -195,7 +195,7 @@ session_start();
                                                         <td> <button type="button" class="btn btn-primary"><span
                                                                     class="fa fa-check-circle" aria-hidden="true"></span>
                                                                 Delivered</button></td>
-                                                    <?php
+                                                        <?php
                                                     }
                                                     ?>
                                                     <?php
@@ -203,7 +203,7 @@ session_start();
                                                         ?>
                                                         <td> <button type="button" class="btn btn-danger"> <i
                                                                     class="fa fa-close"></i> Cancelled</button></td>
-                                                    <?php
+                                                        <?php
                                                     }
                                                     ?>
                                                     <?php
