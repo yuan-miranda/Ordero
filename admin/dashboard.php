@@ -129,7 +129,13 @@ if (empty($_SESSION["adm_id"])) {
                                                 $rws = mysqli_num_rows($result);
 
                                                 echo $rws; ?></h2>
-                                                <p class="m-b-0">Restaurants</p>
+                                                <strong>
+                                                    <p class="m-b-0" style="cursor: pointer;"
+                                                        onmouseover="this.style.textDecoration='underline';"
+                                                        onmouseout="this.style.textDecoration='none';"
+                                                        onclick="window.location.href='all_restaurant.php';">
+                                                        Restaurants</p>
+                                                </strong>
                                             </div>
                                         </div>
                                     </div>
@@ -147,7 +153,13 @@ if (empty($_SESSION["adm_id"])) {
                                                 $rws = mysqli_num_rows($result);
 
                                                 echo $rws; ?></h2>
-                                                <p class="m-b-0">Dishes</p>
+                                                <strong>
+                                                    <p class="m-b-0" style="cursor: pointer;"
+                                                        onmouseover="this.style.textDecoration='underline';"
+                                                        onmouseout="this.style.textDecoration='none';"
+                                                        onclick="window.location.href='all_menu.php';">Dishes
+                                                    </p>
+                                                </strong>
                                             </div>
                                         </div>
                                     </div>
@@ -165,7 +177,13 @@ if (empty($_SESSION["adm_id"])) {
                                                 $rws = mysqli_num_rows($result);
 
                                                 echo $rws; ?></h2>
-                                                <p class="m-b-0">Users</p>
+                                                <strong>
+                                                    <p class="m-b-0" style="cursor: pointer;"
+                                                        onmouseover="this.style.textDecoration='underline';"
+                                                        onmouseout="this.style.textDecoration='none';"
+                                                        onclick="window.location.href='all_users.php';">Users
+                                                    </p>
+                                                </strong>
                                             </div>
                                         </div>
                                     </div>
@@ -183,7 +201,13 @@ if (empty($_SESSION["adm_id"])) {
                                                 $rws = mysqli_num_rows($result);
 
                                                 echo $rws; ?></h2>
-                                                <p class="m-b-0">Total Orders</p>
+                                                <strong>
+                                                    <p class="m-b-0" style="cursor: pointer;"
+                                                        onmouseover="this.style.textDecoration='underline';"
+                                                        onmouseout="this.style.textDecoration='none';"
+                                                        onclick="window.location.href='all_orders.php';">Total
+                                                        Orders</p>
+                                                </strong>
                                             </div>
                                         </div>
                                     </div>
@@ -203,7 +227,14 @@ if (empty($_SESSION["adm_id"])) {
                                                 $rws = mysqli_num_rows($result);
 
                                                 echo $rws; ?></h2>
-                                                <p class="m-b-0">Restro Categories</p>
+                                                <strong>
+                                                    <p class="m-b-0" style="cursor: pointer;"
+                                                        onmouseover="this.style.textDecoration='underline';"
+                                                        onmouseout="this.style.textDecoration='none';"
+                                                        onclick="window.location.href='all_restaurant.php';">
+                                                        Restro
+                                                        Categories</p>
+                                                </strong>
                                             </div>
                                         </div>
                                     </div>
@@ -272,11 +303,11 @@ if (empty($_SESSION["adm_id"])) {
                                                 <!-- <span><i class="fa fa-usd f-s-40" aria-hidden="true"></i></span> -->
                                             </div>
                                             <div class="media-body media-text-right">
-                                                <h2><?php
+                                                <h2>₱ <?php
                                                 $result = mysqli_query($db, 'SELECT SUM(price) AS value_sum FROM users_orders WHERE status = "closed"');
                                                 $row = mysqli_fetch_assoc($result);
                                                 $sum = $row['value_sum'];
-                                                echo $sum;
+                                                echo number_format($sum, 2);
                                                 ?></h2>
                                                 <p class="m-b-0">Total Earnings</p>
                                             </div>
