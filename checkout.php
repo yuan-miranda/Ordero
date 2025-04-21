@@ -25,22 +25,26 @@ if (empty($_SESSION["user_id"])) {
         $item_total += ($item["price"] * $item["quantity"]);
 
         if ($_POST['submit']) {
-
-            $SQL = "insert into users_orders(u_id,title,quantity,price) values('" . $_SESSION["user_id"] . "','" . $item["title"] . "','" . $item["quantity"] . "','" . $item["price"] . "')";
-
+            $user_id = mysqli_real_escape_string($db, $_SESSION["user_id"]);
+            $title = mysqli_real_escape_string($db, $item["title"]);
+            $quantity = mysqli_real_escape_string($db, $item["quantity"]);
+            $price = mysqli_real_escape_string($db, $item["price"]);
+        
+            // Insert query
+            $SQL = "INSERT INTO users_orders(u_id, title, quantity, price) 
+                    VALUES('$user_id', '$title', '$quantity', '$price')";
+        
             mysqli_query($db, $SQL);
-
-
+        
+            // Cleanup
             unset($_SESSION["cart_item"]);
             unset($item["title"]);
             unset($item["quantity"]);
             unset($item["price"]);
+        
             $success = "Thank you. Your order has been placed!";
-
+        
             function_alert();
-
-
-
         }
     }
     ?>
