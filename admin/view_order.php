@@ -77,8 +77,7 @@ session_start();
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false"><img src="images/bookingSystem/user-icn.png"
-                                    alt="user" class="profile-pic" /></a>
+                                aria-haspopup="true" aria-expanded="false">Logout</a>
                             <div class="dropdown-menu dropdown-menu-right animated zoomIn">
                                 <ul class="dropdown-user">
                                     <li><a href="logout.php"><i class="fa fa-power-off"></i> Logout</a></li>
@@ -237,7 +236,7 @@ session_start();
                                                                     class="fa fa-bars" aria-hidden="true"></span>
                                                                 Dispatch</button></center>
                                                     </td>
-                                                <?php
+                                                    <?php
                                                 }
                                                 if ($status == "in process") { ?>
                                                     <td>
@@ -254,7 +253,7 @@ session_start();
                                                                     class="fa fa-check-circle" aria-hidden="true"></span>
                                                                 Delivered</button></center>
                                                     </td>
-                                                <?php
+                                                    <?php
                                                 }
                                                 ?>
                                                 <?php
@@ -264,7 +263,7 @@ session_start();
                                                         <center><button type="button" class="btn btn-danger"> <i
                                                                     class="fa fa-close"></i> Cancelled</button> </center>
                                                     </td>
-                                                <?php
+                                                    <?php
                                                 }
                                                 ?>
 

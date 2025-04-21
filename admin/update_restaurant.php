@@ -210,8 +210,7 @@ if (isset($_POST['submit'])) {
                     <ul class="navbar-nav my-lg-0">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false"><img src="images/bookingSystem/user-icn.png"
-                                    alt="user" class="profile-pic" /></a>
+                                aria-haspopup="true" aria-expanded="false">Logout</a>
                             <div class="dropdown-menu dropdown-menu-right animated zoomIn">
                                 <ul class="dropdown-user">
                                     <li><a href="logout.php"><i class="fa fa-power-off"></i> Logout</a></li>
@@ -319,8 +318,7 @@ if (isset($_POST['submit'])) {
                                             <div class="form-group">
                                                 <label class="control-label">Phone </label>
                                                 <input type="text" name="phone" class="form-control"
-                                                    value="<?php echo $row['phone']; ?>"
-                                                    placeholder="1-(555)-555-5555">
+                                                    value="<?php echo $row['phone']; ?>" placeholder="1-(555)-555-5555">
                                             </div>
                                         </div>
 
@@ -328,8 +326,7 @@ if (isset($_POST['submit'])) {
                                             <div class="form-group has-danger">
                                                 <label class="control-label">website URL</label>
                                                 <input type="text" name="url" class="form-control form-control-danger"
-                                                    value="<?php echo $row['url']; ?>"
-                                                    placeholder="http://example.com">
+                                                    value="<?php echo $row['url']; ?>" placeholder="http://example.com">
                                             </div>
                                         </div>
 
