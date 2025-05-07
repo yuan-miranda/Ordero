@@ -36,8 +36,8 @@
       <div class="container">
         <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse"
           data-target="#mainNavbarCollapse">&#9776;</button>
-        <!-- <a class="navbar-brand" href="index.php"> <img class="img-rounded" src="images/ordero_icon.svg" alt=""> </a> -->
-        <div class="collapse navbar-toggleable-md  float-lg-left" id="mainNavbarCollapse">
+          <a class="navbar-brand" href="index.php">ORDERO</a>
+          <div class="collapse navbar-toggleable-md  float-lg-left" id="mainNavbarCollapse">
           <ul class="nav navbar-nav">
             <li class="nav-item"> <a class="nav-link active" href="index.php">Home <span
                   class="sr-only">(current)</span></a> </li>
@@ -52,7 +52,8 @@
 
 
               echo '<li class="nav-item"><a href="your_orders.php" class="nav-link active">My Orders</a> </li>';
-              echo '<li class="nav-item"><a href="logout.php" class="nav-link active">Logout</a> </li>';
+              echo '<li class="nav-item"><a href="your_profile.php" class="nav-link active">My Profile</a> </li>';
+              echo '<li class="nav-item"><a href="logout.php" class="nav-link active" onclick="return confirmLogout();">Logout</a> </li>';
             }
 
             ?>
@@ -102,8 +103,8 @@
           <span style="color:red;"><?php echo $message; ?></span>
           <span style="color:green;"><?php echo $success; ?></span>
           <form action="" method="post">
-            <input type="text" placeholder="Username" name="username" />
-            <input type="password" placeholder="Password" name="password" />
+            <input type="text" placeholder="Username" name="username" required />
+            <input type="password" placeholder="Password" name="password" required />
             <input type="submit" id="buttn" name="submit" value="Login" />
             <input type="button" value="Go to Admin Page" onclick="window.location.href='admin';" />
           </form>
@@ -163,6 +164,11 @@
         </footer> -->
 
 
+      <script>
+        function confirmLogout() {
+          return confirm("Are you sure you want to log out?");
+        }
+      </script>
 
 </body>
 

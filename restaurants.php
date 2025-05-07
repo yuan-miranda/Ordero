@@ -28,8 +28,8 @@ session_start();
             <div class="container">
                 <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse"
                     data-target="#mainNavbarCollapse">&#9776;</button>
-                <!-- <a class="navbar-brand" href="index.php"> <img class="img-rounded" src="images/ordero_icon.svg" alt=""> </a> -->
-                <div class="collapse navbar-toggleable-md  float-lg-left" id="mainNavbarCollapse">
+                    <a class="navbar-brand" href="index.php">ORDERO</a>
+                    <div class="collapse navbar-toggleable-md  float-lg-left" id="mainNavbarCollapse">
                     <ul class="nav navbar-nav">
                         <li class="nav-item"> <a class="nav-link active" href="index.php">Home <span
                                     class="sr-only">(current)</span></a> </li>
@@ -44,7 +44,8 @@ session_start();
 
 
                             echo '<li class="nav-item"><a href="your_orders.php" class="nav-link active">My Orders</a> </li>';
-                            echo '<li class="nav-item"><a href="logout.php" class="nav-link active">Logout</a> </li>';
+                            echo '<li class="nav-item"><a href="your_profile.php" class="nav-link active">My Profile</a> </li>';
+                            echo '<li class="nav-item"><a href="logout.php" class="nav-link active" onclick="return confirmLogout();">Logout</a> </li>';
                         }
 
                         ?>
@@ -54,117 +55,78 @@ session_start();
             </div>
         </nav>
     </header>
-    <div class="page-wrapper">
-        <!-- <div class="top-links">
-            <div class="container">
-                <ul class="row links">
-
-                    <li class="col-xs-12 col-sm-4 link-item active"><span>1</span><a href="#">Choose Restaurant</a></li>
-                    <li class="col-xs-12 col-sm-4 link-item"><span>2</span><a href="#">Pick Your favorite food</a></li>
-                    <li class="col-xs-12 col-sm-4 link-item"><span>3</span><a href="#">Order and Pay</a></li>
-                </ul>
-            </div>
-        </div> -->
-        <!-- <div class="inner-page-hero bg-image" data-image-src="images/img/pimg.jpg">
-                <div class="container"> </div>
-            </div> -->
-        <div class="result-show">
-            <div class="container">
-                <div class="row">
-                </div>
-            </div>
-        </div>
-        <section class="restaurants-page">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-3">
+    <section class="featured-restaurants" style="padding: 100px 0px 20px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="title-block pull-left">
+                        <h4>Restaurants</h4>
                     </div>
-                    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-9">
-                        <div class="bg-gray restaurant-entry">
-                            <div class="row">
-                                <?php $ress = mysqli_query($db, "select * from restaurant");
-                                while ($rows = mysqli_fetch_array($ress)) {
-
-
-                                    echo ' <div class="col-sm-12 col-md-12 col-lg-8 text-xs-center text-sm-left">
-															<div class="entry-logo">
-																<a class="img-fluid" href="dishes.php?res_id=' . $rows['rs_id'] . '" > <img src="admin/Res_img/' . $rows['image'] . '" alt="Food logo"></a>
-															</div>
-															<!-- end:Logo -->
-															<div class="entry-dscr">
-																<h5><a href="dishes.php?res_id=' . $rows['rs_id'] . '" >' . $rows['title'] . '</a></h5> <span>' . $rows['address'] . '</span>
-																
-															</div>
-															<!-- end:Entry description -->
-														</div>
-														
-														 <div class="col-sm-12 col-md-12 col-lg-4 text-xs-center">
-																<div class="right-content bg-white">
-																	<div class="right-review">
-																		
-																		<a href="dishes.php?res_id=' . $rows['rs_id'] . '" class="btn btn-purple">View Menu</a> </div>
-																</div>
-																<!-- end:right info -->
-															</div>';
+                </div>
+                <div class="col-sm-8">
+                    <div class="restaurants-filter pull-right">
+                        <nav class="primary pull-left">
+                            <ul>
+                                <li><a href="#" class="selected" data-filter="*">all</a> </li>
+                                <?php
+                                $res = mysqli_query($db, "select * from res_category");
+                                while ($row = mysqli_fetch_array($res)) {
+                                    echo '<li><a href="#" data-filter=".' . $row['c_name'] . '"> ' . $row['c_name'] . '</a> </li>';
                                 }
-
-
                                 ?>
 
-                            </div>
-
-                        </div>
-
-
-
+                            </ul>
+                        </nav>
                     </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="restaurant-listing">
+
+
+                    <?php
+                    $ress = mysqli_query($db, "select * from restaurant");
+                    while ($rows = mysqli_fetch_array($ress)) {
+
+                        $query = mysqli_query($db, "select * from res_category where c_id='" . $rows['c_id'] . "' ");
+                        $rowss = mysqli_fetch_array($query);
+
+                        echo ' <div class="col-xs-12 col-sm-12 col-md-6 single-restaurant all ' . $rowss['c_name'] . '">
+														<div class="restaurant-wrap">
+															<div class="row">
+																<div class="col-xs-12 col-sm-3 col-md-12 col-lg-3 text-xs-center">
+                                                                    <a class="restaurant-logo" href="dishes.php?res_id=' . $rows['rs_id'] . '" > 
+                                                                        <img src="admin/Res_img/' . $rows['image'] . '" alt="Restaurant logo" style="width: 100px; height: 100px; object-fit: cover;"> 
+                                                                    </a>
+																</div>
+													
+																<div class="col-xs-12 col-sm-9 col-md-12 col-lg-9">
+																	<h5><a onmouseover="this.style.textDecoration=\'underline\';"
+                                                        onmouseout="this.style.textDecoration=\'none\';" href="dishes.php?res_id=' . $rows['rs_id'] . '" >' . $rows['title'] . '</a></h5> <span>' . $rows['address'] . '</span>
+																</div>
+													
+															</div>
+												
+														</div>
+												
+													</div>';
+                    }
+
+
+                    ?>
+
 
 
 
                 </div>
             </div>
-    </div>
+
+
+        </div>
     </section>
 
-    <!-- <footer class="footer">
-            <div class="container">
-                
-              
-                <div class="bottom-footer">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-3 payment-options color-gray">
-                            <h5>Payment Options</h5>
-                            <ul>
-                                <li>
-                                    <a href="#"> <img src="images/paypal.png" alt="Paypal"> </a>
-                                </li>
-                                <li>
-                                    <a href="#"> <img src="images/mastercard.png" alt="Mastercard"> </a>
-                                </li>
-                                <li>
-                                    <a href="#"> <img src="images/maestro.png" alt="Maestro"> </a>
-                                </li>
-                                <li>
-                                    <a href="#"> <img src="images/stripe.png" alt="Stripe"> </a>
-                                </li>
-                                <li>
-                                    <a href="#"> <img src="images/bitcoin.png" alt="Bitcoin"> </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-12 col-sm-4 address color-gray">
-                                    <h5>Address</h5>
-                                    <p>1086 Stockert Hollow Road, Seattle</p>
-                                    <h5>Phone: 75696969855</a></h5> </div>
-                                <div class="col-xs-12 col-sm-5 additional-info color-gray">
-                                    <h5>Addition informations</h5>
-                                   <p>Join thousands of other restaurants who benefit from having partnered with us.</p>
-                                </div>
-                    </div>
-                </div>
-       
-            </div>
-        </footer> -->
 
     <script src="js/jquery.min.js"></script>
     <script src="js/tether.min.js"></script>
@@ -175,6 +137,12 @@ session_start();
     <script src="js/headroom.js"></script>
     <script src="js/foodpicky.min.js"></script>
     <script src="js/REPLACEDOLLAR.js"></script>
+    <script>
+        function confirmLogout() {
+            return confirm("Are you sure you want to log out?");
+        }
+    </script>
+
 </body>
 
 </html>

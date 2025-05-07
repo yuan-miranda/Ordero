@@ -74,8 +74,8 @@ if (isset($_POST['submit'])) {
          <div class="container">
             <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse"
                data-target="#mainNavbarCollapse">&#9776;</button>
-            <!-- <a class="navbar-brand" href="index.php"> <img class="img-rounded" src="images/ordero_icon.svg" alt=""> </a> -->
-            <div class="collapse navbar-toggleable-md  float-lg-left" id="mainNavbarCollapse">
+               <a class="navbar-brand" href="index.php">ORDERO</a>
+               <div class="collapse navbar-toggleable-md  float-lg-left" id="mainNavbarCollapse">
                <ul class="nav navbar-nav">
                   <li class="nav-item"> <a class="nav-link active" href="index.php">Home <span
                            class="sr-only">(current)</span></a> </li>
@@ -90,7 +90,8 @@ if (isset($_POST['submit'])) {
 
 
                      echo '<li class="nav-item"><a href="your_orders.php" class="nav-link active">My Orders</a> </li>';
-                     echo '<li class="nav-item"><a href="logout.php" class="nav-link active">Logout</a> </li>';
+                     echo '<li class="nav-item"><a href="your_profile.php" class="nav-link active">My Profile</a> </li>';
+                     echo '<li class="nav-item"><a href="logout.php" class="nav-link active" onclick="return confirmLogout();">Logout</a> </li>';
                   }
 
                   ?>
@@ -225,6 +226,12 @@ if (isset($_POST['submit'])) {
    <script src="js/headroom.js"></script>
    <script src="js/foodpicky.min.js"></script>
    <script src="js/REPLACEDOLLAR.js"></script>
+   <script>
+      function confirmLogout() {
+         return confirm("Are you sure you want to log out?");
+      }
+   </script>
+
 </body>
 
 </html>

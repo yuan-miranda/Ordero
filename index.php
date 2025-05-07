@@ -26,64 +26,62 @@ session_start();
 
 <body class="home">
 
-    <header id="header" class="header-scroll top-header headrom">
+<header id="header" class="header-scroll top-header headrom">
         <nav class="navbar navbar-dark" style="background-image: none; background-color: black;">
             <div class="container">
                 <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse"
                     data-target="#mainNavbarCollapse">&#9776;</button>
-                <!-- <a class="navbar-brand" href="index.php"> <img class="img-rounded" src="images/ordero_icon.svg" alt=""> </a> -->
-                <div class="collapse navbar-toggleable-md  float-lg-left" id="mainNavbarCollapse">
+                    <a class="navbar-brand" href="index.php">ORDERO</a>
+                    <div class="collapse navbar-toggleable-md  float-lg-left" id="mainNavbarCollapse">
                     <ul class="nav navbar-nav">
                         <li class="nav-item"> <a class="nav-link active" href="index.php">Home <span
                                     class="sr-only">(current)</span></a> </li>
                         <li class="nav-item"> <a class="nav-link active" href="restaurants.php">Restaurants <span
                                     class="sr-only"></span></a> </li>
 
-
                         <?php
-                        if (empty($_SESSION["user_id"])) // if user is not login
-                        {
+                        if (empty($_SESSION["user_id"])) {
                             echo '<li class="nav-item"><a href="login.php" class="nav-link active">Login</a> </li>
 							  <li class="nav-item"><a href="registration.php" class="nav-link active">Register</a> </li>';
                         } else {
 
 
                             echo '<li class="nav-item"><a href="your_orders.php" class="nav-link active">My Orders</a> </li>';
-                            echo '<li class="nav-item"><a href="logout.php" class="nav-link active">Logout</a> </li>';
+                            echo '<li class="nav-item"><a href="your_profile.php" class="nav-link active">My Profile</a> </li>';
+                            echo '<li class="nav-item"><a href="logout.php" class="nav-link active" onclick="return confirmLogout();">Logout</a> </li>';
                         }
 
                         ?>
 
                     </ul>
-
                 </div>
             </div>
         </nav>
-
     </header>
 
     <section class="popular">
         <div class="container" style="padding-top: 20px;">
             <div class="row">
                 <?php
-                $query_res = mysqli_query($db, "select * from dishes LIMIT 6");
+                $query_res = mysqli_query($db, "select * from dishes");
                 while ($r = mysqli_fetch_array($query_res)) {
 
                     echo '  <div class="col-xs-12 col-sm-6 col-md-4 food-item">
-                                <div class="food-item-wrap">
-                                    <a href="admin/Res_img/dishes/' . $r['img'] . '" data-lightbox="dish-gallery" data-title="' . htmlspecialchars($r['title']) . '">
-                                        <div class="figure-wrap" style="background-image: url(\'admin/Res_img/dishes/' . $r['img'] . '\'); height: 200px; background-size: cover; background-position: center; border-radius: 10px;"></div>
-                                    </a>
-                                    <div class="content">
-                                        <h5><a href="dishes.php?res_id=' . $r['rs_id'] . '">' . $r['title'] . '</a></h5>
-                                        <div class="product-name">' . $r['slogan'] . '</div>
-                                        <div class="price-btn-block">
-                                            <span class="price">$' . $r['price'] . '</span>
-                                            <a href="dishes.php?res_id=' . $r['rs_id'] . '" class="btn theme-btn-dash pull-right">Order Now</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>';
+                    <div class="food-item-wrap">
+                        <a href="admin/Res_img/dishes/' . $r['img'] . '" data-lightbox="dish-gallery" data-title="' . htmlspecialchars($r['title']) . '">
+                            <div class="" style="background-image: url(\'admin/Res_img/dishes/' . $r['img'] . '\'); height: 200px; background-size: cover; background-position: center;"></div>
+                        </a>
+                        <div class="content">
+                            <h5><a href="dish-detail.php?dish_id=' . $r['d_id'] . '">' . htmlspecialchars($r['title']) . '</a></h5>
+                            <div class="product-name">' . htmlspecialchars($r['slogan']) . '</div>
+                            <div class="price-btn-block">
+                                <span class="price">$' . $r['price'] . '</span>
+                                <a href="dishes.php?res_id=' . $r['rs_id'] . '" class="btn theme-btn pull-right">View Cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>';
+
                 }
 
                 ?>
@@ -91,7 +89,7 @@ session_start();
         </div>
     </section>
 
-    <section class="featured-restaurants" style="padding: 0px 0px 20px;">
+    <!-- <section class="featured-restaurants" style="padding: 0px 0px 20px;">
         <div class="container">
             <div class="row">
                 <div class="col-sm-4">
@@ -159,7 +157,7 @@ session_start();
 
 
         </div>
-    </section>
+    </section> -->
 
     <script src="js/jquery.min.js"></script>
     <script src="js/tether.min.js"></script>
@@ -170,6 +168,12 @@ session_start();
     <script src="js/headroom.js"></script>
     <script src="js/foodpicky.min.js"></script>
     <script src="js/REPLACEDOLLAR.js"></script>
+    <script>
+        function confirmLogout() {
+            return confirm("Are you sure you want to log out?");
+        }
+    </script>
+
     <script>
         window.addEventListener('load', function () {
             const productNames = document.querySelectorAll('.product-name');
@@ -185,6 +189,7 @@ session_start();
             });
         });
     </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.5/js/lightbox.min.js"></script>
 </body>
 

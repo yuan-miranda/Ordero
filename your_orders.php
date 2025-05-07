@@ -65,76 +65,76 @@ if (empty($_SESSION['user_id'])) {
 			}
 
 			/* 
-			table { 
-				width: 750px; 
-				border-collapse: collapse; 
-				margin: auto;
+				table { 
+					width: 750px; 
+					border-collapse: collapse; 
+					margin: auto;
 	
-				}
+					}
 
-			/* Zebra striping */
+				/* Zebra striping */
 			/* tr:nth-of-type(odd) { 
-				background: #eee; 
-				}
+					background: #eee; 
+					}
 
-			th { 
-				background: #404040; 
-				color: white; 
-				font-weight: bold; 
+				th { 
+					background: #404040; 
+					color: white; 
+					font-weight: bold; 
 	
-				}
+					}
 
-			td, th { 
-				padding: 10px; 
-				border: 1px solid #ccc; 
-				text-align: left; 
-				font-size: 14px;
+				td, th { 
+					padding: 10px; 
+					border: 1px solid #ccc; 
+					text-align: left; 
+					font-size: 14px;
 	
-				} */
+					} */
 			*/ @media only screen and (max-width: 760px),
 			(min-device-width: 768px) and (max-device-width: 1024px) {
 
 				/* table { 
-					  width: 100%; 
-				}
+						  width: 100%; 
+					}
 
 	
-				table, thead, tbody, th, td, tr { 
-					display: block; 
-				} */
+					table, thead, tbody, th, td, tr { 
+						display: block; 
+					} */
 
 
 				/* thead tr { 
-					position: absolute;
-					top: -9999px;
-					left: -9999px;
-				}
+						position: absolute;
+						top: -9999px;
+						left: -9999px;
+					}
 	
-				tr { border: 1px solid #ccc; } */
+					tr { border: 1px solid #ccc; } */
 
 				/* td { 
 		
-					border: none;
-					border-bottom: 1px solid #eee; 
-					position: relative;
-					padding-left: 50%; 
-				}
+						border: none;
+						border-bottom: 1px solid #eee; 
+						position: relative;
+						padding-left: 50%; 
+					}
 
-				td:before { 
+					td:before { 
 		
-					position: absolute;
+						position: absolute;
 	
-					top: 6px;
-					left: 6px;
-					width: 45%; 
-					padding-right: 10px; 
-					white-space: nowrap;
+						top: 6px;
+						left: 6px;
+						width: 45%; 
+						padding-right: 10px; 
+						white-space: nowrap;
 		
-					content: attr(data-column);
+						content: attr(data-column);
 
-					color: #000;
-					font-weight: bold;
-				} */
+						color: #000;
+						font-weight: bold;
+					} */
 
 			}
 		</style>
@@ -150,8 +150,8 @@ if (empty($_SESSION['user_id'])) {
 				<div class="container">
 					<button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse"
 						data-target="#mainNavbarCollapse">&#9776;</button>
-					<!-- <a class="navbar-brand" href="index.php"> <img class="img-rounded" src="images/ordero_icon.svg" alt=""> </a> -->
-					<div class="collapse navbar-toggleable-md  float-lg-left" id="mainNavbarCollapse">
+						<a class="navbar-brand" href="index.php">ORDERO</a>
+						<div class="collapse navbar-toggleable-md  float-lg-left" id="mainNavbarCollapse">
 						<ul class="nav navbar-nav">
 							<li class="nav-item"> <a class="nav-link active" href="index.php">Home <span
 										class="sr-only">(current)</span></a> </li>
@@ -166,7 +166,8 @@ if (empty($_SESSION['user_id'])) {
 
 
 								echo '<li class="nav-item"><a href="your_orders.php" class="nav-link active">My Orders</a> </li>';
-								echo '<li class="nav-item"><a href="logout.php" class="nav-link active">Logout</a> </li>';
+								echo '<li class="nav-item"><a href="your_profile.php" class="nav-link active">My Profile</a> </li>';
+								echo '<li class="nav-item"><a href="logout.php" class="nav-link active" onclick="return confirmLogout();">Logout</a> </li>';
 							}
 
 							?>
@@ -271,7 +272,7 @@ if (empty($_SESSION['user_id'])) {
 
 
 														</td>
-														<td data-column="Date"> <?php echo $row['date']; ?></td>
+														<td data-column="Date"> <?php echo date("F j, Y", strtotime($row['date'])); ?></td>
 														<td data-column="Action"> <a
 																href="delete_orders.php?order_del=<?php echo $row['o_id']; ?>"
 																onclick="return confirm('Are you sure you want to cancel your order?');"
@@ -360,6 +361,12 @@ if (empty($_SESSION['user_id'])) {
 		<script src="js/headroom.js"></script>
 		<script src="js/foodpicky.min.js"></script>
 		<script src="js/REPLACEDOLLAR.js"></script>
+		<script>
+			function confirmLogout() {
+				return confirm("Are you sure you want to log out?");
+			}
+		</script>
+
 	</body>
 
 	</html>
