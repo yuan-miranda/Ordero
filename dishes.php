@@ -58,43 +58,10 @@ include_once 'product-action.php';
         </nav>
     </header>
     <div class="page-wrapper">
-        <!-- <div class="top-links">
-                <div class="container">
-                    <ul class="row links">
-                      
-                        <li class="col-xs-12 col-sm-4 link-item"><span>1</span><a href="restaurants.php">Choose Restaurant</a></li>
-                        <li class="col-xs-12 col-sm-4 link-item active"><span>2</span><a href="dishes.php?res_id=<?php echo $_GET['res_id']; ?>">Pick Your favorite food</a></li>
-                        <li class="col-xs-12 col-sm-4 link-item"><span>3</span><a href="#">Order and Pay</a></li>
-                        
-                    </ul>
-                </div>
-            </div> -->
         <?php $ress = mysqli_query($db, "select * from restaurant where rs_id='$_GET[res_id]'");
         $rows = mysqli_fetch_array($ress);
 
         ?>
-        <!-- <section class="inner-page-hero bg-image" data-image-src="images/img/restrrr.png">
-                <div class="profile">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-12  col-md-4 col-lg-4 profile-img">
-                                <div class="image-wrap">
-                                    <figure><?php echo '<img src="admin/Res_img/' . $rows['image'] . '" alt="Restaurant logo">'; ?></figure>
-                                </div>
-                            </div>
-                            
-                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 profile-desc">
-                                <div class="pull-left right-text white-txt">
-                                    <h6><a href="#"><?php echo $rows['title']; ?></a></h6>
-                                    <p><?php echo $rows['address']; ?></p>   
-                                </div>
-                            </div>
-                            
-                            
-                        </div>
-                    </div>
-                </div>
-            </section> -->
         <div class="breadcrumb">
             <div class="container">
 
@@ -191,7 +158,14 @@ include_once 'product-action.php';
                     <div class="menu-widget" id="2">
                         <div class="widget-heading">
                             <h3 class="widget-title text-dark">
-                                MENU <a class="btn btn-link pull-right" data-toggle="collapse" href="#popular2"
+                                <?php
+                                // load restaurant name
+                                $sql = "SELECT * FROM restaurant WHERE rs_id='" . $_GET['res_id'] . "'";
+                                $result = mysqli_query($db, $sql);
+                                $row = mysqli_fetch_array($result);
+                                echo "<h5 style='display: inline;'>Menu of " . htmlspecialchars($row['title']) . "</h5>";
+                                ?>
+                                <a class="btn btn-link pull-right" data-toggle="collapse" href="#popular2"
                                     aria-expanded="true">
                                     <i class="fa fa-angle-right pull-right"></i>
                                     <i class="fa fa-angle-down pull-right"></i>
@@ -217,7 +191,7 @@ include_once 'product-action.php';
                                                     action='dishes.php?res_id=<?php echo $_GET['res_id']; ?>&action=add&id=<?php echo $product['d_id']; ?>'>
                                                     <div class="rest-logo pull-left">
                                                         <a class="restaurant-logo pull-left"
-                                                            href="#"><?php echo '<img src="admin/Res_img/dishes/' . $product['img'] . '" alt="Food logo">'; ?></a>
+                                                            href="#"><?php echo '<img src="admin/Res_img/dishes/' . $product['img'] . '" alt="Food logo" style="width:100px; height:100px;">'; ?></a>
                                                     </div>
 
                                                     <div class="rest-descr">

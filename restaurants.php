@@ -69,8 +69,10 @@ session_start();
                                 <?php
                                 $res = mysqli_query($db, "select * from res_category");
                                 while ($row = mysqli_fetch_array($res)) {
-                                    echo '<li><a href="#" data-filter=".' . $row['c_name'] . '"> ' . $row['c_name'] . '</a> </li>';
+                                    $sanitized_name = preg_replace('/[^a-zA-Z0-9]/', '', $row['c_name']);
+                                    echo '<li><a href="#" data-filter=".' . $sanitized_name . '"> ' . $row['c_name'] . '</a> </li>';
                                 }
+                                
                                 ?>
 
                             </ul>
@@ -90,8 +92,9 @@ session_start();
 
                         $query = mysqli_query($db, "select * from res_category where c_id='" . $rows['c_id'] . "' ");
                         $rowss = mysqli_fetch_array($query);
-
-                        echo ' <div class="col-xs-12 col-sm-12 col-md-6 single-restaurant all ' . $rowss['c_name'] . '">
+                        $sanitized_class = preg_replace('/[^a-zA-Z0-9]/', '', $rowss['c_name']);
+                        echo '
+                        <div class="col-xs-12 col-sm-12 col-md-6 single-restaurant all ' . $sanitized_class . '">
 														<div class="restaurant-wrap">
 															<div class="row">
 																<div class="col-xs-12 col-sm-3 col-md-12 col-lg-3 text-xs-center">
