@@ -16,13 +16,23 @@ if (isset($_POST['submit'])) {
 
 
 
-    if (empty($_POST['d_name']) || empty($_POST['about']) || $_POST['price'] == '' || $_POST['res_name'] == '') {
+    if (empty($_POST['d_name']) || empty($_POST['about']) || $_POST['price'] == '' || $_POST['res_name'] == '' || $_POST['quantity'] == '') {
         $error = '<div class="alert alert-danger alert-dismissible fade show">
 																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 																<strong>All fields Must be Fillup!</strong>
 															</div>';
 
+    } elseif (!is_numeric($_POST['price'])) {
+        $error = '<div class="alert alert-danger alert-dismissible fade show">
+                                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                <strong>Price Must be Numeric!</strong>
+                                                            </div>';
 
+    } elseif (!is_numeric($_POST['quantity'])) {
+        $error = '<div class="alert alert-danger alert-dismissible fade show">
+                                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                <strong>Quantity Must be Numeric!</strong>
+                                                            </div>';
 
     } else {
 
@@ -32,7 +42,6 @@ if (isset($_POST['submit'])) {
         $extension = explode('.', $fname);
         $extension = strtolower(end($extension));
         $fnew = uniqid() . '.' . $extension;
-
         $store = "Res_img/dishes/" . basename($fnew);
 
         if ($extension == 'jpg' || $extension == 'png' || $extension == 'gif') {
@@ -48,10 +57,11 @@ if (isset($_POST['submit'])) {
                 $title = mysqli_real_escape_string($db, $_POST['d_name']);
                 $slogan = mysqli_real_escape_string($db, $_POST['about']);
                 $price = mysqli_real_escape_string($db, $_POST['price']);
+                $quantity = mysqli_real_escape_string($db, $_POST['quantity']);
                 $res_id = mysqli_real_escape_string($db, $_POST['res_name']);
-
-                $sql = "INSERT INTO dishes(rs_id, title, slogan, price, img) 
-                        VALUES('$res_id', '$title', '$slogan', '$price', '$fnew')";
+                $admin_id = $_SESSION['adm_id'];
+                $sql = "INSERT INTO dishes(adm_id, rs_id, title, slogan, price, img) 
+                        VALUES('$admin_id', '$res_id', '$title', '$slogan', '$price', '$fnew')";
 
                 mysqli_query($db, $sql);
                 move_uploaded_file($temp, $store);
@@ -234,7 +244,8 @@ if (isset($_POST['submit'])) {
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label">Dish Name</label>
-                                                <input type="text" name="d_name" class="form-control">
+                                                <input type="text" name="d_name" class="form-control" value="<?php echo htmlspecialchars($_POST['d_name'] ?? ''); ?>"
+                                                    placeholder="Dish Name" required>
                                             </div>
                                         </div>
 
@@ -242,7 +253,7 @@ if (isset($_POST['submit'])) {
                                             <div class="form-group has-danger">
                                                 <label class="control-label">Description</label>
                                                 <input type="text" name="about"
-                                                    class="form-control form-control-danger">
+                                                    class="form-control form-control-danger" value="<?php echo htmlspecialchars($_POST['about'] ?? ''); ?>" placeholder="Description" required>
                                             </div>
                                         </div>
 
@@ -252,7 +263,16 @@ if (isset($_POST['submit'])) {
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label">Price </label>
-                                                <input type="text" name="price" class="form-control" placeholder="₱">
+                                                <input type="text" name="price" class="form-control" placeholder="₱" value="<?php echo htmlspecialchars($_POST['price'] ?? ''); ?>" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- add quantity input -->
+                                        <div class="col-md-6">
+                                            <div class="form-group has-danger">
+                                                <label class="control-label">Quantity</label>
+                                                <input type="text" name="quantity" class="form-control"
+                                                    placeholder="How many?" value="<?php echo htmlspecialchars($_POST['quantity'] ?? ''); ?>" required>
                                             </div>
                                         </div>
 
@@ -260,28 +280,24 @@ if (isset($_POST['submit'])) {
                                             <div class="form-group has-danger">
                                                 <label class="control-label">Image</label>
                                                 <input type="file" name="file" id="lastName"
-                                                    class="form-control form-control-danger" placeholder="12n">
+                                                    class="form-control form-control-danger" placeholder="Image">
                                             </div>
                                         </div>
                                     </div>
 
+                                    <!-- add quantity -->
 
 
                                     <div class="row">
-
-
-
-
-
-
-
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="control-label">Select Restaurant</label>
                                                 <select name="res_name" class="form-control custom-select"
                                                     data-placeholder="Choose a Category" tabindex="1">
                                                     <option>--Select Restaurant--</option>
-                                                    <?php $ssql = "select * from restaurant";
+                                                    <?php
+                                                    $admin_id = $_SESSION['adm_id'];
+                                                    $ssql = "select * from restaurant where adm_id='$admin_id'";
                                                     $res = mysqli_query($db, $ssql);
                                                     while ($row = mysqli_fetch_array($res)) {
                                                         echo ' <option value="' . $row['rs_id'] . '">' . $row['title'] . '</option>';

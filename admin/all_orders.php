@@ -159,7 +159,8 @@ session_start();
 
 
                                             <?php
-                                            $sql = "SELECT users.*, users_orders.* FROM users INNER JOIN users_orders ON users.u_id=users_orders.u_id ";
+                                            $admin_id = $_SESSION['adm_id'];
+                                            $sql = "SELECT users.*, users_orders.* FROM users INNER JOIN users_orders ON users.u_id=users_orders.u_id WHERE users_orders.rs_id IN (SELECT rs_id FROM restaurant WHERE adm_id='$admin_id')";
                                             $query = mysqli_query($db, $sql);
 
                                             if (!mysqli_num_rows($query) > 0) {

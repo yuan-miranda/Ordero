@@ -12,71 +12,56 @@ if (isset($_POST['submit'])) {
 
 
 
+    $fname = $_FILES['file']['name'];
+    $temp = $_FILES['file']['tmp_name'];
+    $fsize = $_FILES['file']['size'];
+    $extension = explode('.', $fname);
+    $extension = strtolower(end($extension));
+    $fnew = uniqid() . '.' . $extension;
+
+    $store = "Res_img/" . basename($fnew);
+
+    if ($extension == 'jpg' || $extension == 'png' || $extension == 'gif') {
+        if ($fsize >= 1000000) {
 
 
-
-
-    if (empty($_POST['c_name']) || empty($_POST['res_name']) || $_POST['email'] == '' || $_POST['phone'] == '' || $_POST['url'] == '' || $_POST['o_hr'] == '' || $_POST['c_hr'] == '' || $_POST['o_days'] == '' || $_POST['address'] == '') {
-        $error = '<div class="alert alert-danger alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>All fields Must be Fillup!</strong>
-															</div>';
-
-
-
-    } else {
-
-        $fname = $_FILES['file']['name'];
-        $temp = $_FILES['file']['tmp_name'];
-        $fsize = $_FILES['file']['size'];
-        $extension = explode('.', $fname);
-        $extension = strtolower(end($extension));
-        $fnew = uniqid() . '.' . $extension;
-
-        $store = "Res_img/" . basename($fnew);
-
-        if ($extension == 'jpg' || $extension == 'png' || $extension == 'gif') {
-            if ($fsize >= 1000000) {
-
-
-                $error = '<div class="alert alert-danger alert-dismissible fade show">
+            $error = '<div class="alert alert-danger alert-dismissible fade show">
 																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 																<strong>Max Image Size is 1024kb!</strong> Try different Image.
 															</div>';
 
-            } else {
+        } else {
 
 
-                $res_name = $_POST['res_name'];
+            $res_name = $_POST['res_name'];
+            $admin_id = $_SESSION['adm_id'];
+            $sql = "INSERT INTO restaurant(adm_id, c_id, title, email, phone, url, o_hr, c_hr, o_days, address, image) VALUE('" . $admin_id . "', '" . $_POST['c_name'] . "', '" . $res_name . "', '" . $_POST['email'] . "', '" . $_POST['phone'] . "', '" . $_POST['url'] . "', '" . $_POST['o_hr'] . "', '" . $_POST['c_hr'] . "', '" . $_POST['o_days'] . "', '" . $_POST['address'] . "', '" . $fnew . "')";  // store the submitted data into the database :images
+            mysqli_query($db, $sql);
+            move_uploaded_file($temp, $store);
 
-                $sql = "INSERT INTO restaurant(c_id,title,email,phone,url,o_hr,c_hr,o_days,address,image) VALUE('" . $_POST['c_name'] . "','" . $res_name . "','" . $_POST['email'] . "','" . $_POST['phone'] . "','" . $_POST['url'] . "','" . $_POST['o_hr'] . "','" . $_POST['c_hr'] . "','" . $_POST['o_days'] . "','" . $_POST['address'] . "','" . $fnew . "')";  // store the submited data ino the database :images
-                mysqli_query($db, $sql);
-                move_uploaded_file($temp, $store);
-
-                $success = '<div class="alert alert-success alert-dismissible fade show">
+            $success = '<div class="alert alert-success alert-dismissible fade show">
 																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 																 New Restaurant Added Successfully.
 															</div>';
 
 
-            }
-        } elseif ($extension == '') {
-            $error = '<div class="alert alert-danger alert-dismissible fade show">
+        }
+    } elseif ($extension == '') {
+        $error = '<div class="alert alert-danger alert-dismissible fade show">
 																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 																<strong>select image</strong>
 															</div>';
-        } else {
+    } else {
 
-            $error = '<div class="alert alert-danger alert-dismissible fade show">
+        $error = '<div class="alert alert-danger alert-dismissible fade show">
 																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 																<strong>invalid extension!</strong>png, jpg, Gif are accepted.
 															</div>';
 
 
-        }
-
-
     }
+
+
 
 
 
@@ -240,15 +225,18 @@ if (isset($_POST['submit'])) {
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label">Restaurant Name</label>
-                                                <input type="text" name="res_name" class="form-control">
+                                                <input type="text" name="res_name" class="form-control"
+                                                    value="<?php echo htmlspecialchars($_POST['res_name'] ?? ''); ?>"
+                                                    placeholder="Restaurant Name" required>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group has-danger">
                                                 <label class="control-label">Bussiness E-mail</label>
-                                                <input type="text" name="email"
-                                                    class="form-control form-control-danger">
+                                                <input type="text" name="email" class="form-control form-control-danger"
+                                                    value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>"
+                                                    placeholder="Email" required>
                                             </div>
                                         </div>
 
@@ -258,14 +246,18 @@ if (isset($_POST['submit'])) {
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label">Phone </label>
-                                                <input type="text" name="phone" class="form-control">
+                                                <input type="text" name="phone" class="form-control"
+                                                    value="<?php echo htmlspecialchars($_POST['phone'] ?? ''); ?>"
+                                                    placeholder="Phone" required>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group has-danger">
                                                 <label class="control-label">Website URL</label>
-                                                <input type="text" name="url" class="form-control form-control-danger">
+                                                <input type="text" name="url" class="form-control form-control-danger"
+                                                    value="<?php echo htmlspecialchars($_POST['url'] ?? ''); ?>"
+                                                    placeholder="Website URL" required>
                                             </div>
                                         </div>
 

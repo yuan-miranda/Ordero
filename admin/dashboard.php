@@ -112,9 +112,10 @@ if (empty($_SESSION["adm_id"])) {
                     <div class="col-lg-12">
                         <div class="card card-outline-primary">
                             <div class="card-header" <div class="col-sm-12 col-md-12 col-lg-8 text-xs-center text-sm-left"
-		style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); transition: transform 0.3s, box-shadow 0.3s;"
-		onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0px 6px 12px rgba(0, 0, 0, 0.2)\';"
-		onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'0px 4px 8px rgba(0, 0, 0, 0.1)\';">>
+                                style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); transition: transform 0.3s, box-shadow 0.3s;"
+                                onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0px 6px 12px rgba(0, 0, 0, 0.2)\';"
+                                onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'0px 4px 8px rgba(0, 0, 0, 0.1)\';">
+                                >
                                 <h4 class="m-b-0 text-white">Admin Dashboard</h4>
                             </div>
                             <div class="row">
@@ -129,7 +130,9 @@ if (empty($_SESSION["adm_id"])) {
                                                 <span><i class="fa fa-home f-s-40 "></i></span>
                                             </div>
                                             <div class="media-body media-text-right">
-                                                <h2><?php $sql = "select * from restaurant";
+                                                <h2><?php
+                                                $admin_id = $_SESSION['adm_id'];
+                                                $sql = "select * from restaurant WHERE adm_id = '$admin_id'";
                                                 $result = mysqli_query($db, $sql);
                                                 $rws = mysqli_num_rows($result);
 
@@ -148,15 +151,18 @@ if (empty($_SESSION["adm_id"])) {
 
                                 <div class="col-md-3">
                                     <div class="card p-30"
-                                            style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); transition: transform 0.3s, box-shadow 0.3s;"
-                                            onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0px 6px 12px rgba(0, 0, 0, 0.2)';"
-                                            onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0px 4px 8px rgba(0, 0, 0, 0.1)';">
+                                        style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); transition: transform 0.3s, box-shadow 0.3s;"
+                                        onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0px 6px 12px rgba(0, 0, 0, 0.2)';"
+                                        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0px 4px 8px rgba(0, 0, 0, 0.1)';">
                                         <div class="media">
                                             <div class="media-left meida media-middle">
                                                 <span><i class="fa fa-cutlery f-s-40" aria-hidden="true"></i></span>
                                             </div>
                                             <div class="media-body media-text-right">
-                                                <h2><?php $sql = "select * from dishes";
+                                                <h2><?php
+                                                $admin_id = $_SESSION['adm_id'];
+                                                $sql = "SELECT * FROM dishes WHERE rs_id IN 
+                                                        (SELECT rs_id FROM restaurant WHERE adm_id = '$admin_id')";
                                                 $result = mysqli_query($db, $sql);
                                                 $rws = mysqli_num_rows($result);
 
@@ -183,7 +189,9 @@ if (empty($_SESSION["adm_id"])) {
                                                 <span><i class="fa fa-users f-s-40"></i></span>
                                             </div>
                                             <div class="media-body media-text-right">
-                                                <h2><?php $sql = "select * from users";
+                                                <h2><?php
+                                                $admin_id = $_SESSION['adm_id'];
+                                                $sql = "select * from users";
                                                 $result = mysqli_query($db, $sql);
                                                 $rws = mysqli_num_rows($result);
 
@@ -210,7 +218,10 @@ if (empty($_SESSION["adm_id"])) {
                                                 <span><i class="fa fa-shopping-cart f-s-40" aria-hidden="true"></i></span>
                                             </div>
                                             <div class="media-body media-text-right">
-                                                <h2><?php $sql = "select * from users_orders";
+                                                <h2><?php
+                                                $admin_id = $_SESSION['adm_id'];
+                                                $sql = "select * from users_orders WHERE rs_id IN 
+                                                        (SELECT rs_id FROM restaurant WHERE adm_id = '$admin_id')";
                                                 $result = mysqli_query($db, $sql);
                                                 $rws = mysqli_num_rows($result);
 
@@ -239,7 +250,10 @@ if (empty($_SESSION["adm_id"])) {
                                                 <span><i class="fa fa-spinner f-s-40" aria-hidden="true"></i></span>
                                             </div>
                                             <div class="media-body media-text-right">
-                                                <h2><?php $sql = "select * from users_orders WHERE status = 'in process' ";
+                                                <h2><?php
+                                                $admin_id = $_SESSION['adm_id'];
+                                                $sql = "select * from users_orders WHERE status = 'in process' AND rs_id IN 
+                                                        (SELECT rs_id FROM restaurant WHERE adm_id = '$admin_id')";
                                                 $result = mysqli_query($db, $sql);
                                                 $rws = mysqli_num_rows($result);
 
@@ -260,7 +274,10 @@ if (empty($_SESSION["adm_id"])) {
                                                 <span><i class="fa fa-check f-s-40" aria-hidden="true"></i></span>
                                             </div>
                                             <div class="media-body media-text-right">
-                                                <h2><?php $sql = "select * from users_orders WHERE status = 'closed' ";
+                                                <h2><?php
+                                                $admin_id = $_SESSION['adm_id'];
+                                                $sql = "select * from users_orders WHERE status = 'closed' AND rs_id IN 
+                                                        (SELECT rs_id FROM restaurant WHERE adm_id = '$admin_id')";
                                                 $result = mysqli_query($db, $sql);
                                                 $rws = mysqli_num_rows($result);
 
@@ -284,7 +301,8 @@ if (empty($_SESSION["adm_id"])) {
                                             </div>
                                             <div class="media-body media-text-right">
                                                 <h2>₱ <?php
-                                                $result = mysqli_query($db, 'SELECT SUM(price) AS value_sum FROM users_orders WHERE status = "closed"');
+                                                $result = mysqli_query($db, "SELECT SUM(price) AS value_sum FROM users_orders WHERE status = 'closed' AND rs_id IN 
+                                                        (SELECT rs_id FROM restaurant WHERE adm_id = '$admin_id')");
                                                 $row = mysqli_fetch_assoc($result);
                                                 $sum = $row['value_sum'];
                                                 echo number_format($sum, 2);

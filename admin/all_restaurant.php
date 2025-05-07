@@ -167,14 +167,13 @@ session_start();
 
 
                                             <?php
-                                            $sql = "SELECT * FROM restaurant order by rs_id desc";
+                                            $admin_id = $_SESSION['adm_id'];
+                                            $sql = "SELECT * FROM restaurant WHERE adm_id = '$admin_id' ORDER BY rs_id DESC";
                                             $query = mysqli_query($db, $sql);
-
                                             if (!mysqli_num_rows($query) > 0) {
                                                 echo '<td colspan="11"><center>No Restaurants</center></td>';
                                             } else {
                                                 while ($rows = mysqli_fetch_array($query)) {
-
                                                     $mql = "SELECT * FROM res_category where c_id='" . $rows['c_id'] . "'";
                                                     $res = mysqli_query($db, $mql);
                                                     $row = mysqli_fetch_array($res);

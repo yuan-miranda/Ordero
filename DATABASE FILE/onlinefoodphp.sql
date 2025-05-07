@@ -1,11 +1,6 @@
--- phpMyAdmin SQL Dump
+-- phpMyAdmin SQL Dumpx
 -- version 4.6.5.2
 -- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: May 27, 2022 at 03:22 PM
--- Server version: 5.6.21
--- PHP Version: 5.6.3
 SET
   SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 
@@ -63,10 +58,12 @@ VALUES
 CREATE TABLE
   `dishes` (
     `d_id` int (222) NOT NULL,
+    `adm_id` int (222) NOT NULL,
     `rs_id` int (222) NOT NULL,
     `title` varchar(222) NOT NULL,
     `slogan` varchar(222) NOT NULL,
     `price` decimal(10, 2) NOT NULL,
+    `quantity` int (222) NOT NULL DEFAULT '0',
     `img` varchar(222) NOT NULL
   ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
@@ -82,7 +79,7 @@ CREATE TABLE
 CREATE TABLE
   `restaurant` (
     `rs_id` int (222) NOT NULL,
-    `admin_id` int (222) NOT NULL,
+    `adm_id` int (222) NOT NULL,
     `c_id` int (222) NOT NULL,
     `title` varchar(222) NOT NULL,
     `email` varchar(222) NOT NULL,
@@ -99,6 +96,7 @@ CREATE TABLE
 CREATE TABLE
   `res_category` (
     `c_id` int (222) NOT NULL,
+    `adm_id` int (222) NOT NULL,
     `c_name` varchar(222) NOT NULL,
     `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
@@ -120,6 +118,7 @@ CREATE TABLE
 CREATE TABLE
   `users_orders` (
     `o_id` int (222) NOT NULL,
+    `rs_id` int (222) NOT NULL,
     `u_id` int (222) NOT NULL,
     `title` varchar(222) NOT NULL,
     `quantity` int (222) NOT NULL,

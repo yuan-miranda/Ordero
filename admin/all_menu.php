@@ -162,7 +162,8 @@ session_start();
 
 
                                             <?php
-                                            $sql = "SELECT * FROM dishes order by d_id desc";
+                                            $admin_id = $_SESSION['adm_id'];
+                                            $sql = "SELECT * FROM dishes where adm_id='$admin_id' order by d_id desc";
                                             $query = mysqli_query($db, $sql);
 
                                             if (!mysqli_num_rows($query) > 0) {

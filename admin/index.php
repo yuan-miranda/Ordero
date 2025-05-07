@@ -9,7 +9,7 @@ if (isset($_POST['submit'])) {
   $password = $_POST['password'];
 
   if (!empty($_POST["submit"])) {
-    $loginquery = "SELECT * FROM admin WHERE username='$username' && password='" . md5($password) . "'";
+    $loginquery = "SELECT * FROM admin WHERE (email='$username' OR username='$username') AND password='" . md5($password) . "'";
     $result = mysqli_query($db, $loginquery);
     $row = mysqli_fetch_array($result);
 

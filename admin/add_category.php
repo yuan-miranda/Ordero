@@ -13,9 +13,8 @@ if (isset($_POST['submit'])) {
 																<strong>field Required!</strong>
 															</div>';
     } else {
-
-        $check_cat = mysqli_query($db, "SELECT c_name FROM res_category where c_name = '" . $_POST['c_name'] . "' ");
-
+        $admin_id = $_SESSION['adm_id'];
+        $check_cat = mysqli_query($db, "SELECT c_name FROM res_category WHERE c_name = '" . $_POST['c_name'] . "' AND adm_id = '" . $admin_id . "' ");
 
 
         if (mysqli_num_rows($check_cat) > 0) {
@@ -26,7 +25,7 @@ if (isset($_POST['submit'])) {
         } else {
 
 
-            $mql = "INSERT INTO res_category(c_name) VALUES('" . $_POST['c_name'] . "')";
+            $mql = "INSERT INTO res_category(c_name, adm_id) VALUES('" . $_POST['c_name'] . "', '" . $admin_id . "')";
             mysqli_query($db, $mql);
             $success = '<div class="alert alert-success alert-dismissible fade show">
 																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -158,7 +157,7 @@ if (isset($_POST['submit'])) {
 
                         <div class="col-lg-12" style="padding: 0px;">
                             <div class="card card-outline-primary">
-                            <div class="card-header" style="background: #424549;">
+                                <div class="card-header" style="background: #424549;">
                                     <h4 class="m-b-0 text-white">Add Restaurant Category</h4>
                                 </div>
                                 <form action='' method='post'>
@@ -169,7 +168,8 @@ if (isset($_POST['submit'])) {
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="control-label">Category</label>
-                                                    <input type="text" name="c_name" class="form-control">
+                                                    <input type="text" name="c_name" class="form-control" value="<?php echo htmlspecialchars($_POST['c_name'] ?? ''); ?>"
+                                                        placeholder="Enter Category Name" required>
                                                 </div>
                                             </div>
 
@@ -209,7 +209,8 @@ if (isset($_POST['submit'])) {
 
 
                                         <?php
-                                        $sql = "SELECT * FROM res_category order by c_id desc";
+                                        $admin_id = $_SESSION['adm_id'];
+                                        $sql = "SELECT * FROM res_category WHERE adm_id = '$admin_id' ORDER BY c_id DESC";
                                         $query = mysqli_query($db, $sql);
 
                                         if (!mysqli_num_rows($query) > 0) {
