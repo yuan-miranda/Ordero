@@ -9,8 +9,6 @@ session_start();
 
 function function_alert()
 {
-
-
     echo "<script>alert('Thank you. Your Order has been placed!');</script>";
     echo "<script>window.location.replace('your_orders.php');</script>";
 }
@@ -29,13 +27,20 @@ if (!isset($_SESSION["user_id"])) {
             $title = mysqli_real_escape_string($db, $item["title"]);
             $quantity = mysqli_real_escape_string($db, $item["quantity"]);
             $price = mysqli_real_escape_string($db, $item["price"]);
+            
+            // get the d_id from the cart item
+            $d_id = mysqli_real_escape_string($db, $item["d_id"]);
+            // get the rs_id by using the d_id
+            $res_query = mysqli_query($db, "SELECT rs_id FROM dishes WHERE d_id='$d_id'");
+            $res_row = mysqli_fetch_assoc($res_query);
+            $res_id = $res_row['rs_id'];
+
             // Insert query
-            $SQL = "INSERT INTO users_orders(u_id, title, quantity, price) 
-                    VALUES('$user_id', '$title', '$quantity', '$price')";
+            $SQL = "INSERT INTO users_orders(u_id, title, quantity, price, d_id, rs_id)
+                    VALUES('$user_id', '$title', '$quantity', '$price', '$d_id', '$res_id')";
 
             mysqli_query($db, $SQL);
 
-            // Cleanup
             unset($_SESSION["cart_item"]);
             unset($item["title"]);
             unset($item["quantity"]);

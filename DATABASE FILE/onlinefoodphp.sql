@@ -89,7 +89,7 @@ CREATE TABLE
     `o_days` varchar(222) NOT NULL,
     `address` text NOT NULL,
     `image` text NOT NULL,
-    `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`rs_id`)
   ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
@@ -114,7 +114,7 @@ CREATE TABLE
     `password` varchar(222) NOT NULL,
     `address` text NOT NULL,
     `status` int (222) NOT NULL DEFAULT '1',
-    `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
   ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
 CREATE TABLE
@@ -122,10 +122,12 @@ CREATE TABLE
     `o_id` int (222) NOT NULL AUTO_INCREMENT,
     PRIMARY KEY (`o_id`),
     `rs_id` int (222) NOT NULL,
+    `d_id` int (222) NOT NULL,
     `u_id` int (222) NOT NULL,
     `title` varchar(222) NOT NULL,
     `quantity` int (222) NOT NULL,
     `price` decimal(10, 2) NOT NULL,
     `status` varchar(222) DEFAULT NULL,
-    `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `arrive` timestamp NULL DEFAULT NULL
   ) ENGINE = InnoDB DEFAULT CHARSET = latin1;

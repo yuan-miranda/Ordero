@@ -63,80 +63,6 @@ if (!isset($_SESSION["user_id"])) {
 				font-weight: 600;
 				color: #777;
 			}
-
-			/* 
-						table { 
-							width: 750px; 
-							border-collapse: collapse; 
-							margin: auto;
-	
-							}
-
-						/* Zebra striping */
-			/* tr:nth-of-type(odd) { 
-							background: #eee; 
-							}
-
-						th { 
-							background: #404040; 
-							color: white; 
-							font-weight: bold; 
-	
-							}
-
-						td, th { 
-							padding: 10px; 
-							border: 1px solid #ccc; 
-							text-align: left; 
-							font-size: 14px;
-	
-							} */
-			*/ @media only screen and (max-width: 760px),
-			(min-device-width: 768px) and (max-device-width: 1024px) {
-
-				/* table { 
-								  width: 100%; 
-							}
-
-	
-							table, thead, tbody, th, td, tr { 
-								display: block; 
-							} */
-
-
-				/* thead tr { 
-								position: absolute;
-								top: -9999px;
-								left: -9999px;
-							}
-	
-							tr { border: 1px solid #ccc; } */
-
-				/* td { 
-		
-								border: none;
-								border-bottom: 1px solid #eee; 
-								position: relative;
-								padding-left: 50%; 
-							}
-
-							td:before { 
-		
-								position: absolute;
-	
-								top: 6px;
-								left: 6px;
-								width: 45%; 
-								padding-right: 10px; 
-								white-space: nowrap;
-		
-								content: attr(data-column);
-
-								color: #000;
-								font-weight: bold;
-							} */
-
-			}
 		</style>
 
 	</head>
@@ -177,13 +103,6 @@ if (!isset($_SESSION["user_id"])) {
 
 		</header>
 		<div class="page-wrapper">
-
-
-
-			<!-- <div class="inner-page-hero bg-image" data-image-src="images/img/pimg.jpg">
-				<div class="container"> </div>
-		
-			</div> -->
 			<div class="result-show">
 				<div class="container">
 					<div class="row">
@@ -210,7 +129,8 @@ if (!isset($_SESSION["user_id"])) {
 												<th>Quantity</th>
 												<th>Price</th>
 												<th>Status</th>
-												<th>Date</th>
+												<th>Date Ordered</th>
+												<th>Arrive</th>
 												<th>Action</th>
 
 											</tr>
@@ -238,7 +158,7 @@ if (!isset($_SESSION["user_id"])) {
 															if ($status == "" or $status == "NULL") {
 																?>
 																<button type="button" class="btn btn-info"><span class="fa fa-bars"
-																		aria-hidden="true"></span> Dispatch</button>
+																		aria-hidden="true"></span> Pending</button>
 																<?php
 															}
 															if ($status == "in process") { ?>
@@ -273,11 +193,22 @@ if (!isset($_SESSION["user_id"])) {
 														<td data-column="Date">
 															<?php echo date("F j, Y", strtotime($row['date'])); ?>
 														</td>
-														<td data-column="Action"> <a
-																href="delete_orders.php?order_del=<?php echo $row['o_id']; ?>"
-																onclick="return confirm('Are you sure you want to cancel your order?');"
-																class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i
-																	class="fa fa-trash-o" style="font-size:16px"></i></a>
+														<td data-column="Arrive">
+															<?php echo $row['arrive'] ? date("F j, Y", strtotime($row['arrive'])) : "No ETA"; ?>
+														</td>
+
+														<td data-column="Action">
+															<?php if ($status == "" || $status == "NULL") { ?>
+																<a href="delete_orders.php?order_del=<?php echo $row['o_id']; ?>"
+																	onclick="return confirm('Are you sure you want to cancel your order?');"
+																	class="btn btn-danger btn-flat btn-addon btn-xs m-b-10">
+																	<i class="fa fa-trash-o" style="font-size:16px"></i>
+																</a>
+															<?php } else { ?>
+																<button class="btn btn-secondary btn-xs m-b-10"
+																	title="Order cannot be cancelled" disabled><i
+																		class="fa fa-ban"></i></button>
+															<?php } ?>
 														</td>
 
 													</tr>

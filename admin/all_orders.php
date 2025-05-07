@@ -150,7 +150,8 @@ session_start();
                                                 <th>Price</th>
                                                 <th>Address</th>
                                                 <th>Status</th>
-                                                <th>Reg-Date</th>
+                                                <th>Date Ordered</th>
+                                                <th>Arrive</th>
                                                 <th>Action</th>
 
                                             </tr>
@@ -182,7 +183,7 @@ session_start();
                                                     if ($status == "" or $status == "NULL") {
                                                         ?>
                                                         <td> <button type="button" class="btn btn-info"><span class="fa fa-bars"
-                                                                    aria-hidden="true"></span> Dispatch</button></td>
+                                                                    aria-hidden="true"></span> Pending</button></td>
                                                         <?php
                                                     }
                                                     if ($status == "in process") { ?>
@@ -208,7 +209,10 @@ session_start();
                                                     }
                                                     ?>
                                                     <?php
-                                                    echo '	<td>' . $rows['date'] . '</td>';
+                                                    echo '	<td>' . date("F j, Y", strtotime($rows['date'])) . '</td>';
+                                                    ?>
+                                                    <?php
+                                                    echo '	<td>' . date("F j, Y", strtotime($rows['arrive'])) . '</td>';
                                                     ?>
                                                     <td>
                                                         <a href="delete_orders.php?order_del=<?php echo $rows['o_id']; ?>"
@@ -219,8 +223,6 @@ session_start();
                                                         echo '<a href="view_order.php?user_upd=' . $rows['o_id'] . '" " class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="fa fa-edit"></i></a>
 																									</td>
 																									</tr>';
-
-
 
                                                 }
                                             }

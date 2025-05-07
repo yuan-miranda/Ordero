@@ -144,7 +144,7 @@ session_start();
                                                 <th>Email</th>
                                                 <th>Phone</th>
                                                 <th>Address</th>
-                                                <th>Reg-Date</th>
+                                                <th>Registered Date</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
