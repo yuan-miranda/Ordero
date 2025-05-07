@@ -6,21 +6,46 @@ if (!empty($_GET["action"])) {
 	switch ($_GET["action"]) {
 		case "add":
 			if (!empty($quantity)) {
-				$stmt = $db->prepare("SELECT * FROM dishes where d_id= ?");
+				$stmt = $db->prepare("SELECT * FROM dishes WHERE d_id = ?");
 				$stmt->bind_param('i', $productId);
 				$stmt->execute();
 				$productDetails = $stmt->get_result()->fetch_object();
-				$itemArray = array($productDetails->d_id => array('title' => $productDetails->title, 'd_id' => $productDetails->d_id, 'quantity' => $quantity, 'price' => $productDetails->price));
+
+				$availableStock = $productDetails->quantity;
+
+				// Check current quantity in cart
+				$currentInCart = 0;
+				if (!empty($_SESSION["cart_item"][$productDetails->d_id])) {
+					$currentInCart = $_SESSION["cart_item"][$productDetails->d_id]["quantity"];
+				}
+
+				// Total desired quantity (existing in cart + new request)
+				$totalDesired = $currentInCart + $quantity;
+
+				if ($availableStock <= 0) {
+					$_SESSION['error'] = "This item is out of stock.";
+					header("Location: dishes.php?res_id=" . $_GET['res_id']);
+					exit();
+				}
+
+				if ($totalDesired > $availableStock) {
+					$_SESSION['error'] = "Only $availableStock items available. You already have $currentInCart in your cart.";
+					header("Location: dishes.php?res_id=" . $_GET['res_id']);
+					exit();
+				}
+
+				$itemArray = array(
+					$productDetails->d_id => array(
+						'title' => $productDetails->title,
+						'd_id' => $productDetails->d_id,
+						'quantity' => $quantity,
+						'price' => $productDetails->price
+					)
+				);
+
 				if (!empty($_SESSION["cart_item"])) {
-					if (in_array($productDetails->d_id, array_keys($_SESSION["cart_item"]))) {
-						foreach ($_SESSION["cart_item"] as $k => $v) {
-							if ($productDetails->d_id == $k) {
-								if (empty($_SESSION["cart_item"][$k]["quantity"])) {
-									$_SESSION["cart_item"][$k]["quantity"] = 0;
-								}
-								$_SESSION["cart_item"][$k]["quantity"] += $quantity;
-							}
-						}
+					if (array_key_exists($productDetails->d_id, $_SESSION["cart_item"])) {
+						$_SESSION["cart_item"][$productDetails->d_id]["quantity"] += $quantity;
 					} else {
 						$_SESSION["cart_item"] = $_SESSION["cart_item"] + $itemArray;
 					}
@@ -29,6 +54,7 @@ if (!empty($_GET["action"])) {
 				}
 			}
 			break;
+
 
 		case "remove":
 			if (!empty($_SESSION["cart_item"])) {

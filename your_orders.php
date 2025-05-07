@@ -124,11 +124,13 @@ if (!isset($_SESSION["user_id"])) {
 									<table class="table table-bordered table-hover">
 										<thead style="background: #404040; color:white;">
 											<tr>
-
+												<th>Order ID</th>
+												<th>Restaurant</th>
 												<th>Item</th>
 												<th>Quantity</th>
 												<th>Price</th>
 												<th>Status</th>
+												<th>Remark</th>
 												<th>Date Ordered</th>
 												<th>Arrive</th>
 												<th>Action</th>
@@ -140,7 +142,13 @@ if (!isset($_SESSION["user_id"])) {
 
 											<?php
 
-											$query_res = mysqli_query($db, "select * from users_orders where u_id='" . $_SESSION['user_id'] . "'");
+
+											$query_res = mysqli_query($db, "SELECT users_orders.*, remark.remark, restaurant.title AS restaurant_name
+											FROM users_orders
+											LEFT JOIN remark ON users_orders.o_id = remark.frm_id
+											INNER JOIN restaurant ON users_orders.rs_id = restaurant.rs_id
+											WHERE users_orders.u_id = '" . $_SESSION['user_id'] . "'");
+
 											if (!mysqli_num_rows($query_res) > 0) {
 												echo '<td colspan="6"><center>You have No orders Placed yet. </center></td>';
 											} else {
@@ -149,9 +157,12 @@ if (!isset($_SESSION["user_id"])) {
 
 													?>
 													<tr>
+														<td data-column="Order ID"> <?php echo $row['o_id']; ?></td>
+														<td data-column="Restaurant"> <?php echo $row['restaurant_name']; ?></td>
 														<td data-column="Item"> <?php echo $row['title']; ?></td>
 														<td data-column="Quantity"> <?php echo $row['quantity']; ?></td>
-														<td data-column="price">$<?php echo $row['price']; ?></td>
+														<td data-column="Price">$<?php echo $row['price'] * $row['quantity']; ?> ($<?php echo $row['price']; ?>)</td>
+
 														<td data-column="status">
 															<?php
 															$status = $row['status'];
@@ -189,6 +200,9 @@ if (!isset($_SESSION["user_id"])) {
 
 
 
+														</td>
+														<td data-column="Remark">
+															<?php echo $row['remark'] ? (strlen($row['remark']) > 25 ? substr($row['remark'], 0, 30) . "..." : $row['remark']) : "No Remarks"; ?>
 														</td>
 														<td data-column="Date">
 															<?php echo date("F j, Y", strtotime($row['date'])); ?>

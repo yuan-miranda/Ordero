@@ -151,7 +151,11 @@ session_start();
 
                                         <tbody>
                                             <?php
-                                            $sql = "SELECT users.*, users_orders.* FROM users INNER JOIN users_orders ON users.u_id=users_orders.u_id where o_id='" . $_GET['user_upd'] . "'";
+                                            $sql = "SELECT users.*, users_orders.*, remark.remark
+                                            FROM users
+                                            INNER JOIN users_orders ON users.u_id = users_orders.u_id
+                                            LEFT JOIN remark ON users_orders.o_id = remark.frm_id
+                                            WHERE users_orders.o_id = '" . $_GET['user_upd'] . "'";
                                             $query = mysqli_query($db, $sql);
                                             $rows = mysqli_fetch_array($query);
 
@@ -204,7 +208,7 @@ session_start();
                                             <tr>
                                                 <td><strong>Price:</strong></td>
                                                 <td>
-                                                    <center>$<?php echo $rows['price']; ?></center>
+                                                    <center>$<?php echo $rows['price'] * $rows['quantity']; ?> ($<?php echo $rows['price']; ?>)</center>
                                                 </td>
 
 
@@ -220,11 +224,19 @@ session_start();
                                             <tr>
                                                 <td><strong>Date:</strong></td>
                                                 <td>
-                                                    <center><?php echo $rows['date']; ?></center>
+                                                    <center><?php echo date('M j, Y', strtotime($rows['date'])); ?>
+                                                    </center>
                                                 </td>
-
-
                                             </tr>
+                                            <tr>
+                                                <td><strong>Arrived:</strong></td>
+                                                <td>
+                                                    <center>
+                                                        <?php
+                                                        echo $rows['arrive'] ? date('M j, Y', strtotime($rows['arrive'])) : 'No ETA';
+                                                        ?>
+                                                    </center>
+                                                </td>
                                             <tr>
                                                 <td><strong>Status:</strong></td>
                                                 <?php
@@ -234,7 +246,7 @@ session_start();
                                                     <td>
                                                         <center><button type="button" class="btn btn-info"><span
                                                                     class="fa fa-bars" aria-hidden="true"></span>
-                                                                Dispatch</button></center>
+                                                                Pending</button></center>
                                                     </td>
                                                     <?php
                                                 }
@@ -269,7 +281,12 @@ session_start();
 
 
                                             </tr>
-
+                                            <tr>
+                                                <td><strong>Remark:</strong></td>
+                                                <td>
+                                                    <center><?php echo $rows['remark']; ?></center>
+                                                </td>
+                                            </tr>
 
 
 

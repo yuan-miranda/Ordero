@@ -144,12 +144,15 @@ session_start();
                                     <table id="myTable" class="table table-bordered table-striped">
                                         <thead class="thead-dark">
                                             <tr>
+                                                <th>Order ID</th>
+                                                <th>Restaurant</th>
                                                 <th>User</th>
                                                 <th>Title</th>
                                                 <th>Quantity</th>
                                                 <th>Price</th>
                                                 <th>Address</th>
                                                 <th>Status</th>
+                                                <th>Remark</th>
                                                 <th>Date Ordered</th>
                                                 <th>Arrive</th>
                                                 <th>Action</th>
@@ -161,7 +164,13 @@ session_start();
 
                                             <?php
                                             $admin_id = $_SESSION['adm_id'];
-                                            $sql = "SELECT users.*, users_orders.* FROM users INNER JOIN users_orders ON users.u_id=users_orders.u_id WHERE users_orders.rs_id IN (SELECT rs_id FROM restaurant WHERE adm_id='$admin_id')";
+                                            $sql = "SELECT users.*, users_orders.*, remark.remark, restaurant.title AS restaurant_name 
+                                            FROM users 
+                                            INNER JOIN users_orders ON users.u_id = users_orders.u_id 
+                                            LEFT JOIN remark ON users_orders.o_id = remark.frm_id
+                                            INNER JOIN restaurant ON users_orders.rs_id = restaurant.rs_id
+                                            WHERE restaurant.adm_id = '$admin_id'";
+
                                             $query = mysqli_query($db, $sql);
 
                                             if (!mysqli_num_rows($query) > 0) {
@@ -172,11 +181,14 @@ session_start();
                                                     ?>
                                                     <?php
                                                     echo ' <tr>
-																					           <td>' . $rows['username'] . '</td>
-																								<td>' . $rows['title'] . '</td>
-																								<td>' . $rows['quantity'] . '</td>
-																								<td>$' . $rows['price'] . '</td>
-																								<td>' . $rows['address'] . '</td>';
+                                                    <td>' . $rows['o_id'] . '</td>
+                                                    <td>' . $rows['restaurant_name'] . '</td>
+                                                    <td>' . $rows['username'] . '</td>
+                                                    <td>' . $rows['title'] . '</td>
+                                                    <td>' . $rows['quantity'] . '</td>
+                                                    <td data-column="Price">$' . ($rows['price'] * $rows['quantity']) . ' ($' . $rows['price'] . ')</td>
+                                                    <td>' . $rows['address'] . '</td>';
+
                                                     ?>
                                                     <?php
                                                     $status = $rows['status'];
@@ -208,17 +220,20 @@ session_start();
                                                         <?php
                                                     }
                                                     ?>
+
+                                                    <td><?php echo $rows['remark']; ?></td>
+
                                                     <?php
                                                     echo '	<td>' . date("F j, Y", strtotime($rows['date'])) . '</td>';
                                                     ?>
                                                     <?php
-                                                    echo '	<td>' . date("F j, Y", strtotime($rows['arrive'])) . '</td>';
+                                                    if ($rows['arrive'] == "" || $rows['arrive'] == "NULL") {
+                                                        echo '<td>No ETA</td>';
+                                                    } else {
+                                                        echo '<td>' . date("F j, Y", strtotime($rows['arrive'])) . '</td>';
+                                                    }
                                                     ?>
                                                     <td>
-                                                        <a href="delete_orders.php?order_del=<?php echo $rows['o_id']; ?>"
-                                                            onclick="return confirm('Are you sure?');"
-                                                            class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i
-                                                                class="fa fa-trash-o" style="font-size:16px"></i></a>
                                                         <?php
                                                         echo '<a href="view_order.php?user_upd=' . $rows['o_id'] . '" " class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="fa fa-edit"></i></a>
 																									</td>
