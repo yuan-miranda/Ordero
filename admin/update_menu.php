@@ -49,8 +49,8 @@ if (isset($_POST['submit']))           //if upload btn is pressed
 
 
 
-
-                $sql = "update dishes set rs_id='$_POST[res_name]',title='$_POST[d_name]',slogan='$_POST[about]',price='$_POST[price]',img='$fnew' where d_id='$_GET[menu_upd]'";
+                $quantity = $_POST['quantity'];
+                $sql = "update dishes set rs_id='$_POST[res_name]',title='$_POST[d_name]',slogan='$_POST[about]',price='$_POST[price]',quantity='$quantity',img='$fnew' where d_id='$_GET[menu_upd]'";
                 mysqli_query($db, $sql);
                 move_uploaded_file($temp, $store);
 
@@ -233,6 +233,19 @@ if (isset($_POST['submit']))           //if upload btn is pressed
                                         </div>
 
                                         <div class="col-md-6">
+                                            <div class="form-group">
+                                                <class="control-label">Quantity</class>
+                                                <input type="text" name="quantity" value="<?php 
+                                                $dish_id = $_GET['menu_upd'];
+                                                $sql = "select quantity from dishes where d_id='$dish_id'";
+                                                $result = mysqli_query($db, $sql);
+                                                $row = mysqli_fetch_array($result);
+                                                echo $row['quantity'];
+                                                ?>"
+                                                    class="form-control" placeholder="Enter quantity">
+                                            </div>
+
+                                        <div class="col-md-12">
                                             <div class="form-group has-danger">
                                                 <label class="control-label">Image</label>
                                                 <input type="file" name="file" id="lastName"
@@ -241,26 +254,21 @@ if (isset($_POST['submit']))           //if upload btn is pressed
                                         </div>
                                     </div>
 
-
+                                    
 
                                     <div class="row">
-
-
-
-
-
-
-
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label class="control-label">Select Category</label>
+                                                <label class="control-label">Select Restaurant</label>
                                                 <select name="res_name" class="form-control custom-select"
                                                     data-placeholder="Choose a Category" tabindex="1">
                                                     <option>--Select Restaurant--</option>
-                                                    <?php $ssql = "select * from restaurant";
+                                                    <?php 
+                                                    $admin_id = $_SESSION['adm_id'];
+                                                    $ssql = "SELECT * FROM restaurant WHERE adm_id = '$admin_id' ORDER BY rs_id DESC";
                                                     $res = mysqli_query($db, $ssql);
                                                     while ($row = mysqli_fetch_array($res)) {
-                                                        echo ' <option value="' . $row['rs_id'] . '">' . $row['title'] . '</option>';
+                                                        echo '<option value="' . $row['rs_id'] . '"' . ($row['rs_id'] == $roww['rs_id'] ? ' selected' : '') . '>' . $row['title'] . '</option>';
                                                         ;
                                                     }
 
@@ -268,7 +276,6 @@ if (isset($_POST['submit']))           //if upload btn is pressed
                                                 </select>
                                             </div>
                                         </div>
-
 
 
                                     </div>

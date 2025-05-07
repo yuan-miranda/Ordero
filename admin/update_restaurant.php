@@ -289,7 +289,8 @@ if (isset($_POST['submit'])) {
                         <div class="card-body">
                             <form action='' method='post' enctype="multipart/form-data">
                                 <div class="form-body">
-                                    <?php $ssql = "select * from restaurant where rs_id='$_GET[res_upd]'";
+                                    <?php 
+                                    $ssql = "select * from restaurant where rs_id='$_GET[res_upd]'";
                                     $res = mysqli_query($db, $ssql);
                                     $row = mysqli_fetch_array($res); ?>
                                     <hr>
@@ -339,12 +340,13 @@ if (isset($_POST['submit'])) {
                                                 <select name="o_hr" class="form-control custom-select"
                                                     data-placeholder="Choose a Category">
                                                     <option>--Select your Hours--</option>
-                                                    <option value="6am">6am</option>
-                                                    <option value="7am">7am</option>
-                                                    <option value="8am">8am</option>
-                                                    <option value="9am">9am</option>
-                                                    <option value="10am">10am</option>
-                                                    <option value="11am">11am</option>
+                                                    <?php 
+                                                    $hours = array("6am", "7am", "8am", "9am", "10am", "11am", "12pm");
+                                                    foreach ($hours as $hour) {
+                                                        $selected = ($row['o_hr'] == $hour) ? "selected" : "";
+                                                        echo "<option value='$hour' $selected>$hour</option>";
+                                                    }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -355,12 +357,13 @@ if (isset($_POST['submit'])) {
                                                 <select name="c_hr" class="form-control custom-select"
                                                     data-placeholder="Choose a Category">
                                                     <option>--Select your Hours--</option>
-                                                    <option value="3pm">3pm</option>
-                                                    <option value="4pm">4pm</option>
-                                                    <option value="5pm">5pm</option>
-                                                    <option value="6pm">6pm</option>
-                                                    <option value="7pm">7pm</option>
-                                                    <option value="8pm">8pm</option>
+                                                    <?php 
+                                                    $hours = array("3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm", "12am", "1am", "2am", "3am");
+                                                    foreach ($hours as $hour) {
+                                                        $selected = ($row['c_hr'] == $hour) ? "selected" : "";
+                                                        echo "<option value='$hour' $selected>$hour</option>";
+                                                    }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -371,12 +374,13 @@ if (isset($_POST['submit'])) {
                                                 <select name="o_days" class="form-control custom-select"
                                                     data-placeholder="Choose a Category" tabindex="1">
                                                     <option>--Select your Days--</option>
-                                                    <option value="mon-tue">mon-tue</option>
-                                                    <option value="mon-wed">mon-wed</option>
-                                                    <option value="mon-thu">mon-thu</option>
-                                                    <option value="mon-fri">mon-fri</option>
-                                                    <option value="mon-sat">mon-sat</option>
-                                                    <option value="24hr-x7">24hr-x7</option>
+                                                    <?php 
+                                                    $days = array("Mon-Tue", "Mon-Wed", "Mon-Thu", "Mon-Fri", "Mon-Sat", "24hr-X7");
+                                                    foreach ($days as $day) {
+                                                        $selected = ($row['o_days'] == $day) ? "selected" : "";
+                                                        echo "<option value='$day' $selected>$day</option>";
+                                                    }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -397,13 +401,14 @@ if (isset($_POST['submit'])) {
                                                 <select name="c_name" class="form-control custom-select"
                                                     data-placeholder="Choose a Category" tabindex="1">
                                                     <option>--Select Category--</option>
-                                                    <?php $ssql = "select * from res_category";
-                                                    $res = mysqli_query($db, $ssql);
+                                                    <?php
+                                                    $admin_id = $_SESSION['adm_id'];
+                                                    $sql = "SELECT * FROM res_category WHERE adm_id = '$admin_id' ORDER BY c_id DESC";
+                                                    $res = mysqli_query($db, $sql);
                                                     while ($rows = mysqli_fetch_array($res)) {
-                                                        echo ' <option value="' . $rows['c_id'] . '">' . $rows['c_name'] . '</option>';
-                                                        ;
+                                                        $selected = ($row['c_id'] == $rows['c_id']) ? "selected" : "";
+                                                        echo '<option value="' . $rows['c_id'] . '" ' . $selected . '>' . $rows['c_name'] . '</option>';
                                                     }
-
                                                     ?>
                                                 </select>
                                             </div>

@@ -60,8 +60,8 @@ if (isset($_POST['submit'])) {
                 $quantity = mysqli_real_escape_string($db, $_POST['quantity']);
                 $res_id = mysqli_real_escape_string($db, $_POST['res_name']);
                 $admin_id = $_SESSION['adm_id'];
-                $sql = "INSERT INTO dishes(adm_id, rs_id, title, slogan, price, img) 
-                        VALUES('$admin_id', '$res_id', '$title', '$slogan', '$price', '$fnew')";
+                $sql = "INSERT INTO dishes(adm_id, rs_id, title, slogan, price, img, quantity)
+                        VALUES('$admin_id', '$res_id', '$title', '$slogan', '$price', '$fnew', '$quantity')";
 
                 mysqli_query($db, $sql);
                 move_uploaded_file($temp, $store);
@@ -244,7 +244,8 @@ if (isset($_POST['submit'])) {
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label">Dish Name</label>
-                                                <input type="text" name="d_name" class="form-control" value="<?php echo htmlspecialchars($_POST['d_name'] ?? ''); ?>"
+                                                <input type="text" name="d_name" class="form-control"
+                                                    value="<?php echo htmlspecialchars($_POST['d_name'] ?? ''); ?>"
                                                     placeholder="Dish Name" required>
                                             </div>
                                         </div>
@@ -252,8 +253,9 @@ if (isset($_POST['submit'])) {
                                         <div class="col-md-6">
                                             <div class="form-group has-danger">
                                                 <label class="control-label">Description</label>
-                                                <input type="text" name="about"
-                                                    class="form-control form-control-danger" value="<?php echo htmlspecialchars($_POST['about'] ?? ''); ?>" placeholder="Description" required>
+                                                <input type="text" name="about" class="form-control form-control-danger"
+                                                    value="<?php echo htmlspecialchars($_POST['about'] ?? ''); ?>"
+                                                    placeholder="Description" required>
                                             </div>
                                         </div>
 
@@ -263,7 +265,9 @@ if (isset($_POST['submit'])) {
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label">Price </label>
-                                                <input type="text" name="price" class="form-control" placeholder="₱" value="<?php echo htmlspecialchars($_POST['price'] ?? ''); ?>" required>
+                                                <input type="text" name="price" class="form-control" placeholder="₱"
+                                                    value="<?php echo htmlspecialchars($_POST['price'] ?? ''); ?>"
+                                                    required>
                                             </div>
                                         </div>
 
@@ -272,11 +276,13 @@ if (isset($_POST['submit'])) {
                                             <div class="form-group has-danger">
                                                 <label class="control-label">Quantity</label>
                                                 <input type="text" name="quantity" class="form-control"
-                                                    placeholder="How many?" value="<?php echo htmlspecialchars($_POST['quantity'] ?? ''); ?>" required>
+                                                    placeholder="Enter quantity"
+                                                    value="<?php echo htmlspecialchars($_POST['quantity'] ?? ''); ?>"
+                                                    required>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <div class="form-group has-danger">
                                                 <label class="control-label">Image</label>
                                                 <input type="file" name="file" id="lastName"
@@ -284,9 +290,6 @@ if (isset($_POST['submit'])) {
                                             </div>
                                         </div>
                                     </div>
-
-                                    <!-- add quantity -->
-
 
                                     <div class="row">
                                         <div class="col-md-12">

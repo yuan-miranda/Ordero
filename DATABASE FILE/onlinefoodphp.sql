@@ -9,7 +9,8 @@ SET
 
 CREATE TABLE
   `admin` (
-    `adm_id` int (222) NOT NULL,
+    `adm_id` int (222) NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (`adm_id`),
     `username` varchar(222) NOT NULL,
     `password` varchar(222) NOT NULL,
     `email` varchar(222) NOT NULL,
@@ -19,7 +20,6 @@ CREATE TABLE
 
 INSERT INTO
   `admin` (
-    `adm_id`,
     `username`,
     `password`,
     `email`,
@@ -28,7 +28,6 @@ INSERT INTO
   )
 VALUES
   (
-    1,
     'admin',
     'CAC29D7A34687EB14B37068EE4708E7B',
     'admin@mail.com',
@@ -38,7 +37,6 @@ VALUES
 
 INSERT INTO
   `admin` (
-    `adm_id`,
     `username`,
     `password`,
     `email`,
@@ -47,7 +45,6 @@ INSERT INTO
   )
 VALUES
   (
-    2,
     'admin2',
     'CAC29D7A34687EB14B37068EE4708E7B',
     'admin2@mail.com',
@@ -57,9 +54,10 @@ VALUES
 
 CREATE TABLE
   `dishes` (
-    `d_id` int (222) NOT NULL,
+    `d_id` int (222) NOT NULL AUTO_INCREMENT,
     `adm_id` int (222) NOT NULL,
     `rs_id` int (222) NOT NULL,
+    PRIMARY KEY (`d_id`),
     `title` varchar(222) NOT NULL,
     `slogan` varchar(222) NOT NULL,
     `price` decimal(10, 2) NOT NULL,
@@ -69,7 +67,8 @@ CREATE TABLE
 
 CREATE TABLE
   `remark` (
-    `id` int (11) NOT NULL,
+    `id` int (11) NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (`id`),
     `frm_id` int (11) NOT NULL,
     `status` varchar(255) NOT NULL,
     `remark` mediumtext NOT NULL,
@@ -78,7 +77,7 @@ CREATE TABLE
 
 CREATE TABLE
   `restaurant` (
-    `rs_id` int (222) NOT NULL,
+    `rs_id` int (222) NOT NULL AUTO_INCREMENT,
     `adm_id` int (222) NOT NULL,
     `c_id` int (222) NOT NULL,
     `title` varchar(222) NOT NULL,
@@ -90,20 +89,23 @@ CREATE TABLE
     `o_days` varchar(222) NOT NULL,
     `address` text NOT NULL,
     `image` text NOT NULL,
-    `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`rs_id`)
   ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
 CREATE TABLE
   `res_category` (
-    `c_id` int (222) NOT NULL,
+    `c_id` int (222) NOT NULL AUTO_INCREMENT,
     `adm_id` int (222) NOT NULL,
     `c_name` varchar(222) NOT NULL,
-    `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`c_id`)
   ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
 CREATE TABLE
   `users` (
-    `u_id` int (222) NOT NULL,
+    `u_id` int (222) NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (`u_id`),
     `username` varchar(222) NOT NULL,
     `f_name` varchar(222) NOT NULL,
     `l_name` varchar(222) NOT NULL,
@@ -117,7 +119,8 @@ CREATE TABLE
 
 CREATE TABLE
   `users_orders` (
-    `o_id` int (222) NOT NULL,
+    `o_id` int (222) NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (`o_id`),
     `rs_id` int (222) NOT NULL,
     `u_id` int (222) NOT NULL,
     `title` varchar(222) NOT NULL,
