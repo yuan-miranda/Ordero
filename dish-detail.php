@@ -106,8 +106,6 @@ $dish = mysqli_fetch_assoc($query);
                 <a class="navbar-brand" href="index.php">ORDERO</a>
                 <div class="collapse navbar-toggleable-md  float-lg-left" id="mainNavbarCollapse">
                     <ul class="nav navbar-nav">
-                        <li class="nav-item"> <a class="nav-link active" href="index.php">Home <span
-                                    class="sr-only">(current)</span></a> </li>
                         <li class="nav-item"> <a class="nav-link active" href="restaurants.php">Restaurants <span
                                     class="sr-only"></span></a> </li>
 
@@ -144,7 +142,7 @@ $dish = mysqli_fetch_assoc($query);
                     <p><strong>Slogan:</strong> <?php echo htmlspecialchars($dish['slogan']); ?></p>
                     <h4><strong>$<?php echo $dish['price']; ?></strong></h4>
                     <!-- Optional: Add more info like ingredients, category, etc. -->
-                    <a href="dishes.php?res_id=<?php echo $dish['rs_id']; ?>" class="btn theme-btn-dash pull-right">View
+                    <a href="dishes.php?res_id=<?php echo $dish['rs_id']; ?>" class="btn theme-btn pull-right">View
                         Cart</a>
                 </div>
             </div>
