@@ -21,34 +21,29 @@ session_start();
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.5/css/lightbox.min.css" rel="stylesheet">
-
 </head>
 
 <body class="home">
 
-<header id="header" class="header-scroll top-header headrom">
+    <header id="header" class="header-scroll top-header headrom">
         <nav class="navbar navbar-dark" style="background-image: none; background-color: black;">
             <div class="container">
                 <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse"
                     data-target="#mainNavbarCollapse">&#9776;</button>
-                    <a class="navbar-brand" href="index.php">ORDERO</a>
-                    <div class="collapse navbar-toggleable-md  float-lg-left" id="mainNavbarCollapse">
+                <a class="navbar-brand" href="index.php">ORDERO</a>
+                <div class="collapse navbar-toggleable-md  float-lg-left" id="mainNavbarCollapse">
                     <ul class="nav navbar-nav">
                         <li class="nav-item"> <a class="nav-link active" href="restaurants.php">Restaurants <span
                                     class="sr-only"></span></a> </li>
-
                         <?php
-                        if (empty($_SESSION["user_id"])) {
+                        if (!isset($_SESSION["user_id"])) {
                             echo '<li class="nav-item"><a href="login.php" class="nav-link active">Login</a> </li>
 							  <li class="nav-item"><a href="registration.php" class="nav-link active">Register</a> </li>';
                         } else {
-
-
                             echo '<li class="nav-item"><a href="your_orders.php" class="nav-link active">My Orders</a> </li>';
                             echo '<li class="nav-item"><a href="your_profile.php" class="nav-link active">My Profile</a> </li>';
                             echo '<li class="nav-item"><a href="logout.php" class="nav-link active" onclick="return confirmLogout();">Logout</a> </li>';
                         }
-
                         ?>
 
                     </ul>
@@ -86,76 +81,6 @@ session_start();
             </div>
         </div>
     </section>
-
-    <!-- <section class="featured-restaurants" style="padding: 0px 0px 20px;">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="title-block pull-left">
-                        <h4>Featured Restaurants</h4>
-                    </div>
-                </div>
-                <div class="col-sm-8">
-                    <div class="restaurants-filter pull-right">
-                        <nav class="primary pull-left">
-                            <ul>
-                                <li><a href="#" class="selected" data-filter="*">all</a> </li>
-                                <?php
-                                $res = mysqli_query($db, "select * from res_category");
-                                while ($row = mysqli_fetch_array($res)) {
-                                    echo '<li><a href="#" data-filter=".' . $row['c_name'] . '"> ' . $row['c_name'] . '</a> </li>';
-                                }
-                                ?>
-
-                            </ul>
-                        </nav>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="restaurant-listing">
-
-
-                    <?php
-                    $ress = mysqli_query($db, "select * from restaurant");
-                    while ($rows = mysqli_fetch_array($ress)) {
-
-                        $query = mysqli_query($db, "select * from res_category where c_id='" . $rows['c_id'] . "' ");
-                        $rowss = mysqli_fetch_array($query);
-
-                        echo ' <div class="col-xs-12 col-sm-12 col-md-6 single-restaurant all ' . $rowss['c_name'] . '">
-														<div class="restaurant-wrap">
-															<div class="row">
-																<div class="col-xs-12 col-sm-3 col-md-12 col-lg-3 text-xs-center">
-																	<a class="restaurant-logo" href="dishes.php?res_id=' . $rows['rs_id'] . '" > <img src="admin/Res_img/' . $rows['image'] . '" alt="Restaurant logo"> </a>
-																</div>
-													
-																<div class="col-xs-12 col-sm-9 col-md-12 col-lg-9">
-																	<h5><a onmouseover="this.style.textDecoration=\'underline\';"
-                                                        onmouseout="this.style.textDecoration=\'none\';" href="dishes.php?res_id=' . $rows['rs_id'] . '" >' . $rows['title'] . '</a></h5> <span>' . $rows['address'] . '</span>
-																</div>
-													
-															</div>
-												
-														</div>
-												
-													</div>';
-                    }
-
-
-                    ?>
-
-
-
-
-                </div>
-            </div>
-
-
-        </div>
-    </section> -->
 
     <script src="js/jquery.min.js"></script>
     <script src="js/tether.min.js"></script>

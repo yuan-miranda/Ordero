@@ -15,7 +15,7 @@ function function_alert()
     echo "<script>window.location.replace('your_orders.php');</script>";
 }
 
-if (empty($_SESSION["user_id"])) {
+if (!isset($_SESSION["user_id"])) {
     header('location:login.php');
 } else {
 
@@ -73,14 +73,14 @@ if (empty($_SESSION["user_id"])) {
                     <div class="container">
                         <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse"
                             data-target="#mainNavbarCollapse">&#9776;</button>
-                            <a class="navbar-brand" href="index.php">ORDERO</a>
-                            <div class="collapse navbar-toggleable-md  float-lg-left" id="mainNavbarCollapse">
+                        <a class="navbar-brand" href="index.php">ORDERO</a>
+                        <div class="collapse navbar-toggleable-md  float-lg-left" id="mainNavbarCollapse">
                             <ul class="nav navbar-nav">
                                 <li class="nav-item"> <a class="nav-link active" href="restaurants.php">Restaurants <span
                                             class="sr-only"></span></a> </li>
 
                                 <?php
-                                if (empty($_SESSION["user_id"])) {
+                                if (!isset($_SESSION["user_id"])) {
                                     echo '<li class="nav-item"><a href="login.php" class="nav-link active">Login</a> </li>
 							  <li class="nav-item"><a href="registration.php" class="nav-link active">Register</a> </li>';
                                 } else {

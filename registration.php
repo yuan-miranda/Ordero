@@ -6,46 +6,45 @@ session_start();
 error_reporting(0);
 include("connection/connect.php");
 if (isset($_POST['submit'])) {
-   if (
-      empty($_POST['firstname']) ||
-      empty($_POST['lastname']) ||
-      empty($_POST['email']) ||
-      empty($_POST['phone']) ||
-      empty($_POST['password']) ||
-      empty($_POST['cpassword']) ||
-      empty($_POST['cpassword'])
-   ) {
-      $message = "All fields must be Required!";
+   // Check if passwords are empty first
+   if (empty($_POST['password']) || empty($_POST['cpassword'])) {
+      echo "<script>alert('Password fields are required!');</script>";
+   } elseif ($_POST['password'] != $_POST['cpassword']) {
+      echo "<script>alert('Passwords do not match');</script>";
+   } elseif (strlen($_POST['password']) < 6) {
+      echo "<script>alert('Password must be at least 6 characters long');</script>";
    } else {
-
-      $check_username = mysqli_query($db, "SELECT username FROM users where username = '" . $_POST['username'] . "' ");
-      $check_email = mysqli_query($db, "SELECT email FROM users where email = '" . $_POST['email'] . "' ");
-
-
-
-      if ($_POST['password'] != $_POST['cpassword']) {
-
-         echo "<script>alert('Password not match');</script>";
-      } elseif (strlen($_POST['password']) < 6) {
-         echo "<script>alert('Password Must be >=6');</script>";
-      } elseif (strlen($_POST['phone']) < 10) {
-         echo "<script>alert('Invalid phone number!');</script>";
-      } elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-         echo "<script>alert('Invalid email address please type a valid email!');</script>";
-      } elseif (mysqli_num_rows($check_username) > 0) {
-         echo "<script>alert('Username Already exists!');</script>";
-      } elseif (mysqli_num_rows($check_email) > 0) {
-         echo "<script>alert('Email Already exists!');</script>";
+      // After password passes, check the rest of the fields
+      if (
+         empty($_POST['firstname']) ||
+         empty($_POST['lastname']) ||
+         empty($_POST['email']) ||
+         empty($_POST['phone']) ||
+         empty($_POST['username']) ||
+         empty($_POST['address'])
+      ) {
+         echo "<script>alert('All fields must be filled out!');</script>";
       } else {
+         $check_username = mysqli_query($db, "SELECT username FROM users WHERE username = '" . $_POST['username'] . "'");
+         $check_email = mysqli_query($db, "SELECT email FROM users WHERE email = '" . $_POST['email'] . "'");
 
-
-         $mql = "INSERT INTO users(username,f_name,l_name,email,phone,password,address) VALUES('" . $_POST['username'] . "','" . $_POST['firstname'] . "','" . $_POST['lastname'] . "','" . $_POST['email'] . "','" . $_POST['phone'] . "','" . md5($_POST['password']) . "','" . $_POST['address'] . "')";
-         mysqli_query($db, $mql);
-
-         header("refresh:0.1;url=login.php");
+         if (strlen($_POST['phone']) < 10) {
+            echo "<script>alert('Invalid phone number!');</script>";
+         } elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            echo "<script>alert('Invalid email address!');</script>";
+         } elseif (mysqli_num_rows($check_username) > 0) {
+            echo "<script>alert('Username already exists!');</script>";
+         } elseif (mysqli_num_rows($check_email) > 0) {
+            echo "<script>alert('Email already exists!');</script>";
+         } else {
+            // Password is already validated earlier
+            $mql = "INSERT INTO users(username,f_name,l_name,email,phone,password,address) 
+                    VALUES('" . $_POST['username'] . "','" . $_POST['firstname'] . "','" . $_POST['lastname'] . "','" . $_POST['email'] . "','" . $_POST['phone'] . "','" . md5($_POST['password']) . "','" . $_POST['address'] . "')";
+            mysqli_query($db, $mql);
+            header("refresh:0.1;url=login.php");
+         }
       }
    }
-
 }
 
 
@@ -74,14 +73,14 @@ if (isset($_POST['submit'])) {
          <div class="container">
             <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse"
                data-target="#mainNavbarCollapse">&#9776;</button>
-               <a class="navbar-brand" href="index.php">ORDERO</a>
-               <div class="collapse navbar-toggleable-md  float-lg-left" id="mainNavbarCollapse">
+            <a class="navbar-brand" href="index.php">ORDERO</a>
+            <div class="collapse navbar-toggleable-md  float-lg-left" id="mainNavbarCollapse">
                <ul class="nav navbar-nav">
                   <li class="nav-item"> <a class="nav-link active" href="restaurants.php">Restaurants <span
                            class="sr-only"></span></a> </li>
 
                   <?php
-                  if (empty($_SESSION["user_id"])) {
+                  if (!isset($_SESSION["user_id"])) {
                      echo '<li class="nav-item"><a href="login.php" class="nav-link active">Login</a> </li>
 							  <li class="nav-item"><a href="registration.php" class="nav-link active">Register</a> </li>';
                   } else {
@@ -119,37 +118,43 @@ if (isset($_POST['submit'])) {
                            <div class="row">
                               <div class="form-group col-sm-12">
                                  <label for="exampleInputEmail1">User-Name</label>
-                                 <input class="form-control" type="text" name="username" id="example-text-input">
+                                 <input class="form-control" type="text" name="username"
+                                    value="<?php echo htmlspecialchars($_POST['username'] ?? ''); ?>">
                               </div>
                               <div class="form-group col-sm-6">
                                  <label for="exampleInputEmail1">First Name</label>
-                                 <input class="form-control" type="text" name="firstname" id="example-text-input">
+                                 <input class="form-control" type="text" name="firstname"
+                                    value="<?php echo htmlspecialchars($_POST['firstname'] ?? ''); ?>">
                               </div>
                               <div class="form-group col-sm-6">
                                  <label for="exampleInputEmail1">Last Name</label>
-                                 <input class="form-control" type="text" name="lastname" id="example-text-input-2">
+                                 <input class="form-control" type="text" name="lastname"
+                                    value="<?php echo htmlspecialchars($_POST['lastname'] ?? ''); ?>">
                               </div>
                               <div class="form-group col-sm-6">
                                  <label for="exampleInputEmail1">Email Address</label>
-                                 <input type="text" class="form-control" name="email" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp">
+                                 <input type="text" class="form-control" name="email"
+                                    value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
                               </div>
                               <div class="form-group col-sm-6">
                                  <label for="exampleInputEmail1">Phone number</label>
-                                 <input class="form-control" type="text" name="phone" id="example-tel-input-3">
+                                 <input class="form-control" type="text" name="phone"
+                                    value="<?php echo htmlspecialchars($_POST['phone'] ?? ''); ?>">
                               </div>
                               <div class="form-group col-sm-6">
                                  <label for="exampleInputPassword1">Password</label>
-                                 <input type="password" class="form-control" name="password" id="exampleInputPassword1">
+                                 <input class="form-control" type="password" name="password"
+                                    value="<?php echo htmlspecialchars($_POST['password'] ?? ''); ?>">
                               </div>
                               <div class="form-group col-sm-6">
                                  <label for="exampleInputPassword1">Confirm password</label>
-                                 <input type="password" class="form-control" name="cpassword"
-                                    id="exampleInputPassword2">
+                                 <input class="form-control" type="password" name="cpassword"
+                                    value="<?php echo htmlspecialchars($_POST['cpassword'] ?? ''); ?>">
                               </div>
                               <div class="form-group col-sm-12">
                                  <label for="exampleTextarea">Delivery Address</label>
-                                 <textarea class="form-control" id="exampleTextarea" name="address" rows="3"></textarea>
+                                 <textarea class="form-control" name="address"
+                                    rows="3"><?php echo htmlspecialchars($_POST['address'] ?? ''); ?></textarea>
                               </div>
 
                            </div>
@@ -170,48 +175,6 @@ if (isset($_POST['submit'])) {
             </div>
          </div>
       </section>
-
-
-      <!-- <footer class="footer">
-               <div class="container">
-           
-                  <div class="row bottom-footer">
-                     <div class="container">
-                        <div class="row">
-                           <div class="col-xs-12 col-sm-3 payment-options color-gray">
-                              <h5>Payment Options</h5>
-                              <ul>
-                                 <li>
-                                    <a href="#"> <img src="images/paypal.png" alt="Paypal"> </a>
-                                 </li>
-                                 <li>
-                                    <a href="#"> <img src="images/mastercard.png" alt="Mastercard"> </a>
-                                 </li>
-                                 <li>
-                                    <a href="#"> <img src="images/maestro.png" alt="Maestro"> </a>
-                                 </li>
-                                 <li>
-                                    <a href="#"> <img src="images/stripe.png" alt="Stripe"> </a>
-                                 </li>
-                                 <li>
-                                    <a href="#"> <img src="images/bitcoin.png" alt="Bitcoin"> </a>
-                                 </li>
-                              </ul>
-                           </div>
-                           <div class="col-xs-12 col-sm-4 address color-gray">
-                                    <h5>Address</h5>
-                                    <p>1086 Stockert Hollow Road, Seattle</p>
-                                    <h5>Phone: 75696969855</a></h5> </div>
-                                <div class="col-xs-12 col-sm-5 additional-info color-gray">
-                                    <h5>Addition informations</h5>
-                                   <p>Join thousands of other restaurants who benefit from having partnered with us.</p>
-                                </div>
-                        </div>
-                     </div>
-                  </div>
-      
-               </div>
-            </footer> -->
 
    </div>
 

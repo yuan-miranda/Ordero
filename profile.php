@@ -38,7 +38,7 @@ session_start();
                                 class="sr-only"></span></a> </li>
 
                     <?php
-                    if (empty($_SESSION["user_id"])) {
+                    if (!isset($_SESSION["user_id"])) {
                         echo '<li class="nav-item"><a href="login.php" class="nav-link active">Login</a> </li>
 							  <li class="nav-item"><a href="registration.php" class="nav-link active">Register</a> </li>';
                     } else {
@@ -58,7 +58,7 @@ session_start();
         </nav>
 
     </header>
-    
+
 
     <script src="js/jquery.min.js"></script>
     <script src="js/tether.min.js"></script>
