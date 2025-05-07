@@ -29,7 +29,6 @@ if (!isset($_SESSION["user_id"])) {
             $title = mysqli_real_escape_string($db, $item["title"]);
             $quantity = mysqli_real_escape_string($db, $item["quantity"]);
             $price = mysqli_real_escape_string($db, $item["price"]);
-
             // Insert query
             $SQL = "INSERT INTO users_orders(u_id, title, quantity, price) 
                     VALUES('$user_id', '$title', '$quantity', '$price')";

@@ -56,27 +56,25 @@ session_start();
         <div class="container" style="padding-top: 20px;">
             <div class="row">
                 <?php
-                $query_res = mysqli_query($db, "select * from dishes");
+                $query_res = mysqli_query($db, "SELECT d.*, r.title AS restaurant_name FROM dishes d JOIN restaurant r ON d.rs_id = r.rs_id");
                 while ($r = mysqli_fetch_array($query_res)) {
-
                     echo '  <div class="col-xs-12 col-sm-6 col-md-4 food-item">
-                    <div class="food-item-wrap">
-                        <a href="admin/Res_img/dishes/' . $r['img'] . '" data-lightbox="dish-gallery" data-title="' . htmlspecialchars($r['title']) . '">
-                            <div class="" style="background-image: url(\'admin/Res_img/dishes/' . $r['img'] . '\'); height: 200px; background-size: cover; background-position: center;"></div>
-                        </a>
-                        <div class="content">
-                            <h5><a href="dish-detail.php?dish_id=' . $r['d_id'] . '">' . htmlspecialchars($r['title']) . '</a></h5>
-                            <div class="product-name">' . htmlspecialchars($r['slogan']) . '</div>
-                            <div class="price-btn-block">
-                                <span class="price">$' . $r['price'] . '</span>
-                                <a href="dishes.php?res_id=' . $r['rs_id'] . '" class="btn theme-btn pull-right">View Cart</a>
+                        <div class="food-item-wrap">
+                            <a href="admin/Res_img/dishes/' . $r['img'] . '" data-lightbox="dish-gallery" data-title="' . htmlspecialchars($r['title']) . '">
+                                <div class="" style="background-image: url(\'admin/Res_img/dishes/' . $r['img'] . '\'); height: 200px; background-size: cover; background-position: center;"></div>
+                            </a>
+                            <div class="content">
+                                <h5><a href="dish-detail.php?dish_id=' . $r['d_id'] . '">' . htmlspecialchars($r['title']) . '</a></h5>
+                                <div class="product-name">' . htmlspecialchars($r['slogan']) . '</div>
+                                <div class="restaurant-name">From: ' . htmlspecialchars($r['restaurant_name']) . '</div>
+                                <div class="price-btn-block">
+                                    <span class="price">$' . $r['price'] . '</span>
+                                    <a href="dishes.php?res_id=' . $r['rs_id'] . '" class="btn theme-btn pull-right">View Cart</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>';
-
+                    </div>';
                 }
-
                 ?>
             </div>
         </div>
