@@ -164,7 +164,7 @@ session_start();
                                                 <th>Dish</th>
                                                 <th>Description</th>
                                                 <th>Price</th>
-                                                <th>Quantity</th>
+                                                <th>Stocks</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>

@@ -205,13 +205,30 @@ session_start();
                                                 while ($rows = mysqli_fetch_array($query)) {
 
                                                     ?>
+
+                                                    <?php
+                                                    $dish_id = $rows['d_id'];
+                                                    $qty_ordered = $rows['quantity'];
+                                                    $status = strtolower(trim($rows['status']));
+
+                                                    $dish_stock_query = mysqli_query($db, "SELECT quantity FROM dishes WHERE d_id = '$dish_id'");
+                                                    $dish = mysqli_fetch_assoc($dish_stock_query);
+                                                    $dish_stock = $dish['quantity'];
+
+                                                    // Determine if the cell should be highlighted and annotated
+                                                    $is_pending = ($status == "" || $status == "null");
+                                                    $show_stock_warning = $dish_stock < $qty_ordered && $is_pending;
+
+                                                    $qty_style = $show_stock_warning ? 'style="background-color: #ffcccc; font-weight: bold;"' : '';
+                                                    $qty_display = $show_stock_warning ? $qty_ordered . ' (' . $dish_stock . ' left)' : $qty_ordered;
+                                                    ?>
                                                     <?php
                                                     echo ' <tr>
                                                     <td>' . $rows['o_id'] . '</td>
                                                     <td>' . $rows['restaurant_name'] . '</td>
                                                     <td>' . $rows['username'] . '</td>
                                                     <td>' . $rows['title'] . '</td>
-                                                    <td>' . $rows['quantity'] . '</td>
+                                                    <td ' . $qty_style . '>' . $qty_display . '</td>
                                                     <td data-column="Price">$' . ($rows['price'] * $rows['quantity']) . ' ($' . $rows['price'] . ')</td>
                                                     <td>' . $rows['address'] . '</td>';
 

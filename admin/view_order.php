@@ -177,8 +177,9 @@ session_start();
                                                         <a href="javascript:void(0);"
                                                             onClick="popUpWindow('order_update.php?form_id=<?php echo htmlentities($rows['o_id']); ?>');"
                                                             title="Update order">
-                                                            <button type="button" class="btn btn-primary">Update Order
-                                                                Status</button></a>
+                                                            <?php if ($rows['status'] != "closed") { ?>
+                                                                <button type="button" class="btn btn-primary">Update OrderStatus</button>
+                                                            <?php } ?>
                                                     </center>
                                                 </td>
 

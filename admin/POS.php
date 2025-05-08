@@ -34,31 +34,18 @@ session_start();
             <nav class="navbar top-navbar navbar-expand-md navbar-light">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="dashboard.php">
-
-                        <!-- <span><img src="images/ordero_icon.svg" alt="homepage" class="dark-logo" /></span> -->
                     </a>
                 </div>
                 <div class="navbar-collapse">
-
                     <ul class="navbar-nav mr-auto mt-md-0">
-
-
-
-
                     </ul>
-
                     <ul class="navbar-nav my-lg-0">
-
-
-
                         <li class="nav-item dropdown">
-
                             <div class="dropdown-menu dropdown-menu-right mailbox animated zoomIn">
                                 <ul>
                                     <li>
                                         <div class="drop-title">Notifications</div>
                                     </li>
-
                                     <li>
                                         <a class="nav-link text-center" href="javascript:void(0);"> <strong>Check all
                                                 notifications</strong> <i class="fa fa-angle-right"></i> </a>
@@ -66,7 +53,6 @@ session_start();
                                 </ul>
                             </div>
                         </li>
-
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">Logout</a>
@@ -108,8 +94,6 @@ session_start();
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="all_menu.php">All Menues</a></li>
                                 <li><a href="add_menu.php">Add Menu</a></li>
-
-
                             </ul>
                         </li>
                         <li> <a href="all_orders.php"><i class="fa fa-shopping-cart"
@@ -120,17 +104,10 @@ session_start();
                                     style="font-size: larger;">POS</span></a></li>
                     </ul>
                 </nav>
-
             </div>
-
         </div>
-
         <div class="page-wrapper">
-
-
-
             <div class="container-fluid">
-
                 <div class="row">
                     <div class="col-12">
                         <div class="col-lg-12">
@@ -151,8 +128,6 @@ session_start();
                                         </select>
                                     </form>
                                 </div>
-
-
                                 <div class="table-responsive m-t-40">
                                     <table id="example23"
                                         class="display nowrap table table-hover table-striped table-bordered"
@@ -169,8 +144,6 @@ session_start();
                                             </tr>
                                         </thead>
                                         <tbody>
-
-
                                             <?php
                                             $admin_id = $_SESSION['adm_id'];
                                             $filter = isset($_GET['restaurant_filter']) ? $_GET['restaurant_filter'] : '';
@@ -190,8 +163,6 @@ session_start();
                                                     $mql = "select * from restaurant where rs_id='" . $rows['rs_id'] . "'";
                                                     $newquery = mysqli_query($db, $mql);
                                                     $fetch = mysqli_fetch_array($newquery);
-
-
                                                     echo '<tr>
 														<td>
                                                         <div class="col-md-3 col-lg-8 m-b-10">
@@ -207,44 +178,15 @@ session_start();
                                                         <a href="delete_menu.php?menu_del=' . $rows['d_id'] . '" onclick="return confirm(\'Are you sure you want to delete this menu item?\');" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a>
                                                         <a href="update_menu.php?menu_upd=' . $rows['d_id'] . '" class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="fa fa-edit"></i></a>
                                                         </td></tr>';
-
-
-
                                                 }
                                             }
-
-
                                             ?>
-
-
-
-
-
-
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                     </div>
-
                 </div>
             </div>
         </div>
