@@ -169,7 +169,10 @@ if (isset($_POST['submit']))           //if upload btn is pressed
                         </li>
                         <li> <a href="all_orders.php"><i class="fa fa-shopping-cart"
                                     aria-hidden="true"></i><span>Orders</span></a></li>
-
+                        <hr class="line">
+                        </hr>
+                        <li> <a href="POS.php"><i class="fa fa-money" aria-hidden="true"></i><span
+                                    style="font-size: larger;">POS</span></a></li>
                     </ul>
                 </nav>
 
@@ -235,67 +238,66 @@ if (isset($_POST['submit']))           //if upload btn is pressed
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <class="control-label">Quantity</class>
-                                                <input type="text" name="quantity" value="<?php 
-                                                $dish_id = $_GET['menu_upd'];
-                                                $sql = "select quantity from dishes where d_id='$dish_id'";
-                                                $result = mysqli_query($db, $sql);
-                                                $row = mysqli_fetch_array($result);
-                                                echo $row['quantity'];
-                                                ?>"
-                                                    class="form-control" placeholder="Enter quantity">
+                                                    <input type="text" name="quantity" value="<?php
+                                                    $dish_id = $_GET['menu_upd'];
+                                                    $sql = "select quantity from dishes where d_id='$dish_id'";
+                                                    $result = mysqli_query($db, $sql);
+                                                    $row = mysqli_fetch_array($result);
+                                                    echo $row['quantity'];
+                                                    ?>" class="form-control" placeholder="Enter quantity">
                                             </div>
 
-                                        <div class="col-md-12">
-                                            <div class="form-group has-danger">
-                                                <label class="control-label">Image</label>
-                                                <input type="file" name="file" id="lastName"
-                                                    class="form-control form-control-danger" placeholder="12n">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    
-
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label">Select Restaurant</label>
-                                                <select name="res_name" class="form-control custom-select"
-                                                    data-placeholder="Choose a Category" tabindex="1">
-                                                    <option>--Select Restaurant--</option>
-                                                    <?php 
-                                                    $admin_id = $_SESSION['adm_id'];
-                                                    $ssql = "SELECT * FROM restaurant WHERE adm_id = '$admin_id' ORDER BY rs_id DESC";
-                                                    $res = mysqli_query($db, $ssql);
-                                                    while ($row = mysqli_fetch_array($res)) {
-                                                        echo '<option value="' . $row['rs_id'] . '"' . ($row['rs_id'] == $roww['rs_id'] ? ' selected' : '') . '>' . $row['title'] . '</option>';
-                                                        ;
-                                                    }
-
-                                                    ?>
-                                                </select>
+                                            <div class="col-md-12">
+                                                <div class="form-group has-danger">
+                                                    <label class="control-label">Image</label>
+                                                    <input type="file" name="file" id="lastName"
+                                                        class="form-control form-control-danger" placeholder="12n">
+                                                </div>
                                             </div>
                                         </div>
 
 
-                                    </div>
 
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Select Restaurant</label>
+                                                    <select name="res_name" class="form-control custom-select"
+                                                        data-placeholder="Choose a Category" tabindex="1">
+                                                        <option>--Select Restaurant--</option>
+                                                        <?php
+                                                        $admin_id = $_SESSION['adm_id'];
+                                                        $ssql = "SELECT * FROM restaurant WHERE adm_id = '$admin_id' ORDER BY rs_id DESC";
+                                                        $res = mysqli_query($db, $ssql);
+                                                        while ($row = mysqli_fetch_array($res)) {
+                                                            echo '<option value="' . $row['rs_id'] . '"' . ($row['rs_id'] == $roww['rs_id'] ? ' selected' : '') . '>' . $row['title'] . '</option>';
+                                                            ;
+                                                        }
+
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
                                 </div>
+                                <div class="form-actions">
+                                    <input type="submit" name="submit" class="btn btn-primary" value="Save">
+                                    <a href="all_menu.php" class="btn btn-inverse">Cancel</a>
+                                </div>
+                            </form>
                         </div>
-                        <div class="form-actions">
-                            <input type="submit" name="submit" class="btn btn-primary" value="Save">
-                            <a href="all_menu.php" class="btn btn-inverse">Cancel</a>
-                        </div>
-                        </form>
                     </div>
                 </div>
+
+                <!-- <footer class="footer"> © 2022 - Online Food Ordering System </footer> -->
+
             </div>
 
-            <!-- <footer class="footer"> © 2022 - Online Food Ordering System </footer> -->
-
         </div>
-
-    </div>
 
     </div>
 

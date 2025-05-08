@@ -123,6 +123,10 @@ session_start();
                         <li> <a href="all_orders.php"><i class="fa fa-shopping-cart"
                                     aria-hidden="true"></i><span>Orders</span></a></li>
 
+                        <hr class="line">
+                        </hr>
+                        <li> <a href="POS.php"><i class="fa fa-money" aria-hidden="true"></i><span
+                                    style="font-size: larger;">POS</span></a></li>
                     </ul>
                 </nav>
 
@@ -208,7 +212,8 @@ session_start();
                                             <tr>
                                                 <td><strong>Price:</strong></td>
                                                 <td>
-                                                    <center>$<?php echo $rows['price'] * $rows['quantity']; ?> ($<?php echo $rows['price']; ?>)</center>
+                                                    <center>$<?php echo $rows['price'] * $rows['quantity']; ?>
+                                                        ($<?php echo $rows['price']; ?>)</center>
                                                 </td>
 
 

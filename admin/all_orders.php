@@ -116,7 +116,10 @@ session_start();
                         </li>
                         <li> <a href="all_orders.php"><i class="fa fa-shopping-cart"
                                     aria-hidden="true"></i><span>Orders</span></a></li>
-
+                        <hr class="line">
+                        </hr>
+                        <li> <a href="POS.php"><i class="fa fa-money" aria-hidden="true"></i><span
+                                    style="font-size: larger;">POS</span></a></li>
                     </ul>
                 </nav>
 
@@ -138,7 +141,21 @@ session_start();
                             <div class="card card-outline-primary">
                                 <div class="card-header" style="background: #424549;">
                                     <h4 class="m-b-0 text-white">All Orders</h4>
+                                    <form method="GET" action="" style="margin-top: 10px;">
+                                        <select name="order_restaurant_filter" onchange="this.form.submit()"
+                                            class="form-control" style="width: 200px; display: inline-block;">
+                                            <option value="">All Restaurants</option>
+                                            <?php
+                                            $res_query = mysqli_query($db, "SELECT * FROM restaurant WHERE adm_id = '{$_SESSION['adm_id']}'");
+                                            while ($res_row = mysqli_fetch_array($res_query)) {
+                                                $selected = (isset($_GET['order_restaurant_filter']) && $_GET['order_restaurant_filter'] == $res_row['rs_id']) ? 'selected' : '';
+                                                echo '<option value="' . $res_row['rs_id'] . '" ' . $selected . '>' . $res_row['title'] . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </form>
                                 </div>
+
 
                                 <div class="table-responsive m-t-40">
                                     <table id="myTable" class="table table-bordered table-striped">
@@ -164,12 +181,21 @@ session_start();
 
                                             <?php
                                             $admin_id = $_SESSION['adm_id'];
+                                            $restaurant_filter = isset($_GET['order_restaurant_filter']) ? $_GET['order_restaurant_filter'] : '';
+
                                             $sql = "SELECT users.*, users_orders.*, remark.remark, restaurant.title AS restaurant_name 
-                                            FROM users 
-                                            INNER JOIN users_orders ON users.u_id = users_orders.u_id 
-                                            LEFT JOIN remark ON users_orders.o_id = remark.frm_id
-                                            INNER JOIN restaurant ON users_orders.rs_id = restaurant.rs_id
-                                            WHERE restaurant.adm_id = '$admin_id'";
+                                                    FROM users 
+                                                    INNER JOIN users_orders ON users.u_id = users_orders.u_id 
+                                                    LEFT JOIN remark ON users_orders.o_id = remark.frm_id
+                                                    INNER JOIN restaurant ON users_orders.rs_id = restaurant.rs_id
+                                                    WHERE restaurant.adm_id = '$admin_id'";
+
+                                            if (!empty($restaurant_filter)) {
+                                                $sql .= " AND restaurant.rs_id = '$restaurant_filter'";
+                                            }
+
+                                            $sql .= " ORDER BY users_orders.o_id DESC";
+
 
                                             $query = mysqli_query($db, $sql);
 

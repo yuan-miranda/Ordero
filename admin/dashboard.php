@@ -96,7 +96,10 @@ if (empty($_SESSION["adm_id"])) {
                             </li>
                             <li> <a href="all_orders.php"><i class="fa fa-shopping-cart"
                                         aria-hidden="true"></i><span>Orders</span></a></li>
-
+                            <hr class="line">
+                            </hr>
+                            <li> <a href="POS.php"><i class="fa fa-money" aria-hidden="true"></i><span
+                                        style="font-size: larger;">POS</span></a></li>
                         </ul>
                     </nav>
 

@@ -255,7 +255,10 @@ if (isset($_POST['submit'])) {
                         </li>
                         <li> <a href="all_orders.php"><i class="fa fa-shopping-cart"
                                     aria-hidden="true"></i><span>Orders</span></a></li>
-
+                        <hr class="line">
+                        </hr>
+                        <li> <a href="POS.php"><i class="fa fa-money" aria-hidden="true"></i><span
+                                    style="font-size: larger;">POS</span></a></li>
                     </ul>
                 </nav>
 
@@ -289,7 +292,7 @@ if (isset($_POST['submit'])) {
                         <div class="card-body">
                             <form action='' method='post' enctype="multipart/form-data">
                                 <div class="form-body">
-                                    <?php 
+                                    <?php
                                     $ssql = "select * from restaurant where rs_id='$_GET[res_upd]'";
                                     $res = mysqli_query($db, $ssql);
                                     $row = mysqli_fetch_array($res); ?>
@@ -340,7 +343,7 @@ if (isset($_POST['submit'])) {
                                                 <select name="o_hr" class="form-control custom-select"
                                                     data-placeholder="Choose a Category">
                                                     <option>--Select your Hours--</option>
-                                                    <?php 
+                                                    <?php
                                                     $hours = array("6am", "7am", "8am", "9am", "10am", "11am", "12pm");
                                                     foreach ($hours as $hour) {
                                                         $selected = ($row['o_hr'] == $hour) ? "selected" : "";
@@ -357,7 +360,7 @@ if (isset($_POST['submit'])) {
                                                 <select name="c_hr" class="form-control custom-select"
                                                     data-placeholder="Choose a Category">
                                                     <option>--Select your Hours--</option>
-                                                    <?php 
+                                                    <?php
                                                     $hours = array("3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm", "12am", "1am", "2am", "3am");
                                                     foreach ($hours as $hour) {
                                                         $selected = ($row['c_hr'] == $hour) ? "selected" : "";
@@ -374,7 +377,7 @@ if (isset($_POST['submit'])) {
                                                 <select name="o_days" class="form-control custom-select"
                                                     data-placeholder="Choose a Category" tabindex="1">
                                                     <option>--Select your Days--</option>
-                                                    <?php 
+                                                    <?php
                                                     $days = array("Mon-Tue", "Mon-Wed", "Mon-Thu", "Mon-Fri", "Mon-Sat", "24hr-X7");
                                                     foreach ($days as $day) {
                                                         $selected = ($row['o_days'] == $day) ? "selected" : "";

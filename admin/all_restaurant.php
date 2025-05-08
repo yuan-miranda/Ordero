@@ -114,6 +114,10 @@ session_start();
                         </li>
                         <li> <a href="all_orders.php"><i class="fa fa-shopping-cart"
                                     aria-hidden="true"></i><span>Orders</span></a></li>
+                        <hr class="line">
+                        </hr>
+                        <li> <a href="POS.php"><i class="fa fa-money" aria-hidden="true"></i><span
+                                    style="font-size: larger;">POS</span></a></li>
                     </ul>
                 </nav>
             </div>
@@ -127,7 +131,21 @@ session_start();
                             <div class="card card-outline-primary">
                                 <div class="card-header" style="background: #424549;">
                                     <h4 class="m-b-0 text-white">All Restaurant</h4>
+                                    <form method="GET" action="" style="margin-top: 10px;">
+                                        <select name="category_filter" onchange="this.form.submit()"
+                                            class="form-control" style="width: 200px; display: inline-block;">
+                                            <option value="">All Categories</option>
+                                            <?php
+                                            $cat_query = mysqli_query($db, "SELECT * FROM res_category");
+                                            while ($cat_row = mysqli_fetch_array($cat_query)) {
+                                                $selected = (isset($_GET['category_filter']) && $_GET['category_filter'] == $cat_row['c_id']) ? 'selected' : '';
+                                                echo '<option value="' . $cat_row['c_id'] . '" ' . $selected . '>' . $cat_row['c_name'] . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </form>
                                 </div>
+
 
                                 <div class="table-responsive m-t-40">
                                     <table id="example23"
@@ -155,7 +173,14 @@ session_start();
 
                                             <?php
                                             $admin_id = $_SESSION['adm_id'];
-                                            $sql = "SELECT * FROM restaurant WHERE adm_id = '$admin_id' ORDER BY rs_id DESC";
+                                            $category_filter = isset($_GET['category_filter']) ? $_GET['category_filter'] : '';
+
+                                            if (!empty($category_filter)) {
+                                                $sql = "SELECT * FROM restaurant WHERE adm_id = '$admin_id' AND c_id = '$category_filter' ORDER BY rs_id DESC";
+                                            } else {
+                                                $sql = "SELECT * FROM restaurant WHERE adm_id = '$admin_id' ORDER BY rs_id DESC";
+                                            }
+
                                             $query = mysqli_query($db, $sql);
                                             if (!mysqli_num_rows($query) > 0) {
                                                 echo '<td colspan="11"><center>No Restaurants</center></td>';
