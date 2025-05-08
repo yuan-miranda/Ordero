@@ -164,7 +164,7 @@ session_start();
                                                 <th>Order ID</th>
                                                 <th>Restaurant</th>
                                                 <th>User</th>
-                                                <th>Title</th>
+                                                <th>Product</th>
                                                 <th>Quantity</th>
                                                 <th>Price</th>
                                                 <th>Address</th>

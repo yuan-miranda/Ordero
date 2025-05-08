@@ -185,7 +185,7 @@ session_start();
 
                                             </tr>
                                             <tr>
-                                                <td><strong>Title:</strong></td>
+                                                <td><strong>Product:</strong></td>
                                                 <td>
                                                     <center><?php echo $rows['title']; ?></center>
                                                 </td>
