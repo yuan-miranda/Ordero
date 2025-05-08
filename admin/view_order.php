@@ -98,9 +98,9 @@ session_start();
                         <li class="nav-devider"></li>
                         <li class="nav-label">Home</li>
                         <li> <a href="dashboard.php"><i class="fa fa-tachometer"></i><span>Dashboard</span></a></li>
-                        <li class="nav-label">Log</li>
-                        <li> <a href="all_users.php"> <span><i
-                                        class="fa fa-user f-s-20 "></i></span><span>Users</span></a></li>
+                        
+                        <!-- <li> <a href="all_users.php"> <span><i
+                                        class="fa fa-user f-s-20 "></i></span><span>Users</span></a></li> -->
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i
                                     class="fa fa-archive f-s-20 color-warning"></i><span
                                     class="hide-menu">Restaurant</span></a>
@@ -259,8 +259,7 @@ session_start();
                                                 if ($status == "in process") { ?>
                                                     <td>
                                                         <center><button type="button" class="btn btn-warning"><span
-                                                                    class="fa fa-cog fa-spin" aria-hidden="true"></span>On a
-                                                                Way!</button></center>
+                                                                    class="fa fa-cog fa-spin" aria-hidden="true"></span>Accepted</button></center>
                                                     </td>
                                                     <?php
                                                 }

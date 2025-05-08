@@ -90,7 +90,7 @@ if (!isset($_SESSION["user_id"])) {
 
 
 								echo '<li class="nav-item"><a href="your_orders.php" class="nav-link active">My Orders</a> </li>';
-								echo '<li class="nav-item"><a href="your_profile.php" class="nav-link active">My Profile</a> </li>';
+
 								echo '<li class="nav-item"><a href="logout.php" class="nav-link active" onclick="return confirmLogout();">Logout</a> </li>';
 							}
 
@@ -125,6 +125,7 @@ if (!isset($_SESSION["user_id"])) {
 										<thead style="background: #404040; color:white;">
 											<tr>
 												<th>Order ID</th>
+												<th>QR Code</th>
 												<th>Restaurant</th>
 												<th>Item</th>
 												<th>Quantity</th>
@@ -147,7 +148,9 @@ if (!isset($_SESSION["user_id"])) {
 											FROM users_orders
 											LEFT JOIN remark ON users_orders.o_id = remark.frm_id
 											INNER JOIN restaurant ON users_orders.rs_id = restaurant.rs_id
-											WHERE users_orders.u_id = '" . $_SESSION['user_id'] . "'");
+											WHERE users_orders.u_id = '" . $_SESSION['user_id'] . "'
+											ORDER BY users_orders.o_id ASC");
+
 
 											if (!mysqli_num_rows($query_res) > 0) {
 												echo '<td colspan="6"><center>You have No orders Placed yet. </center></td>';
@@ -158,10 +161,48 @@ if (!isset($_SESSION["user_id"])) {
 													?>
 													<tr>
 														<td data-column="Order ID"> <?php echo $row['o_id']; ?></td>
+														<td data-column="QR Code">
+															<button class="btn btn-primary"
+																onclick="saveQRCode('<?php echo $row['o_id']; ?>')">
+																Download QR Code
+															</button>
+														</td>
+
+														<script>
+															function saveQRCode(orderId) {
+																// Create the QR code URL
+																const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(orderId)}`;
+
+																// Fetch the image as a blob
+																fetch(qrCodeUrl)
+																	.then(response => response.blob())  // Convert the response to a blob
+																	.then(blob => {
+																		// Create a URL for the blob
+																		const url = URL.createObjectURL(blob);
+
+																		// Create a hidden anchor element
+																		const link = document.createElement('a');
+																		link.href = url;
+
+																		// Set the file name for download
+																		link.download = `order_${orderId}_qr_code.png`;
+
+																		// Trigger the download by programmatically clicking the link
+																		link.click();
+
+																		// Clean up the URL object after the download
+																		URL.revokeObjectURL(url);
+																	})
+																	.catch(error => {
+																		console.error("Error fetching the QR code:", error);
+																	});
+															}
+														</script>
 														<td data-column="Restaurant"> <?php echo $row['restaurant_name']; ?></td>
 														<td data-column="Item"> <?php echo $row['title']; ?></td>
 														<td data-column="Quantity"> <?php echo $row['quantity']; ?></td>
-														<td data-column="Price">$<?php echo $row['price'] * $row['quantity']; ?> ($<?php echo $row['price']; ?>)</td>
+														<td data-column="Price">$<?php echo $row['price'] * $row['quantity']; ?>
+															($<?php echo $row['price']; ?>)</td>
 
 														<td data-column="status">
 															<?php
@@ -174,8 +215,8 @@ if (!isset($_SESSION["user_id"])) {
 															}
 															if ($status == "in process") { ?>
 																<button type="button" class="btn btn-warning"><span
-																		class="fa fa-cog fa-spin" aria-hidden="true"></span> On The
-																	Way!</button>
+																		class="fa fa-cog fa-spin"
+																		aria-hidden="true"></span>Accepted</button>
 																<?php
 															}
 															if ($status == "closed") {

@@ -41,7 +41,7 @@ session_start();
 							  <li class="nav-item"><a href="registration.php" class="nav-link active">Register</a> </li>';
                         } else {
                             echo '<li class="nav-item"><a href="your_orders.php" class="nav-link active">My Orders</a> </li>';
-                            echo '<li class="nav-item"><a href="your_profile.php" class="nav-link active">My Profile</a> </li>';
+                            
                             echo '<li class="nav-item"><a href="logout.php" class="nav-link active" onclick="return confirmLogout();">Logout</a> </li>';
                         }
                         ?>

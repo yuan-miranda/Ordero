@@ -16,6 +16,7 @@ session_start();
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
     <title>All Menu</title>
     <link href="css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link href="css/helper.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 </head>
@@ -76,9 +77,9 @@ session_start();
                         <li class="nav-devider"></li>
                         <li class="nav-label">Home</li>
                         <li> <a href="dashboard.php"><i class="fa fa-tachometer"></i><span>Dashboard</span></a></li>
-                        <li class="nav-label">Log</li>
-                        <li> <a href="all_users.php"> <span><i
-                                        class="fa fa-user f-s-20 "></i></span><span>Users</span></a></li>
+                        
+                        <!-- <li> <a href="all_users.php"> <span><i
+                                        class="fa fa-user f-s-20 "></i></span><span>Users</span></a></li> -->
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i
                                     class="fa fa-archive f-s-20 color-warning"></i><span
                                     class="hide-menu">Restaurant</span></a>
@@ -106,40 +107,40 @@ session_start();
                 </nav>
             </div>
         </div>
+
+        <!-- make a box on the bottom left it will be an  -->
+
         <div class="page-wrapper">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-12">
-                        <div class="col-lg-12">
-                            <div class="card card-outline-primary">
+                    <!-- first table -->
+                    <div class="col-lg-6 col-md-12">
+                        <div class="d-flex flex-column h-100">
+                            <div class="card card-outline-primary flex-grow-1">
                                 <div class="card-header" style="background: #424549;">
-                                    <h4 class="m-b-0 text-white">All Menu</h4>
-                                    <form method="GET" action="" style="margin-top: 10px;">
-                                        <select name="restaurant_filter" onchange="this.form.submit()"
-                                            class="form-control" style="width: 200px; display: inline-block;">
+                                    <form method="GET" action="" style="margin-top: 0px;">
+                                        <select id="restaurantFilter" class="form-control"
+                                            style="width: 200px; display: inline-block;">
                                             <option value="">All Restaurants</option>
                                             <?php
                                             $res_query = mysqli_query($db, "SELECT * FROM restaurant");
                                             while ($res_row = mysqli_fetch_array($res_query)) {
-                                                $selected = (isset($_GET['restaurant_filter']) && $_GET['restaurant_filter'] == $res_row['rs_id']) ? 'selected' : '';
-                                                echo '<option value="' . $res_row['rs_id'] . '" ' . $selected . '>' . $res_row['title'] . '</option>';
+                                                echo '<option value="' . $res_row['rs_id'] . '">' . $res_row['title'] . '</option>';
                                             }
                                             ?>
                                         </select>
+
                                     </form>
                                 </div>
-                                <div class="table-responsive m-t-40">
-                                    <table id="example23"
-                                        class="display nowrap table table-hover table-striped table-bordered"
-                                        cellspacing="0" width="100%">
-                                        <thead class="thead-dark">
+                                <div class="table-responsive">
+                                    <table id="allMenuTable"
+                                        class="display nowrap table table-hover table-striped table-bordered">
+                                        <thead style="color: white;">
                                             <tr>
                                                 <th>Image</th>
-                                                <th>Restaurant</th>
-                                                <th>Dish</th>
-                                                <th>Description</th>
+                                                <th>Product</th>
                                                 <th>Price</th>
-                                                <th>Quantity</th>
+                                                <th>Stocks</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -169,14 +170,12 @@ session_start();
                                                         <center><img src="Res_img/dishes/' . $rows['img'] . '" class="img-responsive  radius" style="width:32px;height:32px;" /></center>
                                                         </div>
                                                         </td>
-                                                        <td>' . $fetch['title'] . '</td>
                                                         <td>' . $rows['title'] . '</td>
-														<td>' . $rows['slogan'] . '</td>
 														<td>$' . $rows['price'] . '</td>
                                                         <td>' . $rows['quantity'] . '</td>
                                                         <td>
-                                                        <a href="delete_menu.php?menu_del=' . $rows['d_id'] . '" onclick="return confirm(\'Are you sure you want to delete this menu item?\');" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a>
-                                                        <a href="update_menu.php?menu_upd=' . $rows['d_id'] . '" class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="fa fa-edit"></i></a>
+                                                        <button class="btn btn-danger btn-flat btn-addon btn-xs m-b-10" onclick="removeItemFromCart(' . $rows['d_id'] . ')"><i class="fa fa-minus" style="font-size:16px"></i></button>
+                                                        <button class="btn btn-success btn-flat btn-addon btn-xs m-b-10" onclick="addItemToCart(' . $rows['d_id'] . ', ' . $rows['quantity'] . ')"><i class="fa fa-plus" style="font-size:16px"></i></button>
                                                         </td></tr>';
                                                 }
                                             }
@@ -187,6 +186,35 @@ session_start();
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="position-fixed"
+                            style="bottom: 0; right: 0; width: 40%; height: 90%; margin: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); overflow-y: auto; padding: 20px; display: flex; justify-content: center; border: 1px solid #ccc; z-index: 1030;">
+
+                            <div class="card card-outline-primary"
+                                style="flex-grow: 1; display: flex; flex-direction: column; margin: 0; padding: 0; height: 100%;">
+
+                                <!-- Top Half -->
+                                <div class="card-body" style="flex: 1; border-bottom: 1px solid #ccc;">
+                                    <h5>Cart Items</h5>
+                                    <ul id="cartItems" class="list-group"></ul>
+                                </div>
+
+                                <!-- Bottom Half -->
+                                <div class="card-body" style="flex: 1;">
+                                    <!-- Example content -->
+                                    <h2 style="margin-top: 10px; margin-bottom: 10px;">Total: ₱0.00</h2>
+                                    <button class="btn btn-success btn-block" onclick="placeOrder()">Place
+                                        Order</button>
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </div>
@@ -215,7 +243,154 @@ session_start();
     <script src="js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
     <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
     <script src="js/lib/datatables/datatables-init.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#restaurantFilter').on('change', function () {
+                const restaurantId = $(this).val();
+
+                $.ajax({
+                    url: 'fetch_menu.php',
+                    method: 'POST',
+                    data: { restaurant_filter: restaurantId },
+                    success: function (response) {
+                        $('#allMenuTable tbody').html(response);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        const cart = {};
+
+        function addItemToCart(dishId, stock) {
+            if (stock === 0) {
+                const addButton = document.querySelector(`button[onclick^="addItemToCart(${dishId},"]`);
+                addButton.disabled = true;
+                return;
+            }
+            const row = document.querySelector(`button[onclick^="addItemToCart(${dishId},"]`).closest('tr');
+            const name = row.cells[1].innerText;
+            const price = row.cells[2].innerText;
+
+            if (!cart[dishId]) {
+                cart[dishId] = {
+                    name: name,
+                    price: price,
+                    quantity: 1
+                };
+            } else {
+                if (cart[dishId].quantity < stock) {
+                    cart[dishId].quantity++;
+                } else {
+                    alert("Cannot add more than available stock!");
+                }
+            }
+
+            renderCart();
+        }
+
+        function removeItemFromCart(dishId) {
+            if (cart[dishId]) {
+                cart[dishId].quantity--;
+                if (cart[dishId].quantity <= 0) {
+                    delete cart[dishId];
+                }
+                renderCart();
+            }
+        }
+
+        function renderCart() {
+            const cartList = document.getElementById('cartItems');
+            cartList.innerHTML = ''; // clear previous
+
+            let total = 0;
+
+            Object.keys(cart).forEach(id => {
+                const item = cart[id];
+                const priceNumber = parseFloat(item.price.replace(/[^0-9.-]+/g, "")); // Remove $ or other symbols
+                const itemTotal = priceNumber * item.quantity;
+                total += itemTotal;
+
+                const li = document.createElement('li');
+                li.className = 'list-group-item d-flex justify-content-between align-items-center';
+                li.innerHTML = `
+            <span style="flex-grow: 1;">${item.name}</span>
+            <span style="flex-grow: 1; text-align: center;">${item.price}</span>
+            <span><strong>${item.quantity}</strong></span>
+        `;
+                cartList.appendChild(li);
+            });
+
+            const totalDisplay = document.querySelector('.card-body:nth-child(2) h2'); // Target the Total <h2>
+            totalDisplay.textContent = `Total: ₱${total.toFixed(2)}`;
+        }
+
+    </script>
+    <script>
+        function placeOrder() {
+            if (Object.keys(cart).length === 0) {
+                alert("Cart is empty!");
+                return;
+            }
+
+            // Prepare the data for each item in the cart as separate orders
+            const cartData = [];
+            for (const id in cart) {
+                cartData.push({
+                    u_id: 1, // Assuming user ID is 1 for now
+                    rs_id: cart[id].rs_id, // Assuming each item in cart has a `rs_id` (restaurant ID)
+                    d_id: id,
+                    title: cart[id].name,
+                    price: cart[id].price.replace(/[^0-9.-]+/g, ""),
+                    quantity: cart[id].quantity
+                });
+            }
+
+            // Send each item as a separate order
+            fetch('place_order.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ items: cartData })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.success) {
+                        alert("Order placed successfully!");
+                        Object.keys(cart).forEach(k => delete cart[k]);
+                        renderCart();
+                    } else {
+                        alert("Failed to place order.");
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("An error occurred.");
+                });
+        }
+
+    </script>
+
+
+
+    <script>
+        $(document).ready(function () {
+
+            $('#allMenuTable').DataTable({
+                "pageLength": 9,
+                "lengthChange": false,
+
+            });
+        });
+    </script>
     <script src="js/REPLACEDOLLAR.js"></script>
+
+
+
 </body>
 
 </html>

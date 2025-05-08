@@ -46,7 +46,7 @@ include_once 'product-action.php';
 
 
                             echo '<li class="nav-item"><a href="your_orders.php" class="nav-link active">My Orders</a> </li>';
-                            echo '<li class="nav-item"><a href="your_profile.php" class="nav-link active">My Profile</a> </li>';
+                            
                             echo '<li class="nav-item"><a href="logout.php" class="nav-link active" onclick="return confirmLogout();">Logout</a> </li>';
                         }
 
@@ -99,7 +99,7 @@ include_once 'product-action.php';
 
                                     <div class="form-group row no-gutter">
                                         <div class="col-xs-8">
-                                            <input type="text" class="form-control b-r-0" value=<?php echo "$" . $item["price"]; ?> readonly id="exampleSelect1">
+                                            <input type="text" class="form-control b-r-0" value=<?php echo "₱" . $item["price"]; ?> readonly id="exampleSelect1">
 
                                         </div>
                                         <div class="col-xs-4">

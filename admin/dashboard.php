@@ -36,18 +36,12 @@ if (empty($_SESSION["adm_id"])) {
 
                     <div class="navbar-header">
                         <a class="navbar-brand" href="dashboard.php">
-
-                            <!-- <span><img src="images/ordero_icon.svg" alt="homepage" class="dark-logo" /></span> -->
                         </a>
                     </div>
 
                     <div class="navbar-collapse">
                         <ul class="navbar-nav mr-auto mt-md-0">
                         </ul>
-
-
-
-
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">Logout</a>
@@ -72,9 +66,9 @@ if (empty($_SESSION["adm_id"])) {
                             <li class="nav-label">Home</li>
                             <li> <a href="dashboard.php"><i class="fa fa-tachometer"></i><span>Dashboard</span></a>
                             </li>
-                            <li class="nav-label">Log</li>
-                            <li> <a href="all_users.php"> <span><i
-                                            class="fa fa-user f-s-20 "></i></span><span>Users</span></a></li>
+                            
+                            <!-- <li> <a href="all_users.php"> <span><i
+                                            class="fa fa-user f-s-20 "></i></span><span>Users</span></a></li> -->
                             <li> <a class="has-arrow  " href="#" aria-expanded="false"><i
                                         class="fa fa-archive f-s-20 color-warning"></i><span
                                         class="hide-menu">Restaurant</span></a>
@@ -300,7 +294,6 @@ if (empty($_SESSION["adm_id"])) {
                                         onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0px 4px 8px rgba(0, 0, 0, 0.1)';">
                                         <div class="media">
                                             <div class="media-left meida media-middle">
-                                                <!-- <span><i class="fa fa-usd f-s-40" aria-hidden="true"></i></span> -->
                                             </div>
                                             <div class="media-body media-text-right">
                                                 <h2>₱ <?php
@@ -311,6 +304,14 @@ if (empty($_SESSION["adm_id"])) {
                                                 echo number_format($sum, 2);
                                                 ?></h2>
                                                 <p class="m-b-0">Total Earnings</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="card p-30">
+                                                    <h4 class="m-b-0 text-center">Sales Report (All Restaurants)</h4>
+                                                    <canvas id="salesReportChart" height="500"></canvas>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -328,10 +329,49 @@ if (empty($_SESSION["adm_id"])) {
                 <script src="js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
                 <script src="js/custom.min.js"></script>
                 <script src="js/REPLACEDOLLAR.js"></script>
-                <script src="js/REPLACEDOLLAR.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+                    const ctx = document.getElementById('salesReportChart').getContext('2d');
 
+                    const chart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Processing', 'Delivered', 'Earnings (₱)'],
+                            datasets: [{
+                                label: 'Sales Report',
+                                data: [
+                                    <?php
+                                    $result = mysqli_query($db, "SELECT COUNT(*) AS total FROM users_orders WHERE status = 'in process' AND rs_id IN 
+                                                     (SELECT rs_id FROM restaurant WHERE adm_id = '$admin_id')");
+                                    $processing = mysqli_fetch_assoc($result)['total'];
+
+                                    $result = mysqli_query($db, "SELECT COUNT(*) AS total FROM users_orders WHERE status = 'closed' AND rs_id IN 
+                                                     (SELECT rs_id FROM restaurant WHERE adm_id = '$admin_id')");
+                                    $delivered = mysqli_fetch_assoc($result)['total'];
+
+                                    $result = mysqli_query($db, "SELECT SUM(price) AS value_sum FROM users_orders WHERE status = 'closed' AND rs_id IN 
+                                                     (SELECT rs_id FROM restaurant WHERE adm_id = '$admin_id')");
+                                    $earnings = mysqli_fetch_assoc($result)['value_sum'];
+
+                                    echo "$processing, $delivered, $earnings";
+                                    ?>
+                                ],
+                                backgroundColor: ['#ffc107', '#28a745', '#007bff']
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                </script>
+            </div>
+        </div>
     </body>
-
     </html>
     <?php
 }

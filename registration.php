@@ -6,46 +6,49 @@ session_start();
 error_reporting(0);
 include("connection/connect.php");
 if (isset($_POST['submit'])) {
-   // Check if passwords are empty first
-   if (empty($_POST['password']) || empty($_POST['cpassword'])) {
-      echo "<script>alert('Password fields are required!');</script>";
-   } elseif ($_POST['password'] != $_POST['cpassword']) {
-      echo "<script>alert('Passwords do not match');</script>";
-   } elseif (strlen($_POST['password']) < 6) {
-      echo "<script>alert('Password must be at least 6 characters long');</script>";
-   } else {
-      // After password passes, check the rest of the fields
-      if (
-         empty($_POST['firstname']) ||
-         empty($_POST['lastname']) ||
-         empty($_POST['email']) ||
-         empty($_POST['phone']) ||
-         empty($_POST['username']) ||
-         empty($_POST['address'])
-      ) {
-         echo "<script>alert('All fields must be filled out!');</script>";
-      } else {
-         $check_username = mysqli_query($db, "SELECT username FROM users WHERE username = '" . $_POST['username'] . "'");
-         $check_email = mysqli_query($db, "SELECT email FROM users WHERE email = '" . $_POST['email'] . "'");
+   // Sanitize input
+   $username = mysqli_real_escape_string($db, $_POST['username']);
+   $firstname = mysqli_real_escape_string($db, $_POST['firstname']);
+   $lastname = mysqli_real_escape_string($db, $_POST['lastname']);
+   $email = mysqli_real_escape_string($db, $_POST['email']);
+   $phone = mysqli_real_escape_string($db, $_POST['phone']);
+   $address = mysqli_real_escape_string($db, $_POST['address']);
+   $password = $_POST['password'];
+   $cpassword = $_POST['cpassword'];
 
-         if (strlen($_POST['phone']) < 10) {
-            echo "<script>alert('Invalid phone number!');</script>";
-         } elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-            echo "<script>alert('Invalid email address!');</script>";
-         } elseif (mysqli_num_rows($check_username) > 0) {
-            echo "<script>alert('Username already exists!');</script>";
-         } elseif (mysqli_num_rows($check_email) > 0) {
-            echo "<script>alert('Email already exists!');</script>";
+   if (
+      empty($username) || empty($firstname) || empty($lastname) ||
+      empty($email) || empty($phone) || empty($password) || empty($cpassword) || empty($address)
+   ) {
+      echo "<script>alert('All fields must be filled out!');</script>";
+   } else if ($password !== $cpassword) {
+      echo "<script>alert('Passwords do not match');</script>";
+   } else if (strlen($password) < 6) {
+      echo "<script>alert('Password must be at least 6 characters long');</script>";
+   } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      echo "<script>alert('Invalid email address!');</script>";
+   } else if (strlen($phone) < 10) {
+      echo "<script>alert('Invalid phone number!');</script>";
+   } else {
+      // Check for duplicates
+      $check_user = mysqli_query($db, "SELECT * FROM users WHERE username = '$username' OR email = '$email'");
+      if (mysqli_num_rows($check_user) > 0) {
+         echo "<script>alert('Username or email already exists!');</script>";
+      } else {
+         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+         $insert_query = "INSERT INTO users(username, f_name, l_name, email, phone, password, address)
+                            VALUES('$username', '$firstname', '$lastname', '$email', '$phone', '$hashed_password', '$address')";
+         if (mysqli_query($db, $insert_query)) {
+            header("Location: login.php");
+            exit;
          } else {
-            // Password is already validated earlier
-            $mql = "INSERT INTO users(username,f_name,l_name,email,phone,password,address) 
-                    VALUES('" . $_POST['username'] . "','" . $_POST['firstname'] . "','" . $_POST['lastname'] . "','" . $_POST['email'] . "','" . $_POST['phone'] . "','" . md5($_POST['password']) . "','" . $_POST['address'] . "')";
-            mysqli_query($db, $mql);
-            header("refresh:0.1;url=login.php");
+            echo "<script>alert('Registration failed. Try again later.');</script>";
          }
       }
    }
 }
+
+
 
 
 ?>
@@ -87,7 +90,7 @@ if (isset($_POST['submit'])) {
 
 
                      echo '<li class="nav-item"><a href="your_orders.php" class="nav-link active">My Orders</a> </li>';
-                     echo '<li class="nav-item"><a href="your_profile.php" class="nav-link active">My Profile</a> </li>';
+
                      echo '<li class="nav-item"><a href="logout.php" class="nav-link active" onclick="return confirmLogout();">Logout</a> </li>';
                   }
 

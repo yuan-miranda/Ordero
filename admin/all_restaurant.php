@@ -90,9 +90,9 @@ session_start();
                         <li class="nav-devider"></li>
                         <li class="nav-label">Home</li>
                         <li> <a href="dashboard.php"><i class="fa fa-tachometer"></i><span>Dashboard</span></a></li>
-                        <li class="nav-label">Log</li>
-                        <li> <a href="all_users.php"> <span><i
-                                        class="fa fa-user f-s-20 "></i></span><span>Users</span></a></li>
+                        
+                        <!-- <li> <a href="all_users.php"> <span><i
+                                        class="fa fa-user f-s-20 "></i></span><span>Users</span></a></li> -->
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i
                                     class="fa fa-archive f-s-20 color-warning"></i><span
                                     class="hide-menu">Restaurants</span></a>
@@ -132,8 +132,9 @@ session_start();
                                 <div class="card-header" style="background: #424549;">
                                     <h4 class="m-b-0 text-white">All Restaurant</h4>
                                     <form method="GET" action="" style="margin-top: 10px;">
-                                        <select name="category_filter" onchange="this.form.submit()"
-                                            class="form-control" style="width: 200px; display: inline-block;">
+                                        <select id="category_filter" class="form-control"
+                                            style="width: 200px; display: inline-block;">
+
                                             <option value="">All Categories</option>
                                             <?php
                                             $cat_query = mysqli_query($db, "SELECT * FROM res_category");
@@ -168,49 +169,10 @@ session_start();
                                             </tr>
                                         </thead>
 
-                                        <tbody>
-
-
-                                            <?php
-                                            $admin_id = $_SESSION['adm_id'];
-                                            $category_filter = isset($_GET['category_filter']) ? $_GET['category_filter'] : '';
-
-                                            if (!empty($category_filter)) {
-                                                $sql = "SELECT * FROM restaurant WHERE adm_id = '$admin_id' AND c_id = '$category_filter' ORDER BY rs_id DESC";
-                                            } else {
-                                                $sql = "SELECT * FROM restaurant WHERE adm_id = '$admin_id' ORDER BY rs_id DESC";
-                                            }
-
-                                            $query = mysqli_query($db, $sql);
-                                            if (!mysqli_num_rows($query) > 0) {
-                                                echo '<td colspan="11"><center>No Restaurants</center></td>';
-                                            } else {
-                                                while ($rows = mysqli_fetch_array($query)) {
-                                                    $mql = "SELECT * FROM res_category where c_id='" . $rows['c_id'] . "'";
-                                                    $res = mysqli_query($db, $mql);
-                                                    $row = mysqli_fetch_array($res);
-
-                                                    echo ' <tr>
-                                                        <td><div class="col-md-3 col-lg-8 m-b-10">
-                                                            <center><img src="Res_img/' . $rows['image'] . '" class="img-responsive radius"  style="width:32px;height:32px;"/></center>
-                                                        </div></td>
-                                                        <td>' . $row['c_name'] . '</td>
-                                                        <td>' . $rows['title'] . '</td>
-                                                        <td>' . $rows['email'] . '</td>
-                                                        <td>' . $rows['phone'] . '</td>
-                                                        <td>' . $rows['url'] . '</td>
-                                                        <td>' . $rows['o_hr'] . '</td>
-                                                        <td>' . $rows['c_hr'] . '</td>
-                                                        <td>' . $rows['o_days'] . '</td>
-                                                        <td>' . $rows['address'] . '</td>
-                                                        <td>' . $rows['date'] . '</td>
-                                                        <td><a href="delete_restaurant.php?res_del=' . $rows['rs_id'] . '" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10" onclick="return confirm(\'Are you sure you want to delete this restaurant?\')"><i class="fa fa-trash-o" style="font-size:16px"></i></a> 
-                                                        <a href="update_restaurant.php?res_upd=' . $rows['rs_id'] . '" class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="fa fa-edit"></i></a>
-                                                        </td></tr>';
-                                                }
-                                            }
-                                            ?>
+                                        <tbody id="restaurant_data">
+                                            <!-- AJAX-loaded content goes here -->
                                         </tbody>
+
                                     </table>
                                 </div>
                             </div>
@@ -245,6 +207,30 @@ session_start();
     <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
     <script src="js/lib/datatables/datatables-init.js"></script>
     <script src="js/REPLACEDOLLAR.js"></script>
+    <script>
+        $(document).ready(function () {
+            function loadRestaurants(category_id = '') {
+                $.ajax({
+                    url: 'fetch_restaurants.php',
+                    method: 'POST',
+                    data: { category_filter: category_id },
+                    success: function (data) {
+                        $('#restaurant_data').html(data);
+                    }
+                });
+            }
+
+            // Initial load
+            loadRestaurants();
+
+            // Dropdown change event
+            $('#category_filter').on('change', function () {
+                let category_id = $(this).val();
+                loadRestaurants(category_id);
+            });
+        });
+    </script>
+
 </body>
 
 </html>

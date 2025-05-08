@@ -162,7 +162,7 @@ if (strlen($_SESSION['user_id']) == 0) {
                             <select name="status" required="required">
                                 <option value="">Select Status</option>
                                 <option value="">Pending</option>
-                                <option value="in process">On the way</option>
+                                <option value="in process">Accepted</option>
                                 <option value="closed">Delivered</option>
                                 <option value="rejected">Cancelled</option>
                             </select>

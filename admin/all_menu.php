@@ -90,9 +90,9 @@ session_start();
                         <li class="nav-devider"></li>
                         <li class="nav-label">Home</li>
                         <li> <a href="dashboard.php"><i class="fa fa-tachometer"></i><span>Dashboard</span></a></li>
-                        <li class="nav-label">Log</li>
-                        <li> <a href="all_users.php"> <span><i
-                                        class="fa fa-user f-s-20 "></i></span><span>Users</span></a></li>
+                        
+                        <!-- <li> <a href="all_users.php"> <span><i
+                                        class="fa fa-user f-s-20 "></i></span><span>Users</span></a></li> -->
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i
                                     class="fa fa-archive f-s-20 color-warning"></i><span
                                     class="hide-menu">Restaurant</span></a>
@@ -137,19 +137,17 @@ session_start();
                             <div class="card card-outline-primary">
                                 <div class="card-header" style="background: #424549;">
                                     <h4 class="m-b-0 text-white">All Menu</h4>
-                                    <form method="GET" action="" style="margin-top: 10px;">
-                                        <select name="restaurant_filter" onchange="this.form.submit()"
-                                            class="form-control" style="width: 200px; display: inline-block;">
-                                            <option value="">All Restaurants</option>
-                                            <?php
-                                            $res_query = mysqli_query($db, "SELECT * FROM restaurant");
-                                            while ($res_row = mysqli_fetch_array($res_query)) {
-                                                $selected = (isset($_GET['restaurant_filter']) && $_GET['restaurant_filter'] == $res_row['rs_id']) ? 'selected' : '';
-                                                echo '<option value="' . $res_row['rs_id'] . '" ' . $selected . '>' . $res_row['title'] . '</option>';
-                                            }
-                                            ?>
-                                        </select>
-                                    </form>
+                                    <select id="restaurant_filter" class="form-control"
+                                        style="width: 200px; display: inline-block;">
+                                        <option value="">All Restaurants</option>
+                                        <?php
+                                        $res_query = mysqli_query($db, "SELECT * FROM restaurant");
+                                        while ($res_row = mysqli_fetch_array($res_query)) {
+                                            echo '<option value="' . $res_row['rs_id'] . '">' . $res_row['title'] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+
                                 </div>
 
 
@@ -168,8 +166,7 @@ session_start();
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-
+                                        <tbody id="menu_data">
 
                                             <?php
                                             $admin_id = $_SESSION['adm_id'];
@@ -274,6 +271,30 @@ session_start();
     <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
     <script src="js/lib/datatables/datatables-init.js"></script>
     <script src="js/REPLACEDOLLAR.js"></script>
+    <script>
+        $(document).ready(function () {
+            function loadMenu(restaurant_id = '') {
+                $.ajax({
+                    url: 'fetch_menus.php',
+                    method: 'POST',
+                    data: { restaurant_filter: restaurant_id },
+                    success: function (data) {
+                        $('#menu_data').html(data);
+                    }
+                });
+            }
+
+            // Load all initially
+            loadMenu();
+
+            // On dropdown change
+            $('#restaurant_filter').on('change', function () {
+                let selectedRestaurant = $(this).val();
+                loadMenu(selectedRestaurant);
+            });
+        });
+    </script>
+
 </body>
 
 </html>
