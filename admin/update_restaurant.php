@@ -9,89 +9,77 @@ session_start();
 
 
 if (isset($_POST['submit'])) {
-
-
-
-
-
-
-
-    if (empty($_POST['c_name']) || empty($_POST['res_name']) || $_POST['email'] == '' || $_POST['phone'] == '' || $_POST['url'] == '' || $_POST['o_hr'] == '' || $_POST['c_hr'] == '' || $_POST['o_days'] == '' || $_POST['address'] == '') {
+    if (
+        empty($_POST['c_name']) || empty($_POST['res_name']) || $_POST['email'] == '' || $_POST['phone'] == '' ||
+        $_POST['url'] == '' || $_POST['o_hr'] == '' || $_POST['c_hr'] == '' || $_POST['o_days'] == '' || $_POST['address'] == ''
+    ) {
         $error = '<div class="alert alert-danger alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>All fields Must be Fillup!</strong>
-															</div>';
-
-
-
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>All fields Must be Fillup!</strong>
+                  </div>';
     } else {
+        $update_img = false;
+        if (!empty($_FILES['file']['name'])) {
+            $fname = $_FILES['file']['name'];
+            $temp = $_FILES['file']['tmp_name'];
+            $fsize = $_FILES['file']['size'];
+            $extension = strtolower(pathinfo($fname, PATHINFO_EXTENSION));
+            $fnew = uniqid() . '.' . $extension;
+            $store = "Res_img/" . basename($fnew);
 
-        $fname = $_FILES['file']['name'];
-        $temp = $_FILES['file']['tmp_name'];
-        $fsize = $_FILES['file']['size'];
-        $extension = explode('.', $fname);
-        $extension = strtolower(end($extension));
-        $fnew = uniqid() . '.' . $extension;
-
-        $store = "Res_img/" . basename($fnew);
-
-        if ($extension == 'jpg' || $extension == 'png' || $extension == 'gif') {
-            if ($fsize >= 1000000) {
-
-
-                $error = '<div class="alert alert-danger alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>Max Image Size is 1024kb!</strong> Try different Image.
-															</div>';
-
+            if (in_array($extension, ['jpg', 'png', 'gif'])) {
+                if ($fsize >= 1000000) {
+                    $error = '<div class="alert alert-danger alert-dismissible fade show">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <strong>Max Image Size is 1024kb!</strong> Try different Image.
+                              </div>';
+                } else {
+                    move_uploaded_file($temp, $store);
+                    $update_img = true;
+                }
             } else {
-
-
-                $res_name = $_POST['res_name'];
-
-                $sql = "update restaurant set c_id='$_POST[c_name]', title='$res_name',email='$_POST[email]',phone='$_POST[phone]',url='$_POST[url]',o_hr='$_POST[o_hr]',c_hr='$_POST[c_hr]',o_days='$_POST[o_days]',address='$_POST[address]',image='$fnew' where rs_id='$_GET[res_upd]' ";  // store the submited data ino the database :images												mysqli_query($db, $sql); 
-                mysqli_query($db, $sql);
-                move_uploaded_file($temp, $store);
-
-                $success = '<div class="alert alert-success alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>Record Updated!</strong>.
-															</div>';
-
-
+                $error = '<div class="alert alert-danger alert-dismissible fade show">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>Invalid extension!</strong> Only png, jpg, gif are accepted.
+                          </div>';
             }
-        } elseif ($extension == '') {
-            $error = '<div class="alert alert-danger alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>select image</strong>
-															</div>';
-        } else {
-
-            $error = '<div class="alert alert-danger alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>invalid extension!</strong>png, jpg, Gif are accepted.
-															</div>';
-
-
         }
 
+        if (!isset($error)) {
+            $res_name = $_POST['res_name'];
+            $sql = "UPDATE restaurant SET 
+                        c_id='$_POST[c_name]',
+                        title='$res_name',
+                        email='$_POST[email]',
+                        phone='$_POST[phone]',
+                        url='$_POST[url]',
+                        o_hr='$_POST[o_hr]',
+                        c_hr='$_POST[c_hr]',
+                        o_days='$_POST[o_days]',
+                        address='$_POST[address]'";
 
+            if ($update_img) {
+                $sql .= ", image='$fnew'";
+            }
+
+            $sql .= " WHERE rs_id='$_GET[res_upd]'";
+            mysqli_query($db, $sql);
+
+            $success = '<div class="alert alert-success alert-dismissible fade show">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>Record Updated!</strong>.
+                        </div>';
+        }
     }
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
 
 ?>
 
@@ -231,7 +219,7 @@ if (isset($_POST['submit'])) {
                         <li class="nav-devider"></li>
                         <li class="nav-label">Home</li>
                         <li> <a href="dashboard.php"><i class="fa fa-tachometer"></i><span>Dashboard</span></a></li>
-                        
+
                         <!-- <li> <a href="all_users.php"> <span><i
                                         class="fa fa-user f-s-20 "></i></span><span>Users</span></a></li> -->
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i

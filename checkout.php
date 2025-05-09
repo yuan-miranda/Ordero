@@ -252,7 +252,7 @@ if (!isset($_SESSION["user_id"])) {
 
                                                 <div class="widget-body">
                                                     <div class="cart-totals-title">
-                                                        <h4>Cart Summary</h4>
+                                                        <h4>Cart Information</h4>
                                                     </div>
                                                     <div class="cart-totals-fields">
 
@@ -264,10 +264,6 @@ if (!isset($_SESSION["user_id"])) {
                                                                 <tr>
                                                                     <td>Cart Subtotal</td>
                                                                     <td> <?php echo "$" . $item_total; ?></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Delivery Charges</td>
-                                                                    <td>Free</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td class="text-color"><strong>Total</strong></td>
@@ -289,16 +285,6 @@ if (!isset($_SESSION["user_id"])) {
                                                                         class="custom-control-indicator"></span> <span
                                                                         class="custom-control-description">Cash on
                                                                         Delivery</span>
-                                                                </label>
-                                                            </li>
-                                                            <li>
-                                                                <label class="custom-control custom-radio  m-b-10">
-                                                                    <input name="mod" type="radio" value="paypal" disabled
-                                                                        class="custom-control-input"> <span
-                                                                        class="custom-control-indicator"></span> <span
-                                                                        class="custom-control-description">Paypal <img
-                                                                            src="images/paypal.jpg" alt=""
-                                                                            width="90"></span>
                                                                 </label>
                                                             </li>
                                                         </ul>

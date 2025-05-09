@@ -49,7 +49,7 @@ while ($rows = mysqli_fetch_array($query)) {
         <td>' . $rows['address'] . '</td>';
 
     if ($status == "" || $status == "NULL") {
-        echo '<td><button type="button" class="btn btn-info"><span class="fa fa-bars"></span> Pending</button></td>';
+        echo '<td><button type="button" class="btn btn-secondary"><span class="fa fa-bars"></span> Pending</button></td>';
     } elseif ($status == "in process") {
         echo '<td><button type="button" class="btn btn-warning"><span class="fa fa-cog fa-spin"></span>Accepted</button></td>';
     } elseif ($status == "closed") {

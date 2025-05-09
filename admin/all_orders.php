@@ -92,7 +92,7 @@ session_start();
                         <li class="nav-devider"></li>
                         <li class="nav-label">Home</li>
                         <li> <a href="dashboard.php"><i class="fa fa-tachometer"></i><span>Dashboard</span></a></li>
-                        
+
                         <!-- <li> <a href="all_users.php"> <span><i
                                         class="fa fa-user f-s-20 "></i></span><span>Users</span></a></li> -->
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i
@@ -166,10 +166,10 @@ session_start();
                                                 <th>Quantity</th>
                                                 <th>Price</th>
                                                 <th>Address</th>
-                                                <th>Status</th>
-                                                <th>Remark</th>
+                                                <th>Note</th>
                                                 <th>Date Ordered</th>
                                                 <th>Arrive</th>
+                                                <th>Status</th>
                                                 <th>Action</th>
 
                                             </tr>
@@ -231,17 +231,31 @@ session_start();
                                                     <td>' . $rows['address'] . '</td>';
 
                                                     ?>
+
+                                                    <td><?php echo $rows['remark']; ?></td>
+
+                                                    <?php
+                                                    echo '	<td>' . date("F j, Y", strtotime($rows['date'])) . '</td>';
+                                                    ?>
+                                                    <?php
+                                                    if ($rows['arrive'] == "" || $rows['arrive'] == "NULL") {
+                                                        echo '<td>No ETA</td>';
+                                                    } else {
+                                                        echo '<td>' . date("F j, Y", strtotime($rows['arrive'])) . '</td>';
+                                                    }
+                                                    ?>
                                                     <?php
                                                     $status = $rows['status'];
                                                     if ($status == "" or $status == "NULL") {
                                                         ?>
-                                                        <td> <button type="button" class="btn btn-info"><span class="fa fa-bars"
-                                                                    aria-hidden="true"></span> Pending</button></td>
+                                                        <td> <button type="button" class="btn btn-secondary"><span
+                                                                    class="fa fa-bars" aria-hidden="true"></span> Pending</button>
+                                                        </td>
                                                         <?php
                                                     }
                                                     if ($status == "in process") { ?>
-                                                        <td> <button type="button" class="btn btn-warning"><span
-                                                                    class="fa fa-cog fa-spin" aria-hidden="true"></span>Accepted</button></td>
+                                                        <td> <button type="button" class="btn btn-info"><span
+                                                                    aria-hidden="true"></span>Accepted</button></td>
                                                         <?php
                                                     }
                                                     if ($status == "closed") {
@@ -258,19 +272,6 @@ session_start();
                                                         <td> <button type="button" class="btn btn-danger"> <i
                                                                     class="fa fa-close"></i> Cancelled</button></td>
                                                         <?php
-                                                    }
-                                                    ?>
-
-                                                    <td><?php echo $rows['remark']; ?></td>
-
-                                                    <?php
-                                                    echo '	<td>' . date("F j, Y", strtotime($rows['date'])) . '</td>';
-                                                    ?>
-                                                    <?php
-                                                    if ($rows['arrive'] == "" || $rows['arrive'] == "NULL") {
-                                                        echo '<td>No ETA</td>';
-                                                    } else {
-                                                        echo '<td>' . date("F j, Y", strtotime($rows['arrive'])) . '</td>';
                                                     }
                                                     ?>
                                                     <td>

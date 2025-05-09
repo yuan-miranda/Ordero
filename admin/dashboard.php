@@ -15,7 +15,7 @@ if (empty($_SESSION["adm_id"])) {
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
-        <title>Admin Panel</title>
+        <title>Manager Panel</title>
         <link href="css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
         <link href="css/helper.css" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
@@ -66,7 +66,7 @@ if (empty($_SESSION["adm_id"])) {
                             <li class="nav-label">Home</li>
                             <li> <a href="dashboard.php"><i class="fa fa-tachometer"></i><span>Dashboard</span></a>
                             </li>
-                            
+
                             <!-- <li> <a href="all_users.php"> <span><i
                                             class="fa fa-user f-s-20 "></i></span><span>Users</span></a></li> -->
                             <li> <a class="has-arrow  " href="#" aria-expanded="false"><i
@@ -297,8 +297,9 @@ if (empty($_SESSION["adm_id"])) {
                                             </div>
                                             <div class="media-body media-text-right">
                                                 <h2>₱ <?php
-                                                $result = mysqli_query($db, "SELECT SUM(price) AS value_sum FROM users_orders WHERE status = 'closed' AND rs_id IN 
-                                                        (SELECT rs_id FROM restaurant WHERE adm_id = '$admin_id')");
+                                                $result = mysqli_query($db, "SELECT SUM(price * quantity) AS value_sum FROM users_orders WHERE status = 'closed' AND rs_id IN 
+                                                (SELECT rs_id FROM restaurant WHERE adm_id = '$admin_id')");
+
                                                 $row = mysqli_fetch_assoc($result);
                                                 $sum = $row['value_sum'];
                                                 echo number_format($sum, 2);
@@ -372,6 +373,7 @@ if (empty($_SESSION["adm_id"])) {
             </div>
         </div>
     </body>
+
     </html>
     <?php
 }

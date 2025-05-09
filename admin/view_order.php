@@ -250,7 +250,7 @@ session_start();
                                                 if ($status == "" or $status == "NULL") {
                                                     ?>
                                                     <td>
-                                                        <center><button type="button" class="btn btn-info"><span
+                                                        <center><button type="button" class="btn btn-secondary"><span
                                                                     class="fa fa-bars" aria-hidden="true"></span>
                                                                 Pending</button></center>
                                                     </td>
@@ -258,8 +258,7 @@ session_start();
                                                 }
                                                 if ($status == "in process") { ?>
                                                     <td>
-                                                        <center><button type="button" class="btn btn-warning"><span
-                                                                    class="fa fa-cog fa-spin" aria-hidden="true"></span>Accepted</button></center>
+                                                        <center><button type="button" class="btn btn-info"><span aria-hidden="true"></span>Accepted</button></center>
                                                     </td>
                                                     <?php
                                                 }

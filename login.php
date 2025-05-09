@@ -107,7 +107,7 @@
             <input type="text" placeholder="Username" name="username" required />
             <input type="password" placeholder="Password" name="password" required />
             <input type="submit" id="buttn" name="submit" value="Login" />
-            <input type="button" value="Go to Admin Page" onclick="window.location.href='admin';" />
+            <input type="button" value="Go to Manager Page" onclick="window.location.href='admin';" />
           </form>
         </div>
 

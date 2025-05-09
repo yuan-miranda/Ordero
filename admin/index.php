@@ -46,7 +46,7 @@ if (isset($_POST['submit'])) {
 
   <div class="container">
     <div class="info">
-      <h1>Admin Panel </h1>
+      <h1>Manager Panel </h1>
     </div>
   </div>
   <div class="form">

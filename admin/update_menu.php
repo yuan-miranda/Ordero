@@ -8,78 +8,66 @@ session_start();
 
 
 
-if (isset($_POST['submit']))           //if upload btn is pressed
-{
-
-
-
-
-
-
-
+if (isset($_POST['submit'])) {
     if (empty($_POST['d_name']) || empty($_POST['about']) || $_POST['price'] == '' || $_POST['res_name'] == '') {
         $error = '<div class="alert alert-danger alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>All fields Must be Fillup!</strong>
-															</div>';
-
-
-
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>All fields Must be Fillup!</strong>
+                  </div>';
     } else {
+        $quantity = $_POST['quantity'];
+        $update_img = false;
 
-        $fname = $_FILES['file']['name'];
-        $temp = $_FILES['file']['tmp_name'];
-        $fsize = $_FILES['file']['size'];
-        $extension = explode('.', $fname);
-        $extension = strtolower(end($extension));
-        $fnew = uniqid() . '.' . $extension;
+        if (!empty($_FILES['file']['name'])) {
+            $fname = $_FILES['file']['name'];
+            $temp = $_FILES['file']['tmp_name'];
+            $fsize = $_FILES['file']['size'];
+            $extension = strtolower(pathinfo($fname, PATHINFO_EXTENSION));
+            $fnew = uniqid() . '.' . $extension;
+            $store = "Res_img/dishes/" . basename($fnew);
 
-        $store = "Res_img/dishes/" . basename($fnew);
-
-        if ($extension == 'jpg' || $extension == 'png' || $extension == 'gif') {
-            if ($fsize >= 1000000) {
-
-
-                $error = '<div class="alert alert-danger alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>Max Image Size is 1024kb!</strong> Try different Image.
-															</div>';
-
-            } else {
-
-
-
-                $quantity = $_POST['quantity'];
-                $sql = "update dishes set rs_id='$_POST[res_name]',title='$_POST[d_name]',slogan='$_POST[about]',price='$_POST[price]',quantity='$quantity',img='$fnew' where d_id='$_GET[menu_upd]'";
-                mysqli_query($db, $sql);
-                move_uploaded_file($temp, $store);
-
-                $success = '<div class="alert alert-success alert-dismissible fade show">
-																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>Record Updated!</strong>
-															</div>';
-
-
+            if (in_array($extension, ['jpg', 'png', 'gif'])) {
+                if ($fsize >= 1000000) {
+                    $error = '<div class="alert alert-danger alert-dismissible fade show">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <strong>Max Image Size is 1024kb!</strong> Try different Image.
+                              </div>';
+                } else {
+                    move_uploaded_file($temp, $store);
+                    $update_img = true;
+                }
             }
         }
 
+        // Build the SQL query based on whether the image is updated
+        $sql = "UPDATE dishes SET 
+                    rs_id='{$_POST['res_name']}', 
+                    title='{$_POST['d_name']}', 
+                    slogan='{$_POST['about']}', 
+                    price='{$_POST['price']}',
+                    quantity='$quantity'";
 
+        if ($update_img) {
+            $sql .= ", img='$fnew'";
+        }
 
+        $sql .= " WHERE d_id='{$_GET['menu_upd']}'";
+        mysqli_query($db, $sql);
+
+        if (!isset($error)) {
+            $success = '<div class="alert alert-success alert-dismissible fade show">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>Record Updated!</strong>
+                        </div>';
+        }
     }
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
 
 
 ?>
@@ -145,7 +133,7 @@ if (isset($_POST['submit']))           //if upload btn is pressed
                         <li class="nav-devider"></li>
                         <li class="nav-label">Home</li>
                         <li> <a href="dashboard.php"><i class="fa fa-tachometer"></i><span>Dashboard</span></a></li>
-                        
+
                         <!-- <li> <a href="all_users.php"> <span><i
                                         class="fa fa-user f-s-20 "></i></span><span>Users</span></a></li> -->
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i

@@ -125,15 +125,15 @@ if (!isset($_SESSION["user_id"])) {
 										<thead style="background: #404040; color:white;">
 											<tr>
 												<th>Order ID</th>
-												<th>QR Code</th>
 												<th>Restaurant</th>
 												<th>Item</th>
 												<th>Quantity</th>
 												<th>Price</th>
-												<th>Status</th>
-												<th>Remark</th>
+												<th>Note</th>
 												<th>Date Ordered</th>
 												<th>Arrive</th>
+												<th>Status</th>
+												<th>QR Code</th>
 												<th>Action</th>
 
 											</tr>
@@ -161,13 +161,6 @@ if (!isset($_SESSION["user_id"])) {
 													?>
 													<tr>
 														<td data-column="Order ID"> <?php echo $row['o_id']; ?></td>
-														<td data-column="QR Code">
-															<button class="btn btn-primary"
-																onclick="saveQRCode('<?php echo $row['o_id']; ?>')">
-																Download QR Code
-															</button>
-														</td>
-
 														<script>
 															function saveQRCode(orderId) {
 																// Create the QR code URL
@@ -203,19 +196,26 @@ if (!isset($_SESSION["user_id"])) {
 														<td data-column="Quantity"> <?php echo $row['quantity']; ?></td>
 														<td data-column="Price">$<?php echo $row['price'] * $row['quantity']; ?>
 															($<?php echo $row['price']; ?>)</td>
-
+														<td data-column="Remark">
+															<?php echo $row['remark'] ? (strlen($row['remark']) > 25 ? substr($row['remark'], 0, 30) . "..." : $row['remark']) : "No Remarks"; ?>
+														</td>
+														<td data-column="Date">
+															<?php echo date("F j, Y", strtotime($row['date'])); ?>
+														</td>
+														<td data-column="Arrive">
+															<?php echo $row['arrive'] ? date("F j, Y", strtotime($row['arrive'])) : "No ETA"; ?>
+														</td>
 														<td data-column="status">
 															<?php
 															$status = $row['status'];
 															if ($status == "" or $status == "NULL") {
 																?>
-																<button type="button" class="btn btn-info"><span class="fa fa-bars"
+																<button type="button" class="btn btn-secondary"><span class="fa fa-bars"
 																		aria-hidden="true"></span> Pending</button>
 																<?php
 															}
 															if ($status == "in process") { ?>
-																<button type="button" class="btn btn-warning"><span
-																		class="fa fa-cog fa-spin"
+																<button type="button" class="btn btn-info"><span
 																		aria-hidden="true"></span>Accepted</button>
 																<?php
 															}
@@ -242,14 +242,11 @@ if (!isset($_SESSION["user_id"])) {
 
 
 														</td>
-														<td data-column="Remark">
-															<?php echo $row['remark'] ? (strlen($row['remark']) > 25 ? substr($row['remark'], 0, 30) . "..." : $row['remark']) : "No Remarks"; ?>
-														</td>
-														<td data-column="Date">
-															<?php echo date("F j, Y", strtotime($row['date'])); ?>
-														</td>
-														<td data-column="Arrive">
-															<?php echo $row['arrive'] ? date("F j, Y", strtotime($row['arrive'])) : "No ETA"; ?>
+														<td data-column="QR Code">
+															<button class="btn btn-primary"
+																onclick="saveQRCode('<?php echo $row['o_id']; ?>')">
+																Download QR Code
+															</button>
 														</td>
 
 														<td data-column="Action">

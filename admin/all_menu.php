@@ -187,7 +187,7 @@ session_start();
                                                     $mql = "select * from restaurant where rs_id='" . $rows['rs_id'] . "'";
                                                     $newquery = mysqli_query($db, $mql);
                                                     $fetch = mysqli_fetch_array($newquery);
-
+                                                    $parsedPrice = str_replace('$', '₱', $rows['price']);
 
                                                     echo '<tr>
 														<td>
@@ -198,7 +198,7 @@ session_start();
                                                         <td>' . $fetch['title'] . '</td>
                                                         <td>' . $rows['title'] . '</td>
 														<td>' . $rows['slogan'] . '</td>
-														<td>$' . $rows['price'] . '</td>
+                                                        <td>' . $parsedPrice . '</td>
                                                         <td>' . $rows['quantity'] . '</td>
                                                         <td>
                                                         <a href="delete_menu.php?menu_del=' . $rows['d_id'] . '" onclick="return confirm(\'Are you sure you want to delete this menu item?\');" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a>
@@ -248,9 +248,6 @@ session_start();
     </div>
 
     </div>
-
-    <!-- <footer class="footer"> © 2022 - Online Food Ordering System </footer> -->
-
     </div>
 
     </div>
@@ -270,7 +267,6 @@ session_start();
     <script src="js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
     <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
     <script src="js/lib/datatables/datatables-init.js"></script>
-    <script src="js/REPLACEDOLLAR.js"></script>
     <script>
         $(document).ready(function () {
             function loadMenu(restaurant_id = '') {
@@ -294,6 +290,7 @@ session_start();
             });
         });
     </script>
+    <script src="js/REPLACEDOLLAR.js"></script>
 
 </body>
 
