@@ -210,8 +210,8 @@ if (!isset($_SESSION["user_id"])) {
 															$status = $row['status'];
 															if ($status == "" or $status == "NULL") {
 																?>
-																<button type="button" class="btn btn-secondary"><span class="fa fa-bars"
-																		aria-hidden="true"></span> Pending</button>
+																<button type="button" class="btn btn-secondary"><span
+																		aria-hidden="true"></span> Processing</button>
 																<?php
 															}
 															if ($status == "in process") { ?>
@@ -221,8 +221,7 @@ if (!isset($_SESSION["user_id"])) {
 															}
 															if ($status == "closed") {
 																?>
-																<button type="button" class="btn btn-success"><span
-																		class="fa fa-check-circle" aria-hidden="true"></span>
+																<button type="button" class="btn btn-success"><span aria-hidden="true"></span>
 																	Delivered</button>
 																<?php
 															}
@@ -230,8 +229,7 @@ if (!isset($_SESSION["user_id"])) {
 															<?php
 															if ($status == "rejected") {
 																?>
-																<button type="button" class="btn btn-danger"> <i
-																		class="fa fa-close"></i> Cancelled</button>
+																<button type="button" class="btn btn-danger"> <i></i> Cancelled</button>
 																<?php
 															}
 															?>

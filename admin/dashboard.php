@@ -112,8 +112,7 @@ if (empty($_SESSION["adm_id"])) {
                                 style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); transition: transform 0.3s, box-shadow 0.3s;"
                                 onmouseover="this.style.transform=\'scale(1.05)\'; this.style.boxShadow=\'0px 6px 12px rgba(0, 0, 0, 0.2)\';"
                                 onmouseout="this.style.transform=\'scale(1)\'; this.style.boxShadow=\'0px 4px 8px rgba(0, 0, 0, 0.1)\';">
-                                >
-                                <h4 class="m-b-0 text-white">Admin Dashboard</h4>
+                                <h4 class="m-b-0 text-white">Manager Panel</h4>
                             </div>
                             <div class="row">
 

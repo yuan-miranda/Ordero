@@ -132,13 +132,13 @@ include_once 'product-action.php';
 
 
                                     <a href="checkout.php?res_id=<?php echo $_GET['res_id']; ?>&action=check"
-                                        class="btn btn-danger btn-lg disabled">Checkout</a>
+                                        class="btn btn-danger btn-lg disabled">Place Order</a>
 
                                     <?php
                                 } else {
                                     ?>
                                     <a href="checkout.php?res_id=<?php echo $_GET['res_id']; ?>&action=check"
-                                        class="btn btn-success btn-lg active">Checkout</a>
+                                        class="btn btn-success btn-lg active">Place Order</a>
                                     <?php
                                 }
                                 ?>

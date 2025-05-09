@@ -49,13 +49,13 @@ while ($rows = mysqli_fetch_array($query)) {
         <td>' . $rows['address'] . '</td>';
 
     if ($status == "" || $status == "NULL") {
-        echo '<td><button type="button" class="btn btn-secondary"><span class="fa fa-bars"></span> Pending</button></td>';
+        echo '<td><button type="button" class="btn btn-secondary"><span></span>Processing</button></td>';
     } elseif ($status == "in process") {
-        echo '<td><button type="button" class="btn btn-warning"><span class="fa fa-cog fa-spin"></span>Accepted</button></td>';
+        echo '<td><button type="button" class="btn btn-warning"><span></span>Accepted</button></td>';
     } elseif ($status == "closed") {
-        echo '<td><button type="button" class="btn btn-primary"><span class="fa fa-check-circle"></span> Delivered</button></td>';
+        echo '<td><button type="button" class="btn btn-primary"><span></span> Delivered</button></td>';
     } elseif ($status == "rejected") {
-        echo '<td><button type="button" class="btn btn-danger"><i class="fa fa-close"></i> Cancelled</button></td>';
+        echo '<td><button type="button" class="btn btn-danger"><i></i> Cancelled</button></td>';
     }
 
     echo '<td>' . $rows['remark'] . '</td>';

@@ -98,7 +98,7 @@ session_start();
                         <li class="nav-devider"></li>
                         <li class="nav-label">Home</li>
                         <li> <a href="dashboard.php"><i class="fa fa-tachometer"></i><span>Dashboard</span></a></li>
-                        
+
                         <!-- <li> <a href="all_users.php"> <span><i
                                         class="fa fa-user f-s-20 "></i></span><span>Users</span></a></li> -->
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i
@@ -178,7 +178,8 @@ session_start();
                                                             onClick="popUpWindow('order_update.php?form_id=<?php echo htmlentities($rows['o_id']); ?>');"
                                                             title="Update order">
                                                             <?php if ($rows['status'] != "closed") { ?>
-                                                                <button type="button" class="btn btn-primary">Update OrderStatus</button>
+                                                                <button type="button" class="btn btn-primary">Update
+                                                                    Delivery</button>
                                                             <?php } ?>
                                                     </center>
                                                 </td>
@@ -251,14 +252,15 @@ session_start();
                                                     ?>
                                                     <td>
                                                         <center><button type="button" class="btn btn-secondary"><span
-                                                                    class="fa fa-bars" aria-hidden="true"></span>
-                                                                Pending</button></center>
+                                                                    aria-hidden="true"></span>
+                                                                Processing</button></center>
                                                     </td>
                                                     <?php
                                                 }
                                                 if ($status == "in process") { ?>
                                                     <td>
-                                                        <center><button type="button" class="btn btn-info"><span aria-hidden="true"></span>Accepted</button></center>
+                                                        <center><button type="button" class="btn btn-info"><span
+                                                                    aria-hidden="true"></span>Accepted</button></center>
                                                     </td>
                                                     <?php
                                                 }
@@ -266,7 +268,7 @@ session_start();
                                                     ?>
                                                     <td>
                                                         <center><button type="button" class="btn btn-primary"><span
-                                                                    class="fa fa-check-circle" aria-hidden="true"></span>
+                                                                    aria-hidden="true"></span>
                                                                 Delivered</button></center>
                                                     </td>
                                                     <?php
@@ -276,8 +278,8 @@ session_start();
                                                 if ($status == "rejected") {
                                                     ?>
                                                     <td>
-                                                        <center><button type="button" class="btn btn-danger"> <i
-                                                                    class="fa fa-close"></i> Cancelled</button> </center>
+                                                        <center><button type="button" class="btn btn-danger"> <i></i>
+                                                                Cancelled</button> </center>
                                                     </td>
                                                     <?php
                                                 }
