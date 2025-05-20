@@ -198,7 +198,7 @@ session_start();
                                             $query = mysqli_query($db, $sql);
 
                                             if (!mysqli_num_rows($query) > 0) {
-                                                echo '<td colspan="8"><center>No Orders</center></td>';
+                                                echo '<td colspan="11"><center>No Orders</center></td>';
                                             } else {
                                                 while ($rows = mysqli_fetch_array($query)) {
 
@@ -248,7 +248,8 @@ session_start();
                                                     $status = $rows['status'];
                                                     if ($status == "" or $status == "NULL") {
                                                         ?>
-                                                        <td> <button type="button" class="btn btn-secondary"><span aria-hidden="true"></span> Processing</button>
+                                                        <td> <button type="button" class="btn btn-secondary"><span
+                                                                    aria-hidden="true"></span> Processing</button>
                                                         </td>
                                                         <?php
                                                     }
@@ -259,7 +260,8 @@ session_start();
                                                     }
                                                     if ($status == "closed") {
                                                         ?>
-                                                        <td> <button type="button" class="btn btn-primary"><span aria-hidden="true"></span>
+                                                        <td> <button type="button" class="btn btn-primary"><span
+                                                                    aria-hidden="true"></span>
                                                                 Delivered</button></td>
                                                         <?php
                                                     }
@@ -267,7 +269,8 @@ session_start();
                                                     <?php
                                                     if ($status == "rejected") {
                                                         ?>
-                                                        <td> <button type="button" class="btn btn-danger"> <i></i> Cancelled</button></td>
+                                                        <td> <button type="button" class="btn btn-danger"> <i></i>
+                                                                Cancelled</button></td>
                                                         <?php
                                                     }
                                                     ?>
@@ -297,7 +300,6 @@ session_start();
         </div>
     </div>
 
-    </div>
 
 
     <!-- <footer class="footer"> © 2022 - Online Food Ordering System</footer> -->
