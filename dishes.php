@@ -46,7 +46,7 @@ include_once 'product-action.php';
 
 
                             echo '<li class="nav-item"><a href="your_orders.php" class="nav-link active">My Orders</a> </li>';
-                            
+
                             echo '<li class="nav-item"><a href="logout.php" class="nav-link active" onclick="return confirmLogout();">Logout</a> </li>';
                         }
 
@@ -69,9 +69,8 @@ include_once 'product-action.php';
         </div>
         <div class="container m-t-30">
             <div class="row">
-                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
-
-                    <div class="widget widget-cart">
+                <div class="col-12">
+                    <div class="widget widget-cart" style="float: none !important; width: 100%;">
                         <div class="widget-heading">
                             <h3 class="widget-title text-dark">
                                 Your Cart
@@ -152,92 +151,96 @@ include_once 'product-action.php';
                     </div>
                 </div>
 
-                <div class="col-md-8">
-
-
-                    <div class="menu-widget" id="2">
-                        <div class="widget-heading">
-                            <h3 class="widget-title text-dark">
-                                <?php
-                                // load restaurant name
-                                $sql = "SELECT * FROM restaurant WHERE rs_id='" . $_GET['res_id'] . "'";
-                                $result = mysqli_query($db, $sql);
-                                $row = mysqli_fetch_array($result);
-                                echo "<h5 style='display: inline;'>Menu of " . htmlspecialchars($row['title']) . "</h5>";
-                                ?>
-                                <a class="btn btn-link pull-right" data-toggle="collapse" href="#popular2"
-                                    aria-expanded="true">
-                                    <i class="fa fa-angle-right pull-right"></i>
-                                    <i class="fa fa-angle-down pull-right"></i>
-                                </a>
-                            </h3>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="collapse in" id="popular2">
-                            <?php
-                            $stmt = $db->prepare("select * from dishes where rs_id='$_GET[res_id]'");
-                            $stmt->execute();
-                            $products = $stmt->get_result();
-                            if (!empty($products)) {
-                                foreach ($products as $product) {
-
-
-
+                <div class="row m-t-20">
+                    <div class="col-12">
+                        <div class="menu-widget" id="2">
+                            <div class="widget-heading">
+                                <h3 class="widget-title text-dark">
+                                    <?php
+                                    // load restaurant name
+                                    $sql = "SELECT * FROM restaurant WHERE rs_id='" . $_GET['res_id'] . "'";
+                                    $result = mysqli_query($db, $sql);
+                                    $row = mysqli_fetch_array($result);
+                                    echo "<h5 style='display: inline;'>Menu of " . htmlspecialchars($row['title']) . "</h5>";
                                     ?>
-                                    <div class="food-item">
-                                        <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-lg-8">
-                                                <form method="post"
-                                                    action='dishes.php?res_id=<?php echo $_GET['res_id']; ?>&action=add&id=<?php echo $product['d_id']; ?>'>
-                                                    <div class="rest-logo pull-left">
-                                                        <a class="restaurant-logo pull-left"
-                                                            href="#"><?php echo '<img src="admin/Res_img/dishes/' . $product['img'] . '" alt="Food logo" style="width:100px; height:100px;">'; ?></a>
-                                                    </div>
+                                    <a class="btn btn-link pull-right" data-toggle="collapse" href="#popular2"
+                                        aria-expanded="true">
+                                        <i class="fa fa-angle-right pull-right"></i>
+                                        <i class="fa fa-angle-down pull-right"></i>
+                                    </a>
+                                </h3>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="collapse in" id="popular2">
+                                <?php
+                                $stmt = $db->prepare("select * from dishes where rs_id='$_GET[res_id]'");
+                                $stmt->execute();
+                                $products = $stmt->get_result();
+                                if (!empty($products)) {
+                                    foreach ($products as $product) {
 
-                                                    <div class="rest-descr">
-                                                        <h6><a
-                                                                href="dish-detail.php?dish_id=<?php echo $product['d_id']; ?>"><?php echo $product['title']; ?></a>
-                                                        </h6>
 
-                                                        <p> <?php echo $product['slogan']; ?></p>
-                                                        <p><strong>Available:</strong> <?php echo $product['quantity']; ?></p>
 
-                                                    </div>
+                                        ?>
+                                        <div class="food-item">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-lg-8">
+                                                    <form method="post"
+                                                        action='dishes.php?res_id=<?php echo $_GET['res_id']; ?>&action=add&id=<?php echo $product['d_id']; ?>'>
+                                                        <div class="rest-logo pull-left">
+                                                            <a class="restaurant-logo pull-left"
+                                                                href="#"><?php echo '<img src="admin/Res_img/dishes/' . $product['img'] . '" alt="Food logo" style="width:100px; height:100px;">'; ?></a>
+                                                        </div>
 
+                                                        <div class="rest-descr">
+                                                            <h6><a
+                                                                    href="dish-detail.php?dish_id=<?php echo $product['d_id']; ?>"><?php echo $product['title']; ?></a>
+                                                            </h6>
+
+                                                            <p> <?php echo $product['slogan']; ?></p>
+                                                            <p><strong>Available:</strong> <?php echo $product['quantity']; ?>
+                                                            </p>
+
+                                                        </div>
+
+                                                </div>
+
+                                                <div class="col-xs-12 col-sm-12 col-lg-3 pull-right item-cart-info">
+                                                    <span class="price pull-left"
+                                                        style="width: 10ch; text-align: right;">$<?php echo $product['price']; ?></span>
+                                                    <?php if ($product['quantity'] > 0): ?>
+                                                        <input type="number" name="quantity" style="margin-left:30px;" value="1"
+                                                            min="1" max="<?php echo $product['quantity']; ?>" size="2" />
+                                                        <input type="submit" class="btn theme-btn"
+                                                            style="margin-left:45px; margin-top: 10px;" value="Add To Cart" />
+                                                    <?php else: ?>
+                                                        <input type="number" style="margin-left:30px;" value="0" disabled />
+                                                        <button class="btn btn-secondary"
+                                                            style="margin-left:45px; margin-top: 10px;" disabled>Out of
+                                                            Stock</button>
+                                                    <?php endif; ?>
+
+                                                </div>
+                                                </form>
                                             </div>
 
-                                            <div class="col-xs-12 col-sm-12 col-lg-3 pull-right item-cart-info">
-                                                <span class="price pull-left"
-                                                    style="width: 10ch; text-align: right;">$<?php echo $product['price']; ?></span>
-                                                <?php if ($product['quantity'] > 0): ?>
-                                                    <input type="number" name="quantity" style="margin-left:30px;" value="1" min="1"
-                                                        max="<?php echo $product['quantity']; ?>" size="2" />
-                                                    <input type="submit" class="btn theme-btn"
-                                                        style="margin-left:45px; margin-top: 10px;" value="Add To Cart" />
-                                                <?php else: ?>
-                                                    <input type="number" style="margin-left:30px;" value="0" disabled />
-                                                    <button class="btn btn-secondary" style="margin-left:45px; margin-top: 10px;"
-                                                        disabled>Out of Stock</button>
-                                                <?php endif; ?>
-
-                                            </div>
-                                            </form>
                                         </div>
 
-                                    </div>
 
-
-                                    <?php
+                                        <?php
+                                    }
                                 }
-                            }
 
-                            ?>
+                                ?>
 
 
+
+                            </div>
 
                         </div>
-
                     </div>
+
+
 
 
                 </div>
