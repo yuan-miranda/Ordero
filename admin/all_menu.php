@@ -192,7 +192,7 @@ session_start();
                                                     echo '<tr>
 														<td>
                                                         <div class="col-md-3 col-lg-8 m-b-10">
-                                                        <center><img src="admin/Res_img/dishes/' . $rows['img'] . '" class="img-responsive  radius" style="width:32px;height:32px;" /></center>
+                                                        <center><img src="/admin/Res_img/dishes/' . $rows['img'] . '" class="img-responsive  radius" style="width:32px;height:32px;" /></center>
                                                         </div>
                                                         </td>
                                                         <td>' . $fetch['title'] . '</td>
