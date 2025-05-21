@@ -38,7 +38,9 @@ if (!isset($_SESSION["user_id"])) {
 
 
     if ($_POST['submit']) {
+        $item_total = 0;
         foreach ($_SESSION["cart_item"] as $item) {
+            $item_total += $item["price"] * $item["quantity"];
             $user_id = mysqli_real_escape_string($db, $_SESSION["user_id"]);
             $title = mysqli_real_escape_string($db, $item["title"]);
             $quantity = mysqli_real_escape_string($db, $item["quantity"]);
@@ -258,12 +260,14 @@ if (!isset($_SESSION["user_id"])) {
 
                                                                 <tr>
                                                                     <td>Cart Subtotal</td>
-                                                                    <td> <?php echo "$" . $item_total; ?></td>
+                                                                    <td> <?php echo "$" . number_format($item_total, 2); ?>
+                                                                    </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td class="text-color"><strong>Total</strong></td>
                                                                     <td class="text-color"><strong>
-                                                                            <?php echo "$" . $item_total; ?></strong></td>
+                                                                    <td> <?php echo "$" . number_format($item_total, 2); ?>
+                                                                    </td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
