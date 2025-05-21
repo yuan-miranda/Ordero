@@ -32,7 +32,7 @@ if (isset($_POST['submit'])) {
       echo "<script>alert('Invalid email address!');</script>";
    } else if (strlen($phone) < 10) {
       echo "<script>alert('Invalid phone number!');</script>";
-   } else if (strlen($address) < 10) {
+   } else if (strlen($address) < 1) {
       echo "<script>alert('Invalid address!');</script>";
    } else if (empty($selfiePath)) {
       echo "<script>alert('Please provide a selfie with your ID!');</script>";
