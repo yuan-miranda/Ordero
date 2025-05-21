@@ -63,9 +63,6 @@ if (!isset($_SESSION["user_id"])) {
             alert('Thank you. Your Order has been placed!');
             window.location.href = 'your_orders.php';
         </script>";
-
-        // Redirect immediately without showing QR
-        header("Location: your_orders.php");
         exit;
     }
 
