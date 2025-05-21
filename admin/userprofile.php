@@ -159,26 +159,18 @@ if (strlen($_SESSION['user_id']) == 0) {
                             <td><?php echo htmlentities($row['phone']); ?></td>
                         </tr>
 
-
-
-
-
-
                         <tr height="100">
-                            <td><b>Selfie:</b></td>
+                            <td><b>User Selfie:</b></td>
                             <td>
                                 <?php
                                 if (!empty($row['selfie_path'])) {
-                                    echo '<img src="' . htmlentities($row['selfie_path']) . '" alt="User Selfie" style="max-height:100px; max-width:100px; border-radius: 10px;" />';
+                                    echo '<img src="' . htmlentities($row['selfie_path']) . '" alt="User Selfie" style="max-height:100px; max-width:100px; border-radius:10px;" />';
                                 } else {
                                     echo 'No selfie uploaded.';
                                 }
                                 ?>
                             </td>
                         </tr>
-
-
-
 
                         <tr height="50">
                             <td><b>Status:</b></td>
