@@ -153,7 +153,7 @@ if (!isset($_SESSION["user_id"])) {
 
 
 											if (!mysqli_num_rows($query_res) > 0) {
-												echo '<td colspan="6"><center>You have No orders Placed yet. </center></td>';
+												echo '<td colspan="11"><center>You have No orders Placed yet. </center></td>';
 											} else {
 
 												while ($row = mysqli_fetch_array($query_res)) {
