@@ -37,40 +37,38 @@ if (!isset($_SESSION["user_id"])) {
     $user_data = mysqli_fetch_assoc($user_query);
 
 
-    foreach ($_SESSION["cart_item"] as $item) {
-
-        $item_total += ($item["price"] * $item["quantity"]);
-
-        if ($_POST['submit']) {
+    if ($_POST['submit']) {
+        foreach ($_SESSION["cart_item"] as $item) {
             $user_id = mysqli_real_escape_string($db, $_SESSION["user_id"]);
             $title = mysqli_real_escape_string($db, $item["title"]);
             $quantity = mysqli_real_escape_string($db, $item["quantity"]);
             $price = mysqli_real_escape_string($db, $item["price"]);
 
-            // get the d_id from the cart item
             $d_id = mysqli_real_escape_string($db, $item["d_id"]);
-            // get the rs_id by using the d_id
             $res_query = mysqli_query($db, "SELECT rs_id FROM dishes WHERE d_id='$d_id'");
             $res_row = mysqli_fetch_assoc($res_query);
             $res_id = $res_row['rs_id'];
 
-            // Insert query
             $SQL = "INSERT INTO users_orders(u_id, title, quantity, price, d_id, rs_id)
-                    VALUES('$user_id', '$title', '$quantity', '$price', '$d_id', '$res_id')";
-
+                VALUES('$user_id', '$title', '$quantity', '$price', '$d_id', '$res_id')";
             mysqli_query($db, $SQL);
-
-            unset($_SESSION["cart_item"]);
-            unset($item["title"]);
-            unset($item["quantity"]);
-            unset($item["price"]);
-
-            $success = "Thank you. Your order has been placed!";
-
-            $order_id = mysqli_insert_id($db);
-            function_alert($order_id);
         }
+
+        // Clear cart session after order
+        unset($_SESSION["cart_item"]);
+
+        $order_id = mysqli_insert_id($db);
+
+        echo "<script>
+            alert('Thank you. Your Order has been placed!');
+            window.location.href = 'your_orders.php';
+        </script>";
+
+        // Redirect immediately without showing QR
+        header("Location: your_orders.php");
+        exit;
     }
+
     ?>
 
 
