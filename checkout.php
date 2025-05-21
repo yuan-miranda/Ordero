@@ -36,11 +36,15 @@ if (!isset($_SESSION["user_id"])) {
     $user_query = mysqli_query($db, "SELECT * FROM users WHERE u_id = '$user_id'");
     $user_data = mysqli_fetch_assoc($user_query);
 
-
-    if ($_POST['submit']) {
-        $item_total = 0;
+    $item_total = 0;
+    if (!empty($_SESSION["cart_item"])) {
         foreach ($_SESSION["cart_item"] as $item) {
             $item_total += ($item["price"] * $item["quantity"]);
+        }
+    }
+
+    if ($_POST['submit']) {
+        foreach ($_SESSION["cart_item"] as $item) {
             $user_id = mysqli_real_escape_string($db, $_SESSION["user_id"]);
             $title = mysqli_real_escape_string($db, $item["title"]);
             $quantity = mysqli_real_escape_string($db, $item["quantity"]);
