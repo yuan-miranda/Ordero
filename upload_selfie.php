@@ -25,6 +25,7 @@ if (isset($_POST['imageData'])) {
     $filepath = $upload_dir . $filename;
 
     if (file_put_contents($filepath, $decoded)) {
+        $_SESSION['selfie_path'] = $filepath;
         echo json_encode(['status' => 'success', 'path' => $filepath]);
     } else {
         http_response_code(500);
@@ -52,6 +53,7 @@ if (isset($_POST['imageData'])) {
     $filepath = $upload_dir . $filename;
 
     if (move_uploaded_file($file['tmp_name'], $filepath)) {
+        $_SESSION['selfie_path'] = $filepath;
         echo json_encode(['status' => 'success', 'path' => $filepath]);
     } else {
         http_response_code(500);
