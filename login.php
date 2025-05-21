@@ -74,21 +74,25 @@
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        if (!empty($_POST["submit"])) {
-            $loginquery = "SELECT * FROM users WHERE (email='$username' OR username='$username') AND password='" . md5($password) . "'"; //selecting matching records
-            $result = mysqli_query($db, $loginquery); //executing
-            $row = mysqli_fetch_array($result);
+        if (!empty($username) && !empty($password)) {
+            $query = "SELECT * FROM users WHERE email='$username' OR username='$username'";
+            $result = mysqli_query($db, $query);
+            $row = mysqli_fetch_assoc($result);
 
-            if (is_array($row)) {
-                $_SESSION["user_id"] = $row['u_id'];
-                header("refresh:1;url=index.php");
+            if ($row) {
+                if (password_verify($password, $row['password'])) {
+                    $_SESSION["user_id"] = $row['u_id'];
+                    header("Location: index.php");
+                    exit();
+                } else {
+                    $message = "Invalid Username or Password!";
+                }
             } else {
                 $message = "Invalid Username or Password!";
             }
         }
-
-
     }
+
     ?>
 
 
@@ -111,7 +115,8 @@
                     </form>
                 </div>
 
-                <div class="cta">Not registered?<a href="registration.php" style="color:#5c4ac7;">Create an account</a></div>
+                <div class="cta">Not registered?<a href="registration.php" style="color:#5c4ac7;">Create an account</a>
+                </div>
             </div>
             <script src="js/jquery.min.js"></script>
             <script src="js/tether.min.js"></script>
@@ -124,7 +129,7 @@
             </div>
 
             <script>
-                                                                                                   function confirmLogout() {
+                function confirmLogout() {
                     return confirm("Are you sure you want to log out?");
                 }
             </script>
