@@ -164,7 +164,7 @@ if (strlen($_SESSION['user_id']) == 0) {
                             <td>
                                 <?php if (!empty($row['selfie_path'])) { ?>
                                     <img src="<?php echo '/uploads/' . basename($row['selfie_path']); ?>" alt="User Selfie"
-                                        style="max-height:500px; max-width:500px;">
+                                        style="width:800px; height:auto; object-fit:cover;">
                                 <?php } else { ?>
                                     <span>No selfie uploaded.</span>
                                 <?php } ?>
