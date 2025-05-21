@@ -16,6 +16,9 @@ if (isset($_POST['submit'])) {
    $password = $_POST['password'];
    $cpassword = $_POST['cpassword'];
 
+   $selfiePath = $_SESSION['selfie_path'] ?? "";
+
+
    if (
       empty($username) || empty($firstname) || empty($lastname) ||
       empty($email) || empty($phone) || empty($password) || empty($cpassword) || empty($address)
@@ -36,8 +39,7 @@ if (isset($_POST['submit'])) {
          echo "<script>alert('Username or email already exists!');</script>";
       } else {
          $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-         $insert_query = "INSERT INTO users(username, f_name, l_name, email, phone, password, address)
-                            VALUES('$username', '$firstname', '$lastname', '$email', '$phone', '$hashed_password', '$address')";
+         $insert_query = "INSERT INTO users(username, f_name, l_name, email, phone, password, address, selfie_path) VALUES('$username', '$firstname', '$lastname', '$email', '$phone', '$hashed_password', '$address', '$selfiePath')";
          if (mysqli_query($db, $insert_query)) {
             header("Location: login.php");
             exit;
@@ -102,14 +104,6 @@ if (isset($_POST['submit'])) {
       </nav>
    </header>
    <div class="page-wrapper">
-
-      <div class="container">
-         <ul>
-
-
-         </ul>
-      </div>
-
       <section class="contact-page inner-page">
          <div class="container ">
             <div class="row ">
@@ -117,7 +111,7 @@ if (isset($_POST['submit'])) {
                   <div class="widget">
                      <div class="widget-body">
 
-                        <form action="" method="post">
+                        <form action="" method="post" enctype="multipart/form-data">
                            <div class="row">
                               <div class="form-group col-sm-12">
                                  <label for="exampleInputEmail1">User-Name</label>
@@ -160,21 +154,94 @@ if (isset($_POST['submit'])) {
                                     rows="3"><?php echo htmlspecialchars($_POST['address'] ?? ''); ?></textarea>
                               </div>
 
-                           </div>
+                              <div class="form-group col-sm-12">
+                                 <label>Provide a Picture Holding Your ID</label>
 
-                           <div class="row">
+                                 <!-- Toggle buttons -->
+                                 <!-- Toggle buttons -->
+                                 <div style="margin-bottom: 10px;">
+                                    <button type="button" id="btnUpload" class="btn btn-outline-primary active">Upload
+                                       Image</button>
+                                    <button type="button" id="btnCamera" class="btn btn-outline-primary">Use
+                                       Camera</button>
+                                    <button type="button" id="snap" class="btn btn-success"
+                                       style="display: none;">Capture</button>
+                                 </div>
+
+
+                                 <!-- Upload input (default shown) -->
+                                 <div id="uploadSection" style="position: relative;">
+                                    <input type="file" class="form-control-file" name="selfieWithID" accept="image/*"
+                                       onchange="previewImage(event)" id="fileInput">
+                                    <div style="position: relative; display: inline-block; margin-top: 10px;">
+                                       <img id="previewUpload" src="#" style="max-width: 300px; display: none;" />
+                                       <span id="removePreviewBtn" onclick="removePreview()" style="
+                                          position: absolute;
+                                          top: 5px;
+                                          right: 5px;
+                                          cursor: pointer;
+                                          font-size: 20px;
+                                          display: none;
+                                          background-color: black;
+                                          color: white;
+                                          border-radius: 50%;
+                                          width: 32px;
+                                          height: 32px;
+                                          text-align: center;
+                                          line-height: 30px;
+                                          font-weight: bold;
+                                          box-shadow: 0 0 5px rgba(0,0,0,0.5);
+                                       ">&times;</span>
+
+
+                                    </div>
+                                 </div>
+
+
+                                 <div id="cameraSection" style="display:none;">
+                                    <video id="video" width="320" height="240" autoplay></video>
+
+                                    <!-- Proper wrapper for the canvas + remove button -->
+                                    <div id="capturedWrapper"
+                                       style="position: relative; display: none; width: 320px; height: 240px; margin-top: 10px;">
+                                       <canvas id="canvas" width="320" height="240" style="display: block;"></canvas>
+                                       <span id="removeCapturedBtn" onclick="removeCapturedImage()" style="
+                                          position: absolute;
+                                          top: 5px;
+                                          right: 5px;
+                                          cursor: pointer;
+                                          font-size: 22px;
+                                          background-color: black;
+                                          color: white;
+                                          border-radius: 50%;
+                                          width: 34px;
+                                          height: 34px;
+                                          text-align: center;
+                                          line-height: 32px;
+                                          font-weight: bold;
+                                          box-shadow: 0 0 5px rgba(0,0,0,0.4);
+                                       ">&times;</span>
+                                    </div>
+
+                                    <input type="hidden" name="capturedImage" id="capturedImage" />
+                                 </div>
+
+
+
+
+                                 <small class="form-text text-muted">Make sure your face and ID are clearly
+                                    visible.</small>
+                              </div>
+
+
                               <div class="col-sm-4">
-                                 <p> <input type="submit" value="Register" name="submit" class="btn theme-btn"> </p>
+                                 <input type="submit" value="Register" name="submit" class="btn theme-btn">
                               </div>
                            </div>
                         </form>
-
                      </div>
-
                   </div>
-
                </div>
-
             </div>
          </div>
       </section>
@@ -194,6 +261,146 @@ if (isset($_POST['submit'])) {
       function confirmLogout() {
          return confirm("Are you sure you want to log out?");
       }
+   </script>
+   <script>
+      const btnUpload = document.getElementById('btnUpload');
+      const btnCamera = document.getElementById('btnCamera');
+      const snapBtn = document.getElementById('snap');
+      const uploadSection = document.getElementById('uploadSection');
+      const cameraSection = document.getElementById('cameraSection');
+      const fileInput = document.getElementById('fileInput');
+      const preview = document.getElementById('previewUpload');
+      const removeBtn = document.getElementById('removePreviewBtn');
+      const video = document.getElementById('video');
+      const canvas = document.getElementById('canvas');
+      const capturedImageInput = document.getElementById('capturedImage');
+
+      let stream;
+
+      // Toggle buttons
+      btnUpload.onclick = () => {
+         btnUpload.classList.add('active');
+         btnCamera.classList.remove('active');
+         uploadSection.style.display = 'block';
+         cameraSection.style.display = 'none';
+         snapBtn.style.display = 'none';
+         stopCamera();
+      };
+
+      btnCamera.onclick = () => {
+         btnCamera.classList.add('active');
+         btnUpload.classList.remove('active');
+         uploadSection.style.display = 'none';
+         cameraSection.style.display = 'block';
+         snapBtn.style.display = 'inline-block';
+         startCamera();
+      };
+
+      // Preview uploaded file
+      function previewImage(event) {
+         const file = event.target.files[0];
+         if (file) {
+            const reader = new FileReader();
+            reader.onload = e => {
+               preview.src = e.target.result;
+               preview.style.display = 'block';
+               removeBtn.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+         }
+      }
+
+      function removePreview() {
+         fileInput.value = "";
+         preview.src = "#";
+         preview.style.display = "none";
+         removeBtn.style.display = "none";
+      }
+
+      // Camera functions
+      function startCamera() {
+         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+               .then(s => {
+                  stream = s;
+                  video.srcObject = stream;
+                  video.play();
+               })
+               .catch(err => alert('Cannot access camera: ' + err));
+         } else {
+            alert('getUserMedia not supported on your browser.');
+         }
+      }
+
+      function stopCamera() {
+         if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+         }
+         video.srcObject = null;
+      }
+
+      snapBtn.addEventListener('click', () => {
+         const context = canvas.getContext('2d');
+         context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+         // Switch to canvas view
+         video.style.display = 'none';
+         document.getElementById('capturedWrapper').style.display = 'block';
+
+         const dataURL = canvas.toDataURL('image/png');
+         fetch('upload_selfie.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'imageData=' + encodeURIComponent(dataURL)
+         })
+            .then(response => response.json())
+            .then(data => {
+               if (data.status === 'success') {
+                  capturedImageInput.value = data.path;
+               }
+            })
+            .catch(err => {
+               alert('Error uploading photo: ' + err);
+            });
+      });
+
+      function removeCapturedImage() {
+         // Clear hidden input
+         document.getElementById('capturedImage').value = "";
+
+         // Hide canvas and remove button
+         document.getElementById('capturedWrapper').style.display = 'none';
+
+         // Show video again
+         video.style.display = 'block';
+      }
+
+      // Upload handler
+      fileInput.addEventListener('change', function (event) {
+         previewImage(event);
+
+         const file = fileInput.files[0];
+         if (!file) return;
+
+         const formData = new FormData();
+         formData.append("selfie", file);
+
+         fetch("upload_selfie.php", {
+            method: "POST",
+            body: formData
+         })
+            .then(res => res.json())
+            .then(data => {
+               if (data.status === "success") {
+                  console.log("Uploaded:", data.path);
+               } else {
+                  alert("Image upload failed: " + data.message);
+               }
+            })
+            .catch(err => {
+               alert("Upload error: " + err);
+            });
+      });
    </script>
 
 </body>
