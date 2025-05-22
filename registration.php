@@ -34,13 +34,13 @@ if (isset($_POST['submit'])) {
       echo "<script>alert('Invalid phone number!');</script>";
    } else if (strlen($address) < 1) {
       echo "<script>alert('Invalid address!');</script>";
-   } else if (empty($selfiePath)) {
-      echo "<script>alert('Please provide a selfie with your ID!');</script>";
+   } else if (empty($selfiePath) || !file_exists($selfiePath) || getimagesize($selfiePath) === false) {
+      echo "<script>alert('Please provide a valid selfie with your ID!');</script>";
    } else if (!preg_match("/^[a-zA-Z0-9_]+$/", $username)) {
       echo "<script>alert('Username can only contain letters, numbers, and underscores!');</script>";
    } else if (!preg_match("/^[a-zA-Z ]+$/", $firstname) || !preg_match("/^[a-zA-Z ]+$/", $lastname)) {
       echo "<script>alert('First name and last name can only contain letters!');</script>";
-   } else { 
+   } else {
       // Check for duplicates
       $check_user = mysqli_query($db, "SELECT * FROM users WHERE username = '$username' OR email = '$email'");
       if (mysqli_num_rows($check_user) > 0) {
@@ -163,9 +163,10 @@ if (isset($_POST['submit'])) {
                               </div>
 
                               <div class="form-group col-sm-12">
-                                  <label style="font-size: 1.2em; font-weight: bold;">
-                                    Provide a Picture Holding Your Student ID <span style="color: red;">(required)</span>
-                                  </label>
+                                 <label style="font-size: 1.2em; font-weight: bold;">
+                                    Provide a Picture Holding Your Student ID <span
+                                       style="color: red;">(required)</span>
+                                 </label>
 
                                  <!-- Toggle buttons -->
                                  <!-- Toggle buttons -->
@@ -239,9 +240,9 @@ if (isset($_POST['submit'])) {
 
 
 
-                                  <small class="form-text text-muted"><b>Make sure your face and ID are clearly
-                                    visible.</b></small>
-                                </div>
+                                 <small class="form-text text-muted"><b>Make sure your face and ID are clearly
+                                       visible.</b></small>
+                              </div>
 
 
                               <div class="col-sm-4">
