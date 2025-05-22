@@ -164,7 +164,7 @@ if (isset($_POST['submit'])) {
 
                               <div class="form-group col-sm-12">
                                  <label style="font-size: 1.2em; font-weight: bold;">
-                                    Provide a Picture Holding Your Student ID <span
+                                    Provide a Picture Holding Your Student ID Near Your Face <span
                                        style="color: red;">(required)</span>
                                  </label>
 
